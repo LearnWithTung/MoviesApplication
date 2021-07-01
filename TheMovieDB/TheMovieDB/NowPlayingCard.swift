@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NowPlayingCard: Equatable {
+struct NowPlayingCard {
     let id: Int
     let title: String
     let imagePath: String
