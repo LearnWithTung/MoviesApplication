@@ -4,15 +4,33 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>IntegrationEndToEndNowPlayingAPITests.xcscheme_^#shared#^_</key>
+		<key>CI.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>2</integer>
 		</dict>
-		<key>TheMovieDB.xcscheme_^#shared#^_</key>
+		<key>IntegrationEndToEndNowPlayingAPITests.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+		<key>TheMovieDB.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>DFAA5F0A268D9E85008E034E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DFAA5F12268D9E85008E034E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
