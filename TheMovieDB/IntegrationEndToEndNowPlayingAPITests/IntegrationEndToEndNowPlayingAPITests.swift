@@ -13,13 +13,9 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
     private let api_key = "494d9fe55bdb97bc7ee0b57dfa123t"
 
     func test_loadNowPlayingFeed_matchesAPIResult() {
-        let url = URL(string: "https://learnwithtung.free.beeceptor.com/api/v1/movie/now_playing")!
-        let session = URLSession(configuration: .ephemeral)
-        let client = URLSessionHTTPClient(session: session)
-        let remoteLoader = RemoteNowPlayingFeedLoader(url: url, credential: .init(apiKey: api_key), client: client)
-        
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for completion")
-        remoteLoader.load(query: .init(page: 1)) { result in
+        sut.load(query: .init(page: 1)) { result in
             switch result {
             case let .success(feed):
                 XCTAssertEqual(feed.page, 1)
@@ -36,6 +32,16 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 5.0)
+    }
+    
+    // MARK: - Helpers
+    private func makeSUT() -> RemoteNowPlayingFeedLoader {
+        let url = URL(string: "https://learnwithtung.free.beeceptor.com/api/v1/movie/now_playing")!
+        let session = URLSession(configuration: .ephemeral)
+        let client = URLSessionHTTPClient(session: session)
+        let remoteLoader = RemoteNowPlayingFeedLoader(url: url, credential: .init(apiKey: api_key), client: client)
+        
+        return remoteLoader
     }
     
     private func card(at index: Int = 0) -> NowPlayingCard {
