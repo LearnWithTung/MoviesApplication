@@ -8,7 +8,7 @@
 import Foundation
 
 public struct NowPlayingQuery {
-    let page: Int
+    public let page: Int
 
     public init(page: Int) {
       self.page = page
