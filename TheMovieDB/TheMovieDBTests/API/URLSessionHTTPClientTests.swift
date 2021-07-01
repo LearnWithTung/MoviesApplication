@@ -52,16 +52,6 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeRequestFrom(credential: Credential = .init(apiKey: "any"), url: URL = URL(string: "http://any-url.com")!, page: Int = 1) -> URLRequest {
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = [
-            URLQueryItem(name: "api_key", value: credential.apiKey),
-            URLQueryItem(name: "page", value: "\(page)")
-        ]
-        
-        return URLRequest(url: components.url!)
-    }
-
     
     final class URLProtocolStub: URLProtocol {
         

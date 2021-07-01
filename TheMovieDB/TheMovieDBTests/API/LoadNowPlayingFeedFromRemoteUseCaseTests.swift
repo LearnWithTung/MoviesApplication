@@ -176,16 +176,6 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 0.1)
     }
     
-    private func makeRequestFrom(credential: Credential, url: URL, page: Int) -> URLRequest {
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = [
-            URLQueryItem(name: "api_key", value: credential.apiKey),
-            URLQueryItem(name: "page", value: "\(page)")
-        ]
-        
-        return URLRequest(url: components.url!)
-    }
-    
     private class HTTPClientSpy: HTTPClient {
         private var messages = [(request: URLRequest, completion: (HTTPClient.HTTPClientResult) -> Void)]()
         
