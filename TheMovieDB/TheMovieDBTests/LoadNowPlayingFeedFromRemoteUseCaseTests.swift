@@ -42,15 +42,12 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     func test_loadCompletion_deliversErrorOnClientError() {
+        let clientError = NSError(domain: "test", code: 0, userInfo: nil)
         let (sut, client) = makeSUT()
         
-        var capturedError: RemoteNowPlayingFeedLoader.Error?
-        sut.load(query: .init(page: 1)) { capturedError = $0 }
-        
-        let clientError = NSError(domain: "test", code: 0, userInfo: nil)
-        client.completeWithError(clientError)
-        
-        XCTAssertEqual(capturedError, .connectivity)
+        expect(sut, toCompleteWithError: .connectivity) {
+            client.completeWithError(clientError)
+        }
     }
     
     func test_loadCompletion_deliversErrorOnNon200HTTPResponse() {
@@ -59,12 +56,9 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500]
         
         samples.enumerated().forEach { index, code in
-            var capturedError: RemoteNowPlayingFeedLoader.Error?
-            sut.load(query: .init(page: 1)) { capturedError = $0 }
-            
-            client.completeWith(statusCode: code, at: index)
-            
-            XCTAssertEqual(capturedError, .invalidData)
+            expect(sut, toCompleteWithError: .invalidData) {
+                client.completeWith(statusCode: code, at: index)
+            }
         }
     }
     
@@ -74,6 +68,21 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
         
         return (sut, client)
+    }
+    
+    private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithError error: RemoteNowPlayingFeedLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "wait for completion")
+        var capturedError: RemoteNowPlayingFeedLoader.Error?
+        
+        sut.load(query: .init(page: 1)) {
+            capturedError = $0
+            exp.fulfill()
+        }
+    
+        action()
+        
+        wait(for: [exp], timeout: 0.1)
+        XCTAssertEqual(capturedError, error, file: file, line: line)
     }
     
     private func makeRequestFrom(credential: Credential, url: URL, page: Int) -> URLRequest {
