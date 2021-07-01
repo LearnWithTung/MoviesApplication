@@ -42,10 +42,7 @@ class RemoteNowPlayingFeedLoader {
 class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doesNotRequestDataFromRemote() {
-        let url = URL(string: "http://any-url.com")!
-        let credential = Credential(apiKey: "any key")
-        let client = HTTPClientSpy()
-        _ = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
+        let (_, client) = makeSUT()
         
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
@@ -54,8 +51,7 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let url = URL(string: "http://a-url.com")!
         let credential = Credential(apiKey: "a key")
         let page = 1
-        let client = HTTPClientSpy()
-        let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
+        let (sut, client) = makeSUT(url: url, credential: credential)
         
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.queryItems = [
@@ -71,6 +67,13 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
+        let client = HTTPClientSpy()
+        let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
+        
+        return (sut, client)
+    }
+    
     private class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URLRequest]()
         
