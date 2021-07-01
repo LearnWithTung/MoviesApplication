@@ -53,6 +53,21 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         XCTAssertEqual(capturedError, .connectivity)
     }
     
+    func test_loadCompletion_deliversErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+        
+        let samples = [199, 201, 300, 400, 500]
+        
+        samples.enumerated().forEach { index, code in
+            var capturedError: RemoteNowPlayingFeedLoader.Error?
+            sut.load(query: .init(page: 1)) { capturedError = $0 }
+            
+            client.completeWith(statusCode: code, at: index)
+            
+            XCTAssertEqual(capturedError, .invalidData)
+        }
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -73,15 +88,20 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     private class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URLRequest]()
-        var completions = [(Error) -> Void]()
+        var completions = [(HTTPClient.HTTPClientResult) -> Void]()
         
-        func dispatch(request: URLRequest, completion: @escaping (Error) -> Void) {
+        func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) {
             requestedURLs.append(request)
             completions.append(completion)
         }
         
         func completeWithError(_ error: Error, at index: Int = 0) {
-            completions[index](error)
+            completions[index](.failure(error))
+        }
+        
+        func completeWith(statusCode code: Int, at index: Int = 0) {
+            let httpResponse = HTTPURLResponse(url: requestedURLs[index].url!, statusCode: code, httpVersion: nil, headerFields: nil)!
+            completions[index](.success(httpResponse))
         }
     }
     
