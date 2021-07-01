@@ -18,6 +18,7 @@
 		DFAA5F32268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F31268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift */; };
 		DFAA5F37268DBF26008E034E /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F36268DBF26008E034E /* URLSessionHTTPClientTests.swift */; };
 		DFAA5F3A268DC491008E034E /* TestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F39268DC491008E034E /* TestsHelpers.swift */; };
+		DFEBD8A6268E62AF0012E31A /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8A5268E62AF0012E31A /* URLSessionHTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		DFAA5F31268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNowPlayingFeedMapper.swift; sourceTree = "<group>"; };
 		DFAA5F36268DBF26008E034E /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		DFAA5F39268DC491008E034E /* TestsHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestsHelpers.swift; sourceTree = "<group>"; };
+		DFEBD8A5268E62AF0012E31A /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				DFAA5F31268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift */,
 				DFAA5F2D268DBC79008E034E /* HTTPClient.swift */,
 				DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */,
+				DFEBD8A5268E62AF0012E31A /* URLSessionHTTPClient.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				DFAA5F32268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift in Sources */,
 				DFAA5F2C268DA953008E034E /* RemoteNowPlayingFeedLoader.swift in Sources */,
 				DFAA5F2E268DBC79008E034E /* HTTPClient.swift in Sources */,
+				DFEBD8A6268E62AF0012E31A /* URLSessionHTTPClient.swift in Sources */,
 				DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */,
 				DFAA5F26268D9FE4008E034E /* NowPlayingFeed.swift in Sources */,
 				DFAA5F30268DBC8D008E034E /* Credential.swift in Sources */,
