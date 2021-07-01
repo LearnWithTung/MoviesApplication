@@ -132,35 +132,24 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithFeed expectedFeed: NowPlayingFeed, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
-        let exp = expectation(description: "wait for completion")
-        var capturedFeed: NowPlayingFeed?
-        
-        sut.load(query: .init(page: 1)) { result in
-            switch result {
-            case let .success(receivedFeed):
-                capturedFeed = receivedFeed
-            default:
-                XCTFail("Expected error but got \(result) instead", file: file, line: line)
-            }
-            exp.fulfill()
-        }
-    
-        action()
-        
-        wait(for: [exp], timeout: 0.1)
-        XCTAssertEqual(capturedFeed, expectedFeed, file: file, line: line)
+        expect(sut, toCompleteWithResult: .success(expectedFeed), when: action, file: file, line: line)
     }
     
     private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithError error: RemoteNowPlayingFeedLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        expect(sut, toCompleteWithResult: .failure(error), when: action, file: file, line: line)
+    }
+    
+    private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithResult expectedResult: RemoteNowPlayingFeedLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "wait for completion")
-        var capturedError: RemoteNowPlayingFeedLoader.Error?
         
-        sut.load(query: .init(page: 1)) { result in
-            switch result {
-            case let .failure(error):
-                capturedError = error
+        sut.load(query: .init(page: 1)) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.failure(receivedError), .failure(expectedError)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            case let (.success(receivedFeed), .success(expectedFeed)):
+                XCTAssertEqual(receivedFeed, expectedFeed, file: file, line: line)
             default:
-                XCTFail("Expected error but got \(result) instead", file: file, line: line)
+                XCTFail("Expected \(expectedResult) but got \(receivedResult) instead", file: file, line: line)
             }
             exp.fulfill()
         }
@@ -168,7 +157,6 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         action()
         
         wait(for: [exp], timeout: 0.1)
-        XCTAssertEqual(capturedError, error, file: file, line: line)
     }
     
     private func makeRequestFrom(credential: Credential, url: URL, page: Int) -> URLRequest {

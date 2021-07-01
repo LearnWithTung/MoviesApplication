@@ -36,7 +36,9 @@ public class RemoteNowPlayingFeedLoader {
         case invalidData
     }
     
-    public func load(query: NowPlayingQuery, completion: @escaping (Result<NowPlayingFeed, Error>) -> Void = {_ in}) {
+    public typealias Result = Swift.Result<NowPlayingFeed, Error>
+    
+    public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void = {_ in}) {
         let request = makeRequestWith(query: query)
         client.dispatch(request: request) { result in
             switch result {
