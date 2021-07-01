@@ -63,6 +63,19 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [expectedRequest])
     }
     
+    func test_loadTwice_requestsDataFromRemoteTwice() {
+        let url = URL(string: "http://a-url.com")!
+        let credential = Credential(apiKey: "a key")
+        let page = 1
+        let expectedRequest = makeRequestFrom(credential: credential, url: url, page: page)
+        let (sut, client) = makeSUT(url: url, credential: credential)
+        
+        sut.load(query: .init(page: page))
+        sut.load(query: .init(page: page))
+        
+        XCTAssertEqual(client.requestedURLs, [expectedRequest, expectedRequest])
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
