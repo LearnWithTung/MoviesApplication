@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol HTTPClient {
-    typealias HTTPClientResult = Result<HTTPURLResponse, Error>
+    typealias HTTPClientResult = Result<(data: Data, response: HTTPURLResponse), Error>
     func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void)
 }
 

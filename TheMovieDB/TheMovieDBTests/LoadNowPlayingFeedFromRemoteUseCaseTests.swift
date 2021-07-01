@@ -62,6 +62,15 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_loadCompletion_deliversErrorOn200HTTPResponseWithInvalidJSON() {
+        let invalidJSON = Data("invalid json".utf8)
+        let (sut, client) = makeSUT()
+        
+        expect(sut, toCompleteWithError: .invalidData) {
+            client.completeWith(statusCode: 200, data: invalidJSON)
+        }
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -110,9 +119,9 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
             messages[index].completion(.failure(error))
         }
         
-        func completeWith(statusCode code: Int, at index: Int = 0) {
+        func completeWith(statusCode code: Int, data: Data = Data(), at index: Int = 0) {
             let httpResponse = HTTPURLResponse(url: requestedURLs[index].url!, statusCode: code, httpVersion: nil, headerFields: nil)!
-            messages[index].completion(.success(httpResponse))
+            messages[index].completion(.success((data, httpResponse)))
         }
     }
     
