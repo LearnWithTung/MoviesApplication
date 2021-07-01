@@ -35,12 +35,13 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT() -> RemoteNowPlayingFeedLoader {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> RemoteNowPlayingFeedLoader {
         let url = URL(string: "https://learnwithtung.free.beeceptor.com/api/v1/movie/now_playing")!
         let session = URLSession(configuration: .ephemeral)
         let client = URLSessionHTTPClient(session: session)
         let remoteLoader = RemoteNowPlayingFeedLoader(url: url, credential: .init(apiKey: api_key), client: client)
-        
+        checkForMemoryLeaks(client, file: file, line: line)
+        checkForMemoryLeaks(remoteLoader, file: file, line: line)
         return remoteLoader
     }
     

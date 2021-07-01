@@ -110,10 +110,11 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any"), file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
-        
+        checkForMemoryLeaks(sut, file: file, line: line)
+        checkForMemoryLeaks(client, file: file, line: line)
         return (sut, client)
     }
     
