@@ -11,6 +11,7 @@
 		DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */; };
 		DFAA5F26268D9FE4008E034E /* NowPlayingFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F25268D9FE4008E034E /* NowPlayingFeed.swift */; };
 		DFAA5F28268DA022008E034E /* NowPlayingLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F27268DA022008E034E /* NowPlayingLoader.swift */; };
+		DFAA5F2A268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F29268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +30,7 @@
 		DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingCard.swift; sourceTree = "<group>"; };
 		DFAA5F25268D9FE4008E034E /* NowPlayingFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeed.swift; sourceTree = "<group>"; };
 		DFAA5F27268DA022008E034E /* NowPlayingLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLoader.swift; sourceTree = "<group>"; };
+		DFAA5F29268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadNowPlayingFeedFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		DFAA5F17268D9E85008E034E /* TheMovieDBTests */ = {
 			isa = PBXGroup;
 			children = (
+				DFAA5F29268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift */,
 			);
 			path = TheMovieDBTests;
 			sourceTree = "<group>";
@@ -150,6 +153,7 @@
 					};
 					DFAA5F12268D9E85008E034E = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 					};
 				};
 			};
@@ -204,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFAA5F2A268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +405,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -413,6 +419,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vn.learnwithtung.TheMovieDBTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -421,6 +428,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
