@@ -62,19 +62,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         let error = NSError(domain: "test", code: 0, userInfo: nil)
         XCTAssertNotNil(errorFor(data: nil, response: nil, error: error))
     }
-    
-    /*
-     | Data?    | URLResponse?      | Error?   |
-     |----------|-------------------|----------|
-     | nil      | nil               | nil      |
-     | nil      | URLResponse       | nil      |
-     | value    | nil               | nil      |
-     | value    | nil               | value    |
-     | nil      | URLResponse       | value    |
-     | nil      | HTTPURLResponse   | value    |
-     | value    | HTTPURLResponse   | value    |
-     | value    | URLResponse       | nil      |
-    */
+
     func test_dispatch_failsOnAllInvalidRepresentationValues() {
         let nonHTTPURLResponse = nonHTTPURLResponse()
         let anyHTTPURLResponse = anyHTTPResponse()
