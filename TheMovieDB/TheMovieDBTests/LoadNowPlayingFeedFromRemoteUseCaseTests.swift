@@ -87,21 +87,23 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     private class HTTPClientSpy: HTTPClient {
-        var requestedURLs = [URLRequest]()
-        var completions = [(HTTPClient.HTTPClientResult) -> Void]()
+        private var messages = [(request: URLRequest, completion: (HTTPClient.HTTPClientResult) -> Void)]()
+        
+        var requestedURLs: [URLRequest] {
+            return messages.map { $0.request }
+        }
         
         func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) {
-            requestedURLs.append(request)
-            completions.append(completion)
+            messages.append((request, completion))
         }
         
         func completeWithError(_ error: Error, at index: Int = 0) {
-            completions[index](.failure(error))
+            messages[index].completion(.failure(error))
         }
         
         func completeWith(statusCode code: Int, at index: Int = 0) {
             let httpResponse = HTTPURLResponse(url: requestedURLs[index].url!, statusCode: code, httpVersion: nil, headerFields: nil)!
-            completions[index](.success(httpResponse))
+            messages[index].completion(.success(httpResponse))
         }
     }
     
