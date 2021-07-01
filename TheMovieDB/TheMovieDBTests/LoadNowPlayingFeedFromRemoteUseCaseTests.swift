@@ -13,14 +13,16 @@ protocol HTTPClient {
 }
 
 class RemoteNowPlayingFeedLoader {
+    private let url: URL
     private let client: HTTPClient
     
-    init(client: HTTPClient) {
+    init(url: URL, client: HTTPClient) {
+        self.url = url
         self.client = client
     }
     
     func load(query: NowPlayingQuery) {
-        let request = URLRequest(url: URL(string: "https://any-url")!)
+        let request = URLRequest(url: url)
         client.dispatch(request: request)
     }
 }
@@ -28,15 +30,17 @@ class RemoteNowPlayingFeedLoader {
 class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doesNotRequestDataFromRemote() {
+        let url = URL(string: "http://any-url.com")!
         let client = HTTPClientSpy()
-        _ = RemoteNowPlayingFeedLoader(client: client)
+        _ = RemoteNowPlayingFeedLoader(url: url, client: client)
         
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
     func test_load_requestsDataFromRemote() {
+        let url = URL(string: "http://a-url.com")!
         let client = HTTPClientSpy()
-        let sut = RemoteNowPlayingFeedLoader(client: client)
+        let sut = RemoteNowPlayingFeedLoader(url: url, client: client)
         
         sut.load(query: .init(page: 1))
         
