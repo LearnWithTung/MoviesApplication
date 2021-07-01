@@ -51,15 +51,8 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let url = URL(string: "http://a-url.com")!
         let credential = Credential(apiKey: "a key")
         let page = 1
+        let expectedRequest = makeRequestFrom(credential: credential, url: url, page: page)
         let (sut, client) = makeSUT(url: url, credential: credential)
-        
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = [
-            URLQueryItem(name: "api_key", value: credential.apiKey),
-            URLQueryItem(name: "page", value: "\(page)")
-        ]
-        
-        let expectedRequest = URLRequest(url: components.url!)
         
         sut.load(query: .init(page: page))
         
@@ -72,6 +65,16 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
         
         return (sut, client)
+    }
+    
+    private func makeRequestFrom(credential: Credential, url: URL, page: Int) -> URLRequest {
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        components.queryItems = [
+            URLQueryItem(name: "api_key", value: credential.apiKey),
+            URLQueryItem(name: "page", value: "\(page)")
+        ]
+        
+        return URLRequest(url: components.url!)
     }
     
     private class HTTPClientSpy: HTTPClient {
