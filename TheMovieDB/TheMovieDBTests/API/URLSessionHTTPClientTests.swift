@@ -34,11 +34,8 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_dispatch_requestsfromURL() {
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [URLProtocolStub.self]
-        let session = URLSession(configuration: configuration)
         let request = makeRequestFrom()
-        let sut = URLSessionHTTPClient(session: session)
+        let sut = makeSUT()
         
         let exp = expectation(description: "wait for completion")
         URLProtocolStub.observeRequests { receivedRequest in
@@ -52,6 +49,14 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    private func makeSUT() -> URLSessionHTTPClient {
+        let configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [URLProtocolStub.self]
+        let session = URLSession(configuration: configuration)
+        let sut = URLSessionHTTPClient(session: session)
+        
+        return sut
+    }
     
     final class URLProtocolStub: URLProtocol {
         
