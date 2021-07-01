@@ -74,44 +74,22 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     func test_loadCompletion_deliversEmptyOn200HTTPResponseWithEmptyJSONPage() {
         let emptyResponse = makeNowPlayingFeed(cards: [], page: 1, totalPages: 1)
         let emptyJSON = makeFeedJSON(emptyResponse.json)
-        
         let (sut, client) = makeSUT()
         
-        let exp = expectation(description: "wait for completion")
-        sut.load(query: .init(page: 1)) { result in
-            switch result {
-            case let .success(receivedFeed):
-                XCTAssertEqual(receivedFeed, emptyResponse.model)
-            default:
-                XCTFail("Expected empty page but got \(result) instead")
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWithFeed: emptyResponse.model) {
+            client.completeWith(statusCode: 200, data: emptyJSON)
         }
-        
-        client.completeWith(statusCode: 200, data: emptyJSON)
-        wait(for: [exp], timeout: 0.1)
     }
     
     func test_loadCompletion_deliversNowPlayingFeedOn200HTTPResponseWithJSONFeed() {
         let cards = (0...5).map {uniqueNowPlayingCard(id: $0)}
         let feed = makeNowPlayingFeed(cards: cards, page: 1, totalPages: 1)
         let json = makeFeedJSON(feed.json)
-        
         let (sut, client) = makeSUT()
         
-        let exp = expectation(description: "wait for completion")
-        sut.load(query: .init(page: 1)) { result in
-            switch result {
-            case let .success(receivedFeed):
-                XCTAssertEqual(receivedFeed, feed.model)
-            default:
-                XCTFail("Expected empty page but got \(result) instead")
-            }
-            exp.fulfill()
+        expect(sut, toCompleteWithFeed: feed.model) {
+            client.completeWith(statusCode: 200, data: json)
         }
-        
-        client.completeWith(statusCode: 200, data: json)
-        wait(for: [exp], timeout: 0.1)
     }
     
     // MARK: - Helpers
@@ -151,6 +129,26 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     private func makeFeedJSON(_ dict: [String: Any]) -> Data {
         try! JSONSerialization.data(withJSONObject: dict)
+    }
+    
+    private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithFeed expectedFeed: NowPlayingFeed, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "wait for completion")
+        var capturedFeed: NowPlayingFeed?
+        
+        sut.load(query: .init(page: 1)) { result in
+            switch result {
+            case let .success(receivedFeed):
+                capturedFeed = receivedFeed
+            default:
+                XCTFail("Expected error but got \(result) instead", file: file, line: line)
+            }
+            exp.fulfill()
+        }
+    
+        action()
+        
+        wait(for: [exp], timeout: 0.1)
+        XCTAssertEqual(capturedFeed, expectedFeed, file: file, line: line)
     }
     
     private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithError error: RemoteNowPlayingFeedLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
