@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NowPlayingFeed {
+public struct NowPlayingFeed: Equatable {
     public let items: [NowPlayingCard]
     public let page: Int
     public let totalPages: Int

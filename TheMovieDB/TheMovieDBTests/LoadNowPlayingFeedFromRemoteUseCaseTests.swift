@@ -80,10 +80,8 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let exp = expectation(description: "wait for completion")
         sut.load(query: .init(page: 1)) { result in
             switch result {
-            case let .success(feed):
-                XCTAssertEqual(feed.page, 1)
-                XCTAssertEqual(feed.totalPages, 1)
-                XCTAssertTrue(feed.items.isEmpty)
+            case let .success(receivedFeed):
+                XCTAssertEqual(receivedFeed, emptyResponse.model)
             default:
                 XCTFail("Expected empty page but got \(result) instead")
             }
@@ -91,6 +89,28 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         }
         
         client.completeWith(statusCode: 200, data: emptyJSON)
+        wait(for: [exp], timeout: 0.1)
+    }
+    
+    func test_loadCompletion_deliversNowPlayingFeedOn200HTTPResponseWithJSONFeed() {
+        let cards = (0...5).map {uniqueNowPlayingCard(id: $0)}
+        let feed = makeNowPlayingFeed(cards: cards, page: 1, totalPages: 1)
+        let json = makeFeedJSON(feed.json)
+        
+        let (sut, client) = makeSUT()
+        
+        let exp = expectation(description: "wait for completion")
+        sut.load(query: .init(page: 1)) { result in
+            switch result {
+            case let .success(receivedFeed):
+                XCTAssertEqual(receivedFeed, feed.model)
+            default:
+                XCTFail("Expected empty page but got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        client.completeWith(statusCode: 200, data: json)
         wait(for: [exp], timeout: 0.1)
     }
     
@@ -102,6 +122,10 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         return (sut, client)
     }
     
+    private func uniqueNowPlayingCard(id: Int = 0) -> NowPlayingCard {
+        return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path")
+    }
+    
     private func makeNowPlayingFeed(cards: [NowPlayingCard], page: Int = 1, totalPages: Int = 1) -> (model: NowPlayingFeed, json: [String: Any]){
         let model = NowPlayingFeed(items: cards, page: page, totalPages: totalPages)
         
@@ -110,7 +134,7 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         cards.forEach {
             let json: [String : Any] = [
                 "id": $0.id,
-                "title:": $0.title,
+                "title": $0.title,
                 "poster_path": $0.imagePath
             ]
             results.append(json)
