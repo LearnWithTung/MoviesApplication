@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class RemoteNowPlayingFeedLoader {
+public class RemoteNowPlayingFeedLoader: NowPlayingLoader {
     private let url: URL
     private let credential: Credential
     private let client: HTTPClient
@@ -23,9 +23,9 @@ public class RemoteNowPlayingFeedLoader {
         case invalidData
     }
     
-    public typealias Result = Swift.Result<NowPlayingFeed, Error>
+    public typealias Result = NowPlayingLoader.Result
     
-    public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void = {_ in}) {
+    public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void) {
         let request = makeRequestWith(query: query)
         client.dispatch(request: request) {[weak self] result in
             guard self != nil else {return}
@@ -33,7 +33,7 @@ public class RemoteNowPlayingFeedLoader {
             case let .success((data, response)):
                 completion(RemoteNowPlayingFeedMapper.map(data, response))
             case .failure:
-                completion(.failure(.connectivity))
+                completion(.failure(Error.connectivity))
             }
         }
     }

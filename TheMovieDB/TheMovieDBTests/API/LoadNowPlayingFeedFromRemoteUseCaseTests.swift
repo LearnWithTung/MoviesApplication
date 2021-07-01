@@ -23,7 +23,7 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let expectedRequest = makeRequestFrom(credential: credential, url: url, page: page)
         let (sut, client) = makeSUT(url: url, credential: credential)
         
-        sut.load(query: .init(page: page))
+        sut.load(query: .init(page: page)) {_ in}
         
         XCTAssertEqual(client.requestedURLs, [expectedRequest])
     }
@@ -35,8 +35,8 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let expectedRequest = makeRequestFrom(credential: credential, url: url, page: page)
         let (sut, client) = makeSUT(url: url, credential: credential)
         
-        sut.load(query: .init(page: page))
-        sut.load(query: .init(page: page))
+        sut.load(query: .init(page: page)) {_ in}
+        sut.load(query: .init(page: page)) {_ in}
         
         XCTAssertEqual(client.requestedURLs, [expectedRequest, expectedRequest])
     }
@@ -161,7 +161,7 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         
         sut.load(query: .init(page: 1)) { receivedResult in
             switch (receivedResult, expectedResult) {
-            case let (.failure(receivedError), .failure(expectedError)):
+            case let (.failure(receivedError as RemoteNowPlayingFeedLoader.Error), .failure(expectedError as RemoteNowPlayingFeedLoader.Error)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
             case let (.success(receivedFeed), .success(expectedFeed)):
                 XCTAssertEqual(receivedFeed, expectedFeed, file: file, line: line)

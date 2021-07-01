@@ -15,7 +15,7 @@ public struct NowPlayingQuery {
     }
 }
 
-protocol NowPlayingLoader {
-    typealias Result = Swift.Result<[NowPlayingFeed], Error>
-    func load(query: NowPlayingQuery, completion: (Result) -> Void)
+public protocol NowPlayingLoader {
+    typealias Result = Swift.Result<NowPlayingFeed, Error>
+    func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void)
 }

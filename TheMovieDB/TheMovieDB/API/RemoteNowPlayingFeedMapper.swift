@@ -32,6 +32,6 @@ class RemoteNowPlayingFeedMapper {
         if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
             return .success(root.feed)
         }
-        return .failure(.invalidData)
+        return .failure(RemoteNowPlayingFeedLoader.Error.invalidData)
     }
 }
