@@ -94,6 +94,21 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_loadCompletion_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let client = HTTPClientSpy()
+        var sut: RemoteNowPlayingFeedLoader? = RemoteNowPlayingFeedLoader(url: URL(string: "http://any-url.com")!,
+                                                                          credential: .init(apiKey: "any"),
+                                                                          client: client)
+        
+        var capturedResult: RemoteNowPlayingFeedLoader.Result?
+        sut?.load(query: .init(page: 1)) {capturedResult = $0}
+        
+        sut = nil
+        client.completeWithError(NSError(domain: "test", code: 0, userInfo: nil))
+        
+        XCTAssertNil(capturedResult)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()

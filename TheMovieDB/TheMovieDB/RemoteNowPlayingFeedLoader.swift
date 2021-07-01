@@ -40,7 +40,8 @@ public class RemoteNowPlayingFeedLoader {
     
     public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void = {_ in}) {
         let request = makeRequestWith(query: query)
-        client.dispatch(request: request) {[unowned self] result in
+        client.dispatch(request: request) {[weak self] result in
+            guard let self = self else {return}
             switch result {
             case let .success((data, response)):
                 completion(self.map(response, data: data))
