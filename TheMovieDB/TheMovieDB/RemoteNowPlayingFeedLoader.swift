@@ -7,14 +7,6 @@
 
 import Foundation
 
-public struct Credential {
-    public let apiKey: String
-    
-    public init(apiKey: String) {
-        self.apiKey = apiKey
-    }
-}
-
 public class RemoteNowPlayingFeedLoader {
     private let url: URL
     private let credential: Credential
