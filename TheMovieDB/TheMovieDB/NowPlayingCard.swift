@@ -8,11 +8,11 @@
 import Foundation
 
 public struct NowPlayingCard {
-    let id: Int
-    let title: String
-    let imagePath: String
+    public let id: Int
+    public let title: String
+    public let imagePath: String
 
-    init(id: Int, title: String, imagePath: String) {
+    public init(id: Int, title: String, imagePath: String) {
         self.id = id
         self.title = title
         self.imagePath = imagePath

@@ -72,13 +72,8 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     func test_loadCompletion_deliversEmptyOn200HTTPResponseWithEmptyJSONPage() {
-        let emptyResponseDict: [String : Any] = [
-            "page": 1,
-            "total_pages": 1,
-            "results": []
-        ]
-        
-        let emptyJSON = try! JSONSerialization.data(withJSONObject: emptyResponseDict)
+        let emptyResponse = makeNowPlayingFeed(cards: [], page: 1, totalPages: 1)
+        let emptyJSON = makeFeedJSON(emptyResponse.json)
         
         let (sut, client) = makeSUT()
         
@@ -105,6 +100,33 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
         
         return (sut, client)
+    }
+    
+    private func makeNowPlayingFeed(cards: [NowPlayingCard], page: Int = 1, totalPages: Int = 1) -> (model: NowPlayingFeed, json: [String: Any]){
+        let model = NowPlayingFeed(items: cards, page: page, totalPages: totalPages)
+        
+        var results = [Dictionary<String, Any>]()
+        
+        cards.forEach {
+            let json: [String : Any] = [
+                "id": $0.id,
+                "title:": $0.title,
+                "poster_path": $0.imagePath
+            ]
+            results.append(json)
+        }
+        
+        let feedJSON: [String : Any] = [
+            "page": 1,
+            "total_pages": 1,
+            "results": results
+        ]
+        
+        return (model, feedJSON)
+    }
+    
+    private func makeFeedJSON(_ dict: [String: Any]) -> Data {
+        try! JSONSerialization.data(withJSONObject: dict)
     }
     
     private func expect(_ sut: RemoteNowPlayingFeedLoader, toCompleteWithError error: RemoteNowPlayingFeedLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
