@@ -81,8 +81,8 @@
 		DFAA5F0D268D9E85008E034E /* TheMovieDB */ = {
 			isa = PBXGroup;
 			children = (
-				DFAA5F34268DBD41008E034E /* API */,
 				DFAA5F33268DBD28008E034E /* Now Playing Feature */,
+				DFAA5F34268DBD41008E034E /* API */,
 			);
 			path = TheMovieDB;
 			sourceTree = "<group>";
