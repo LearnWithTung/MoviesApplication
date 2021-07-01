@@ -40,25 +40,22 @@ public class RemoteNowPlayingFeedLoader {
     
     public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void = {_ in}) {
         let request = makeRequestWith(query: query)
-        client.dispatch(request: request) { result in
+        client.dispatch(request: request) {[unowned self] result in
             switch result {
             case let .success((data, response)):
-                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    return completion(.success(root.feed))
-                }
-                completion(.failure(.invalidData))
+                completion(self.map(response, data: data))
             case .failure:
                 completion(.failure(.connectivity))
             }
         }
     }
     
-//    private func map(_ response: HTTPURLResponse, data: Data) -> Result {
-//        if let root = try? JSONDecoder().decode(Root.self, from: data) {
-//            return .success(root.feed)
-//        }
-//        return .invalidData)
-//    }
+    private func map(_ response: HTTPURLResponse, data: Data) -> Result {
+        if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
+            return .success(root.feed)
+        }
+        return .failure(.invalidData)
+    }
     
     private func makeRequestWith(query: NowPlayingQuery) -> URLRequest {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
