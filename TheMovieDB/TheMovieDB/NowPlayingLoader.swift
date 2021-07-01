@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct NowPlayingQuery {
+public struct NowPlayingQuery {
     let page: Int
 
-    init(page: Int) {
+    public init(page: Int) {
       self.page = page
     }
 }
