@@ -28,21 +28,14 @@ public class RemoteNowPlayingFeedLoader {
     public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void = {_ in}) {
         let request = makeRequestWith(query: query)
         client.dispatch(request: request) {[weak self] result in
-            guard let self = self else {return}
+            guard self != nil else {return}
             switch result {
             case let .success((data, response)):
-                completion(self.map(response, data: data))
+                completion(RemoteNowPlayingFeedMapper.map(data, response))
             case .failure:
                 completion(.failure(.connectivity))
             }
         }
-    }
-    
-    private func map(_ response: HTTPURLResponse, data: Data) -> Result {
-        if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-            return .success(root.feed)
-        }
-        return .failure(.invalidData)
     }
     
     private func makeRequestWith(query: NowPlayingQuery) -> URLRequest {
@@ -53,25 +46,5 @@ public class RemoteNowPlayingFeedLoader {
         ]
         
         return URLRequest(url: components.url!)
-    }
-}
-
-private struct Root: Decodable {
-    let page: Int
-    let total_pages: Int
-    let results: [RemoteNowPlayingCard]
-    
-    struct RemoteNowPlayingCard: Decodable {
-        let id: Int
-        let title: String
-        let poster_path: String
-        
-        var model: NowPlayingCard {
-            return NowPlayingCard(id: id, title: title, imagePath: poster_path)
-        }
-    }
-    
-    var feed: NowPlayingFeed {
-        return NowPlayingFeed(items: results.map {$0.model}, page: page, totalPages: total_pages)
     }
 }

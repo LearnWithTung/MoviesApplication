@@ -15,6 +15,7 @@
 		DFAA5F2C268DA953008E034E /* RemoteNowPlayingFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */; };
 		DFAA5F2E268DBC79008E034E /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F2D268DBC79008E034E /* HTTPClient.swift */; };
 		DFAA5F30268DBC8D008E034E /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F2F268DBC8D008E034E /* Credential.swift */; };
+		DFAA5F32268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F31268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 		DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNowPlayingFeedLoader.swift; sourceTree = "<group>"; };
 		DFAA5F2D268DBC79008E034E /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		DFAA5F2F268DBC8D008E034E /* Credential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credential.swift; sourceTree = "<group>"; };
+		DFAA5F31268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNowPlayingFeedMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 				DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */,
 				DFAA5F2D268DBC79008E034E /* HTTPClient.swift */,
 				DFAA5F2F268DBC8D008E034E /* Credential.swift */,
+				DFAA5F31268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift */,
 			);
 			path = TheMovieDB;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFAA5F32268DBCB8008E034E /* RemoteNowPlayingFeedMapper.swift in Sources */,
 				DFAA5F2C268DA953008E034E /* RemoteNowPlayingFeedLoader.swift in Sources */,
 				DFAA5F2E268DBC79008E034E /* HTTPClient.swift in Sources */,
 				DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */,
