@@ -76,10 +76,10 @@ class URLSessionHTTPClientTests: XCTestCase {
      | value    | URLResponse       | nil      |
     */
     func test_dispatch_failsOnAllInvalidRepresentationValues() {
-        let nonHTTPURLResponse = URLResponse(url: URL(string: "http://any-url.com")!, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
-        let anyHTTPURLResponse = HTTPURLResponse(url: URL(string: "http://any-url.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-        let anyData = Data("any".utf8)
-        let anyError = NSError(domain: "any", code: 0, userInfo: nil)
+        let nonHTTPURLResponse = nonHTTPURLResponse()
+        let anyHTTPURLResponse = anyHTTPResponse()
+        let anyData = anyData()
+        let anyError = anyNSError()
         
         XCTAssertNotNil(errorFor(data:nil, response: nil, error: nil))
         XCTAssertNotNil(errorFor(data:nil, response: nonHTTPURLResponse, error: nil))
@@ -92,23 +92,23 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     func test_dispatch_succeedsWithEmptyDataOnEmptyDataHTTPURLResponse() {
-        let anyHTTPURLResponse = HTTPURLResponse(url: URL(string: "http://any-url.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let anyHTTPURLResponse = anyHTTPResponse()
         
         let values = valuesFor(data: nil, response: anyHTTPURLResponse, error: nil)
         let emptyData = Data(count: 0)
         XCTAssertEqual(values?.data, emptyData)
-        XCTAssertEqual(values?.response.statusCode, anyHTTPURLResponse?.statusCode)
-        XCTAssertEqual(values?.response.url, anyHTTPURLResponse?.url)
+        XCTAssertEqual(values?.response.statusCode, anyHTTPURLResponse.statusCode)
+        XCTAssertEqual(values?.response.url, anyHTTPURLResponse.url)
     }
     
     func test_dispatch_succeedsOnDataAndHTTPURLResponse() {
-        let anyHTTPURLResponse = HTTPURLResponse(url: URL(string: "http://any-url.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-        let anyData = Data("any".utf8)
+        let anyHTTPURLResponse = anyHTTPResponse()
+        let anyData = anyData()
         
         let values = valuesFor(data: anyData, response: anyHTTPURLResponse, error: nil)
         XCTAssertEqual(values?.data, anyData)
-        XCTAssertEqual(values?.response.statusCode, anyHTTPURLResponse?.statusCode)
-        XCTAssertEqual(values?.response.url, anyHTTPURLResponse?.url)
+        XCTAssertEqual(values?.response.statusCode, anyHTTPURLResponse.statusCode)
+        XCTAssertEqual(values?.response.url, anyHTTPURLResponse.url)
     }
     
     // MARK: - Helpers
@@ -119,6 +119,26 @@ class URLSessionHTTPClientTests: XCTestCase {
         let sut = URLSessionHTTPClient(session: session)
         
         return sut
+    }
+    
+    private func nonHTTPURLResponse() -> URLResponse {
+        URLResponse(url: URL(string: "http://any-url.com")!, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+    }
+    
+    private func anyHTTPResponse() -> HTTPURLResponse {
+        HTTPURLResponse(url: URL(string: "http://any-url.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+    }
+    
+    private func anyURL() -> URL {
+        URL(string: "http://any-url.com")!
+    }
+    
+    private func anyNSError() -> NSError {
+        NSError(domain: "any", code: 0, userInfo: nil)
+    }
+    
+    private func anyData() -> Data {
+        Data("any".utf8)
     }
     
     private func valuesFor(data: Data?, response: URLResponse?, error: Error?, file: StaticString = #filePath, line: UInt = #line) -> (data: Data, response: HTTPURLResponse)? {
