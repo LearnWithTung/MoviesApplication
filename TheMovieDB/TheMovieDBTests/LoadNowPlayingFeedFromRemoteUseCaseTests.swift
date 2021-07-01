@@ -8,41 +8,6 @@
 import XCTest
 import TheMovieDB
 
-protocol HTTPClient {
-    func dispatch(request: URLRequest)
-}
-
-struct Credential {
-    let apiKey: String
-}
-
-class RemoteNowPlayingFeedLoader {
-    private let url: URL
-    private let credential: Credential
-    private let client: HTTPClient
-    
-    init(url: URL, credential: Credential, client: HTTPClient) {
-        self.url = url
-        self.credential = credential
-        self.client = client
-    }
-    
-    func load(query: NowPlayingQuery) {
-        let request = makeRequestWith(query: query)
-        client.dispatch(request: request)
-    }
-    
-    private func makeRequestWith(query: NowPlayingQuery) -> URLRequest {
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = [
-            URLQueryItem(name: "api_key", value: credential.apiKey),
-            URLQueryItem(name: "page", value: "\(query.page)")
-        ]
-        
-        return URLRequest(url: components.url!)
-    }
-}
-
 class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     func test_init_doesNotRequestDataFromRemote() {
