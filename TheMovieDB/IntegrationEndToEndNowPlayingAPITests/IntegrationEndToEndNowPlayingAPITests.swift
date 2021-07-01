@@ -24,7 +24,11 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
             case let .success(feed):
                 XCTAssertEqual(feed.page, 1)
                 XCTAssertEqual(feed.totalPages, 55)
-                XCTAssertEqual(feed.items.count, 5)
+                XCTAssertEqual(feed.items[0], self.card(at: 0))
+                XCTAssertEqual(feed.items[1], self.card(at: 1))
+                XCTAssertEqual(feed.items[2], self.card(at: 2))
+                XCTAssertEqual(feed.items[3], self.card(at: 3))
+                XCTAssertEqual(feed.items[4], self.card(at: 4))
             default:
                 XCTFail("Wait for success but got \(result) instead")
             }
@@ -32,6 +36,45 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 5.0)
+    }
+    
+    private func card(at index: Int = 0) -> NowPlayingCard {
+        return NowPlayingCard(id: id(at: index), title: title(at: index), imagePath: posterPath(at: index))
+    }
+    
+    private func id(at index: Int) -> Int {
+        let ids = [
+            508943,
+            520763,
+            385128,
+            337404,
+            637649
+        ]
+        
+        return ids[index]
+    }
+    
+    private func title(at index: Int) -> String {
+        let titles = [
+            "Luca",
+            "A Quiet Place Part II",
+            "F9",
+            "Cruella",
+            "Wrath of Man"
+        ]
+        return titles[index]
+    }
+    
+    private func posterPath(at index: Int) -> String {
+        let paths = [
+            "/jTswp6KyDYKtvC52GbHagrZbGvD.jpg",
+            "/4q2hz2m8hubgvijz8Ez0T2Os2Yv.jpg",
+            "/bOFaAXmWWXC3Rbv4u4uM9ZSzRXP.jpg",
+            "/rTh4K5uw9HypmpGslcKd4QfHl93.jpg",
+            "/M7SUK85sKjaStg4TKhlAVyGlz3.jpg"
+        ]
+        
+        return paths[index]
     }
 
 }
