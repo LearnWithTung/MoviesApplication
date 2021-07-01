@@ -7,11 +7,6 @@
 
 import Foundation
 
-public protocol HTTPClient {
-    typealias HTTPClientResult = Result<(data: Data, response: HTTPURLResponse), Error>
-    func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void)
-}
-
 public struct Credential {
     public let apiKey: String
     

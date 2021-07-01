@@ -13,6 +13,7 @@
 		DFAA5F28268DA022008E034E /* NowPlayingLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F27268DA022008E034E /* NowPlayingLoader.swift */; };
 		DFAA5F2A268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F29268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift */; };
 		DFAA5F2C268DA953008E034E /* RemoteNowPlayingFeedLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */; };
+		DFAA5F2E268DBC79008E034E /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F2D268DBC79008E034E /* HTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +34,7 @@
 		DFAA5F27268DA022008E034E /* NowPlayingLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingLoader.swift; sourceTree = "<group>"; };
 		DFAA5F29268DA0FA008E034E /* LoadNowPlayingFeedFromRemoteUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadNowPlayingFeedFromRemoteUseCaseTests.swift; sourceTree = "<group>"; };
 		DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteNowPlayingFeedLoader.swift; sourceTree = "<group>"; };
+		DFAA5F2D268DBC79008E034E /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 				DFAA5F25268D9FE4008E034E /* NowPlayingFeed.swift */,
 				DFAA5F27268DA022008E034E /* NowPlayingLoader.swift */,
 				DFAA5F2B268DA953008E034E /* RemoteNowPlayingFeedLoader.swift */,
+				DFAA5F2D268DBC79008E034E /* HTTPClient.swift */,
 			);
 			path = TheMovieDB;
 			sourceTree = "<group>";
@@ -202,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFAA5F2C268DA953008E034E /* RemoteNowPlayingFeedLoader.swift in Sources */,
+				DFAA5F2E268DBC79008E034E /* HTTPClient.swift in Sources */,
 				DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */,
 				DFAA5F26268D9FE4008E034E /* NowPlayingFeed.swift in Sources */,
 				DFAA5F28268DA022008E034E /* NowPlayingLoader.swift in Sources */,
