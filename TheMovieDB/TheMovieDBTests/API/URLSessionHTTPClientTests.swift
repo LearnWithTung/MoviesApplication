@@ -15,9 +15,13 @@ class URLSessionHTTPClient {
         self.session = session
     }
     
-    func dispatch(request: URLRequest) {
-        session.dataTask(with: request)
-            .resume()
+    func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) {
+        session.dataTask(with: request) { _, _, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+        }
+        .resume()
     }
 }
 
@@ -43,9 +47,25 @@ class URLSessionHTTPClientTests: XCTestCase {
             exp.fulfill()
         }
         
-        sut.dispatch(request: request)
+        sut.dispatch(request: request) {_ in}
         
         wait(for: [exp], timeout: 0.1)
+    }
+    
+    func test_dispatch_failsOnRequestError() {
+        let sut = makeSUT()
+        let error = NSError(domain: "test", code: 0, userInfo: nil)
+        URLProtocolStub.stub(data: nil, response: nil, error: error)
+        
+        let exp = expectation(description: "wait for completion")
+        var capturedResult: HTTPClient.HTTPClientResult?
+        sut.dispatch(request: makeRequestFrom()) {
+            capturedResult = $0
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 0.1)
+        XCTAssertThrowsError(try capturedResult?.get())
     }
     
     // MARK: - Helpers
