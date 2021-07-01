@@ -7,7 +7,11 @@
 
 import Foundation
 
+public protocol HTTPClientTask {
+    func cancel()
+}
+
 public protocol HTTPClient {
     typealias HTTPClientResult = Result<(data: Data, response: HTTPURLResponse), Error>
-    func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void)
+    func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) -> HTTPClientTask
 }

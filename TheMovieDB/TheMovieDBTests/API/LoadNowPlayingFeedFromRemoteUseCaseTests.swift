@@ -177,14 +177,21 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     private class HTTPClientSpy: HTTPClient {
+        
         private var messages = [(request: URLRequest, completion: (HTTPClient.HTTPClientResult) -> Void)]()
         
         var requestedURLs: [URLRequest] {
             return messages.map { $0.request }
         }
         
-        func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) {
+        private struct Task: HTTPClientTask {
+            func cancel() {}
+        }
+        
+        func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void)  -> HTTPClientTask {
             messages.append((request, completion))
+            
+            return Task()
         }
         
         func completeWithError(_ error: Error, at index: Int = 0) {
@@ -195,6 +202,7 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
             let httpResponse = HTTPURLResponse(url: requestedURLs[index].url!, statusCode: code, httpVersion: nil, headerFields: nil)!
             messages[index].completion(.success((data, httpResponse)))
         }
+        
     }
     
 }

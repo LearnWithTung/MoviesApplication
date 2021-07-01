@@ -27,7 +27,7 @@ public class RemoteNowPlayingFeedLoader: NowPlayingLoader {
     
     public func load(query: NowPlayingQuery, completion: @escaping (Result) -> Void) {
         let request = makeRequestWith(query: query)
-        client.dispatch(request: request) {[weak self] result in
+        _ = client.dispatch(request: request) {[weak self] result in
             guard self != nil else {return}
             switch result {
             case let .success((data, response)):

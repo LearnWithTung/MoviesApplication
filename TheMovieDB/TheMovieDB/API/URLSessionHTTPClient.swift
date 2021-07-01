@@ -16,7 +16,11 @@ public class URLSessionHTTPClient: HTTPClient {
     
     private struct InvalidRepresentionValueError: Error {}
     
-    public func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) {
+    private struct Task: HTTPClientTask {
+        func cancel() { }
+    }
+    
+    public func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) -> HTTPClientTask {
         session.dataTask(with: request) { data, response, error in
             if let error = error {
                 return completion(.failure(error))
@@ -27,5 +31,7 @@ public class URLSessionHTTPClient: HTTPClient {
             completion(.failure(InvalidRepresentionValueError()))
         }
         .resume()
+        
+        return Task()
     }
 }
