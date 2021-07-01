@@ -57,7 +57,9 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         
         samples.enumerated().forEach { index, code in
             expect(sut, toCompleteWithError: .invalidData) {
-                client.completeWith(statusCode: code, at: index)
+                let emptyResponse = makeNowPlayingFeed(cards: [], page: 1, totalPages: 1)
+                let emptyJSON = makeFeedJSON(emptyResponse.json)
+                client.completeWith(statusCode: code, data: emptyJSON, at: index)
             }
         }
     }
