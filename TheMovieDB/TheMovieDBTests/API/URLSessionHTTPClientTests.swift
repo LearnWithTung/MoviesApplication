@@ -18,9 +18,12 @@ class URLSessionHTTPClient {
     private struct InvalidRepresentionValueError: Error {}
     
     func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void) {
-        session.dataTask(with: request) { _, _, error in
+        session.dataTask(with: request) { data, response, error in
             if let error = error {
                 return completion(.failure(error))
+            }
+            if let data = data, data.count > 0, let response = response as? HTTPURLResponse {
+                return completion(.success((data, response)))
             }
             completion(.failure(InvalidRepresentionValueError()))
         }
@@ -87,6 +90,29 @@ class URLSessionHTTPClientTests: XCTestCase {
         XCTAssertNotNil(errorFor(data:nil, response: anyHTTPURLResponse, error: anyError))
         XCTAssertNotNil(errorFor(data:anyData, response: nonHTTPURLResponse, error: anyError))
         XCTAssertNotNil(errorFor(data:anyData, response: anyHTTPURLResponse, error: anyError))
+    }
+    
+    func test_dispatch_succeedsOnDataAndHTTPURLResponse() {
+        let anyHTTPURLResponse = HTTPURLResponse(url: URL(string: "http://any-url.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let anyData = Data("any".utf8)
+        URLProtocolStub.stub(data: anyData, response: anyHTTPURLResponse, error: nil)
+
+        let sut = makeSUT()
+        let exp = expectation(description: "wait for completion")
+
+        sut.dispatch(request: makeRequestFrom()) { result in
+            switch result {
+            case let .success((data, response)):
+                XCTAssertEqual(data, anyData)
+                XCTAssertEqual(response.statusCode, anyHTTPURLResponse?.statusCode)
+                XCTAssertEqual(response.url, anyHTTPURLResponse?.url)
+            default:
+                XCTFail("Expected data and HTTP URL response but got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 0.1)
     }
     
     // MARK: - Helpers
