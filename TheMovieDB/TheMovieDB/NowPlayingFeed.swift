@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NowPlayingFeed: Decodable {
+public struct NowPlayingFeed {
     public let items: [NowPlayingCard]
     public let page: Int
     public let totalPages: Int
@@ -16,11 +16,5 @@ public struct NowPlayingFeed: Decodable {
       self.items = items
       self.page = page
       self.totalPages = totalPages
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case page
-        case totalPages = "total_pages"
-        case items = "results"
     }
 }

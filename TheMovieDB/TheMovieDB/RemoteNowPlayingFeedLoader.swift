@@ -41,8 +41,8 @@ public class RemoteNowPlayingFeedLoader {
         client.dispatch(request: request) { result in
             switch result {
             case let .success((data, _)):
-                if let feed = try? JSONDecoder().decode(NowPlayingFeed.self, from: data) {
-                    return completion(.success(feed))
+                if let root = try? JSONDecoder().decode(Root.self, from: data) {
+                    return completion(.success(root.feed))
                 }
                 completion(.failure(.invalidData))
             case .failure:
@@ -62,3 +62,22 @@ public class RemoteNowPlayingFeedLoader {
     }
 }
 
+private struct Root: Decodable {
+    let page: Int
+    let total_pages: Int
+    let results: [RemoteNowPlayingCard]
+    
+    struct RemoteNowPlayingCard: Decodable {
+        let id: Int
+        let title: String
+        let poster_path: String
+        
+        var model: NowPlayingCard {
+            return NowPlayingCard(id: id, title: title, imagePath: poster_path)
+        }
+    }
+    
+    var feed: NowPlayingFeed {
+        return NowPlayingFeed(items: results.map {$0.model}, page: page, totalPages: total_pages)
+    }
+}
