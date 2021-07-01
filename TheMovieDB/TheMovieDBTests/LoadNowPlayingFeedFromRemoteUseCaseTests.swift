@@ -41,6 +41,18 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [expectedRequest, expectedRequest])
     }
     
+    func test_loadCompletion_deliversErrorOnClientError() {
+        let (sut, client) = makeSUT()
+        
+        var capturedError: RemoteNowPlayingFeedLoader.Error?
+        sut.load(query: .init(page: 1)) { capturedError = $0 }
+        
+        let clientError = NSError(domain: "test", code: 0, userInfo: nil)
+        client.completeWithError(clientError)
+        
+        XCTAssertEqual(capturedError, .connectivity)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -61,9 +73,15 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     private class HTTPClientSpy: HTTPClient {
         var requestedURLs = [URLRequest]()
+        var completions = [(Error) -> Void]()
         
-        func dispatch(request: URLRequest) {
+        func dispatch(request: URLRequest, completion: @escaping (Error) -> Void) {
             requestedURLs.append(request)
+            completions.append(completion)
+        }
+        
+        func completeWithError(_ error: Error, at index: Int = 0) {
+            completions[index](error)
         }
     }
     

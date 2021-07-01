@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol HTTPClient {
-    func dispatch(request: URLRequest)
+    func dispatch(request: URLRequest, completion: @escaping (Error) -> Void)
 }
 
 public struct Credential {
@@ -30,9 +30,15 @@ public class RemoteNowPlayingFeedLoader {
         self.client = client
     }
     
-    public func load(query: NowPlayingQuery) {
+    public enum Error: Swift.Error {
+        case connectivity
+    }
+    
+    public func load(query: NowPlayingQuery, completion: @escaping (Error) -> Void = {_ in}) {
         let request = makeRequestWith(query: query)
-        client.dispatch(request: request)
+        client.dispatch(request: request) { _ in
+            completion(.connectivity)
+        }
     }
     
     private func makeRequestWith(query: NowPlayingQuery) -> URLRequest {
