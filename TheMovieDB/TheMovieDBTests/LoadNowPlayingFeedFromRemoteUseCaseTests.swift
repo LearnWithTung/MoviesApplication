@@ -28,14 +28,18 @@ class RemoteNowPlayingFeedLoader {
     }
     
     func load(query: NowPlayingQuery) {
+        let request = makeRequestWith(query: query)
+        client.dispatch(request: request)
+    }
+    
+    private func makeRequestWith(query: NowPlayingQuery) -> URLRequest {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.queryItems = [
             URLQueryItem(name: "api_key", value: credential.apiKey),
             URLQueryItem(name: "page", value: "\(query.page)")
         ]
         
-        let request = URLRequest(url: components.url!)
-        client.dispatch(request: request)
+        return URLRequest(url: components.url!)
     }
 }
 
