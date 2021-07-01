@@ -36,14 +36,17 @@ public class RemoteNowPlayingFeedLoader {
         case invalidData
     }
     
-    public func load(query: NowPlayingQuery, completion: @escaping (Error) -> Void = {_ in}) {
+    public func load(query: NowPlayingQuery, completion: @escaping (Result<NowPlayingFeed, Error>) -> Void = {_ in}) {
         let request = makeRequestWith(query: query)
         client.dispatch(request: request) { result in
             switch result {
-            case .success:
-                completion(.invalidData)
+            case let .success((data, _)):
+                if let feed = try? JSONDecoder().decode(NowPlayingFeed.self, from: data) {
+                    return completion(.success(feed))
+                }
+                completion(.failure(.invalidData))
             case .failure:
-                completion(.connectivity)
+                completion(.failure(.connectivity))
             }
         }
     }
@@ -58,3 +61,4 @@ public class RemoteNowPlayingFeedLoader {
         return URLRequest(url: components.url!)
     }
 }
+

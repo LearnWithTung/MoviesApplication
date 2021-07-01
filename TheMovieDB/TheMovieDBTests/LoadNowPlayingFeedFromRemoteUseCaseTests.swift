@@ -71,6 +71,34 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         }
     }
     
+    func test_loadCompletion_deliversEmptyOn200HTTPResponseWithEmptyJSONPage() {
+        let emptyResponseDict: [String : Any] = [
+            "page": 1,
+            "total_pages": 1,
+            "results": []
+        ]
+        
+        let emptyJSON = try! JSONSerialization.data(withJSONObject: emptyResponseDict)
+        
+        let (sut, client) = makeSUT()
+        
+        let exp = expectation(description: "wait for completion")
+        sut.load(query: .init(page: 1)) { result in
+            switch result {
+            case let .success(feed):
+                XCTAssertEqual(feed.page, 1)
+                XCTAssertEqual(feed.totalPages, 1)
+                XCTAssertTrue(feed.items.isEmpty)
+            default:
+                XCTFail("Expected empty page but got \(result) instead")
+            }
+            exp.fulfill()
+        }
+        
+        client.completeWith(statusCode: 200, data: emptyJSON)
+        wait(for: [exp], timeout: 0.1)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any")) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -83,8 +111,13 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         let exp = expectation(description: "wait for completion")
         var capturedError: RemoteNowPlayingFeedLoader.Error?
         
-        sut.load(query: .init(page: 1)) {
-            capturedError = $0
+        sut.load(query: .init(page: 1)) { result in
+            switch result {
+            case let .failure(error):
+                capturedError = error
+            default:
+                XCTFail("Expected error but got \(result) instead", file: file, line: line)
+            }
             exp.fulfill()
         }
     

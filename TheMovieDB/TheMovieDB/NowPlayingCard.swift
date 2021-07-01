@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct NowPlayingCard {
+public struct NowPlayingCard: Decodable {
     let id: Int
     let title: String
     let imagePath: String
@@ -16,5 +16,10 @@ struct NowPlayingCard {
         self.id = id
         self.title = title
         self.imagePath = imagePath
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id, title
+        case imagePath = "poster_path"
     }
 }
