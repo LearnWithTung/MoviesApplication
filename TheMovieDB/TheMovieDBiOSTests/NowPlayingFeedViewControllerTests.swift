@@ -19,7 +19,7 @@ class NowPlayingFeedViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loader?.load(query: .init(page: 0)) { _ in }
+        loader?.load(query: .init(page: 1)) { _ in }
     }
 }
 
@@ -35,7 +35,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
         
-        XCTAssertEqual(loader.requestCallCount, 1)
+        XCTAssertEqual(loader.queries, [.init(page: 1)])
     }
     
     // MARK: - Helpers
@@ -50,9 +50,11 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     
     private class NowPlayingLoaderSpy: NowPlayingLoader {
         var requestCallCount = 0
+        var queries = [NowPlayingQuery]()
         
         func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
             requestCallCount += 1
+            queries.append(query)
         }
     }
     
