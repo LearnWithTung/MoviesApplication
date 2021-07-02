@@ -260,13 +260,11 @@
 		DFEBD8D9268ECF9F0012E31A /* TheMovieDBiOS */ = {
 			isa = PBXGroup;
 			children = (
-				DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */,
-				DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */,
-				DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */,
-				DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */,
-				DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */,
-				DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */,
-				DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */,
+				DFEBD912268F2F6A0012E31A /* Helpers */,
+				DFEBD911268F2F640012E31A /* Composers */,
+				DFEBD910268F2F560012E31A /* ImageDataLoader */,
+				DFEBD90F268F2F4B0012E31A /* Views */,
+				DFEBD90E268F2F400012E31A /* Controllers */,
 			);
 			path = TheMovieDBiOS;
 			sourceTree = "<group>";
@@ -294,6 +292,48 @@
 				DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */,
 				DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */,
 				DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		DFEBD90E268F2F400012E31A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */,
+				DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */,
+				DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		DFEBD90F268F2F4B0012E31A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DFEBD910268F2F560012E31A /* ImageDataLoader */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */,
+			);
+			path = ImageDataLoader;
+			sourceTree = "<group>";
+		};
+		DFEBD911268F2F640012E31A /* Composers */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */,
+			);
+			path = Composers;
+			sourceTree = "<group>";
+		};
+		DFEBD912268F2F6A0012E31A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
