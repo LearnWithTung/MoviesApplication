@@ -38,6 +38,16 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.isLoadingIndicatorVisible, false, "Expected loading indicator invisible when complete load success")
     }
     
+    func test_loadCompletion_rendersCellOnCompleteLoadSuccessfully() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        let feed = anyFeed()
+        loader.completeSuccessWith(feed)
+        
+        assertThat(sut, isRendering: feed)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -45,6 +55,12 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         checkForMemoryLeaks(sut, file: file, line: line)
         checkForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
+    }
+    
+    private func assertThat(_ sut: NowPlayingFeedViewController, isRendering feed: NowPlayingFeed, file: StaticString = #filePath, line: UInt = #line) {
+        guard feed.items.count == sut.numberOfItemsRendered() else {
+            return XCTFail("Expected renders \(feed.items.count) but got \(sut.numberOfItemsRendered()) instead", file: file, line: line)
+        }
     }
     
     private func anyFeed() -> NowPlayingFeed {
@@ -84,6 +100,10 @@ private extension NowPlayingFeedViewController {
     
     var isLoadingIndicatorVisible: Bool {
         return collectionView.refreshControl?.isRefreshing == true
+    }
+    
+    func numberOfItemsRendered(in section: Int = 0) -> Int {
+        collectionView.numberOfSections > section ? collectionView.numberOfItems(inSection: section) : 0
     }
 }
 

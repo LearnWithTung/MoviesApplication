@@ -10,6 +10,7 @@ import TheMovieDB
 
 public class NowPlayingFeedViewController: UICollectionViewController {
     private var loader: NowPlayingLoader?
+    private var feed: NowPlayingFeed?
     
     public convenience init(loader: NowPlayingLoader) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -28,8 +29,14 @@ public class NowPlayingFeedViewController: UICollectionViewController {
     
     @objc private func load() {
         collectionView.refreshControl?.beginRefreshing()
-        loader?.load(query: .init(page: 1)) {[weak self] _ in
+        loader?.load(query: .init(page: 1)) {[weak self] result in
+            self?.feed = try? result.get()
+            self?.collectionView.reloadData()
             self?.collectionView.refreshControl?.endRefreshing()
         }
+    }
+    
+    public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return feed?.items.count ?? 0
     }
 }
