@@ -36,14 +36,14 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     func test_init_doesNotRequestLoadFeed() {
         let (_, loader) = makeSUT()
         
-        XCTAssertTrue(loader.queries.isEmpty)
+        XCTAssertTrue(loader.requests.isEmpty)
     }
     
     func test_viewDidLoad_requestsLoadFeed() {
         let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
         
-        XCTAssertEqual(loader.queries, [.init(page: 1)])
+        XCTAssertEqual(loader.requests, [.load(page: 1)])
     }
     
     func test_userRefresh_requestsLoadFeed() {
@@ -52,7 +52,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
 
         sut.simulateUserRefresh()
 
-        XCTAssertEqual(loader.queries, [.init(page: 1), .init(page: 1)])
+        XCTAssertEqual(loader.requests, [.load(page: 1), .load(page: 1)])
     }
     
     // MARK: - Helpers
@@ -66,10 +66,13 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     
     
     private class NowPlayingLoaderSpy: NowPlayingLoader {
-        var queries = [NowPlayingQuery]()
+        enum Request: Equatable {
+            case load(page: Int)
+        }
+        var requests = [Request]()
         
         func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
-            queries.append(query)
+            requests.append(.load(page: query.page))
         }
     }
     
