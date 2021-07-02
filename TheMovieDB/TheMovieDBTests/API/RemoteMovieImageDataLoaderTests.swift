@@ -11,13 +11,21 @@ import TheMovieDB
 class RemoteMovieImageDataLoader {
     private let client: HTTPClient
     
+    enum Error: Swift.Error {
+        case connectivity
+    }
+    
+    typealias Result = Swift.Result<Data, Swift.Error>
+
     init(client: HTTPClient) {
         self.client = client
     }
     
-    func load(from url: URL) {
+    func load(from url: URL, completion: @escaping (Result) -> Void) {
         let request = URLRequest(url: url)
-        _ = client.dispatch(request: request) { _ in}
+        _ = client.dispatch(request: request) { _ in
+            completion(.failure(Error.connectivity))
+        }
     }
 }
 
@@ -33,7 +41,7 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         let url = anyURL()
-        sut.load(from: anyURL())
+        sut.load(from: anyURL()) {_ in}
         
         XCTAssertEqual(client.requestedURLs, [URLRequest(url: url)])
     }
@@ -42,10 +50,18 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         let url = anyURL()
-        sut.load(from: anyURL())
-        sut.load(from: anyURL())
+        sut.load(from: anyURL()) {_ in}
+        sut.load(from: anyURL()) {_ in}
         
         XCTAssertEqual(client.requestedURLs, [URLRequest(url: url), URLRequest(url: url)])
+    }
+    
+    func test_load_deliversErrorOnClientError() {
+        let (sut, client) = makeSUT()
+
+        expect(sut, toCompleteWithError: .connectivity) {
+            client.completeWithError(anyNSError())
+        }
     }
     
     // MARK: - Helpers
@@ -56,5 +72,29 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         checkForMemoryLeaks(client, file: file, line: line)
         
         return (sut, client)
+    }
+    
+    private func expect(_ sut: RemoteMovieImageDataLoader, toCompleteWithError error: RemoteMovieImageDataLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        expect(sut, toCompleteWithResult: .failure(error), when: action, file: file, line: line)
+    }
+    
+    private func expect(_ sut: RemoteMovieImageDataLoader, toCompleteWithResult expectedResult: RemoteMovieImageDataLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
+        let exp = expectation(description: "wait for completion")
+        
+        sut.load(from: anyURL()) { receivedResult in
+            switch (receivedResult, expectedResult) {
+            case let (.failure(receivedError as RemoteMovieImageDataLoader.Error), .failure(expectedError as RemoteMovieImageDataLoader.Error)):
+                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            case let (.success(receivedFeed), .success(expectedFeed)):
+                XCTAssertEqual(receivedFeed, expectedFeed, file: file, line: line)
+            default:
+                XCTFail("Expected \(expectedResult) but got \(receivedResult) instead", file: file, line: line)
+            }
+            exp.fulfill()
+        }
+    
+        action()
+        
+        wait(for: [exp], timeout: 0.1)
     }
 }
