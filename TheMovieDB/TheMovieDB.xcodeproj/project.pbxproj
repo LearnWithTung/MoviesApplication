@@ -39,6 +39,7 @@
 		DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */; };
 		DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */; };
 		DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */; };
+		DFEBD90B268F2C230012E31A /* NowPlayingItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,6 +117,7 @@
 		DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingCardFeedCell.swift; sourceTree = "<group>"; };
 		DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImageDataLoader.swift; sourceTree = "<group>"; };
 		DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingRefreshController.swift; sourceTree = "<group>"; };
+		DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingItemController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -261,6 +263,7 @@
 				DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */,
 				DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */,
 				DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */,
+				DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */,
 			);
 			path = TheMovieDBiOS;
 			sourceTree = "<group>";
@@ -540,6 +543,7 @@
 				DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */,
 				DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */,
 				DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */,
+				DFEBD90B268F2C230012E31A /* NowPlayingItemController.swift in Sources */,
 				DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
