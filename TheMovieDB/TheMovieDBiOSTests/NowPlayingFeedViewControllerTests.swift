@@ -294,60 +294,6 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     
 }
 
-private extension NowPlayingFeedViewController {
-    func simulateUserRefresh() {
-        collectionView.refreshControl?.simulateRefresh()
-    }
-    
-    var isLoadingIndicatorVisible: Bool {
-        return collectionView.refreshControl?.isRefreshing == true
-    }
-    
-    func numberOfItemsRendered(in section: Int = 0) -> Int {
-        collectionView.numberOfSections > section ? collectionView.numberOfItems(inSection: section) : 0
-    }
-    
-    @discardableResult
-    func simulateItemVisible(at item: Int = 0) -> NowPlayingCardFeedCell? {
-        guard numberOfItemsRendered(in: 0) > item else {
-            return nil
-        }
-        let ds = collectionView.dataSource
-        let indexPath = IndexPath(item: item, section: 0)
-        return ds?.collectionView(collectionView, cellForItemAt: indexPath) as? NowPlayingCardFeedCell
-    }
-    
-    func simulateItemNotVisible(at item: Int = 0) {
-        let cell = simulateItemVisible(at: item)
-        let dl = collectionView.delegate
-        let indexPath = IndexPath(item: item, section: 0)
-        dl?.collectionView?(collectionView, didEndDisplaying: cell!, forItemAt: indexPath)
-    }
-    
-    func simulateItemNearVisible(at item: Int = 0) {
-        let pf = collectionView.prefetchDataSource
-        let indexPath = IndexPath(item: item, section: 0)
-        pf?.collectionView(collectionView, prefetchItemsAt: [indexPath])
-    }
-    
-    func simulateItemNotNearVisible(at item: Int = 0) {
-        simulateItemNearVisible(at: item)
-        let pf = collectionView.prefetchDataSource
-        let indexPath = IndexPath(item: item, section: 0)
-        pf?.collectionView?(collectionView, cancelPrefetchingForItemsAt: [indexPath])
-    }
-}
-
-private extension UIRefreshControl {
-    func simulateRefresh() {
-        allTargets.forEach { target in
-            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach {
-                (target as NSObject).perform(Selector($0))
-            }
-        }
-    }
-}
-
 private extension NowPlayingCardFeedCell {
     var imageLoadingIndicatorVisible: Bool {
         return imageView.isShimmering

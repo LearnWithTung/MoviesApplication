@@ -32,6 +32,7 @@
 		DFEBD8F6268EDB600012E31A /* TestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F39268DC491008E034E /* TestsHelpers.swift */; };
 		DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */; };
 		DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */; };
+		DFEBD8FD268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,6 +103,7 @@
 		DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedViewControllerTests.swift; sourceTree = "<group>"; };
 		DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedViewController.swift; sourceTree = "<group>"; };
 		DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ShimmeringAnimation.swift"; sourceTree = "<group>"; };
+		DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NowPlayingFeedViewController+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +253,7 @@
 		DFEBD8E3268ECF9F0012E31A /* TheMovieDBiOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				DFEBD8FB268F19010012E31A /* Helpers */,
 				DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */,
 			);
 			path = TheMovieDBiOSTests;
@@ -261,6 +264,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DFEBD8FB268F19010012E31A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -518,6 +529,7 @@
 			files = (
 				DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */,
 				DFEBD8F6268EDB600012E31A /* TestsHelpers.swift in Sources */,
+				DFEBD8FD268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift in Sources */,
 				DFEBD8F5268ED3300012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
