@@ -24,17 +24,16 @@ class RemoteMovieImageDataLoader {
     
     func load(from url: URL, completion: @escaping (Result) -> Void) -> MovieImageDataTask {
         let request = URLRequest(url: url)
-        let wrapper = HTTPClientTaskWrapper()
+        let wrapper = HTTPClientTaskWrapper(completion)
         wrapper.task = client.dispatch(request: request) { result in
-            switch result {
-            case let .success((imageData, response)):
+            wrapper.completeWith(result
+                            .mapError {_ in Error.connectivity}
+                            .flatMap { data, response in
                 guard response.statusCode == 200 else {
-                    return completion(.failure(Error.invalidData))
+                    return .failure(Error.invalidData)
                 }
-                completion(.success(imageData))
-            case .failure:
-                completion(.failure(Error.connectivity))
-            }
+                return .success(data)
+            })
         }
         
         return wrapper
@@ -43,9 +42,23 @@ class RemoteMovieImageDataLoader {
 
 public final class HTTPClientTaskWrapper: MovieImageDataTask {
     var task: HTTPClientTask?
+    private var completion: ((RemoteMovieImageDataLoader.Result) -> Void)?
+    
+    init(_ completion: @escaping (RemoteMovieImageDataLoader.Result) -> Void) {
+        self.completion = completion
+    }
+    
+    func completeWith(_ result: RemoteMovieImageDataLoader.Result) {
+        completion?(result)
+    }
     
     public func cancel() {
         task?.cancel()
+        preventFurtherCompletion()
+    }
+    
+    private func preventFurtherCompletion() {
+        completion = nil
     }
 }
 
@@ -114,11 +127,14 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
 
         let url = anyURL()
-        let task = sut.load(from: url) { _ in}
+        var capturedResult: RemoteMovieImageDataLoader.Result?
+        let task = sut.load(from: url) { capturedResult = $0 }
         
         task.cancel()
+        client.completeWithError(anyNSError())
         
         XCTAssertEqual(client.cancelledURLs, [url])
+        XCTAssertNil(capturedResult)
     }
     
     // MARK: - Helpers
