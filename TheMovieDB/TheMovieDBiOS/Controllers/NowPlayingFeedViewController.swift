@@ -12,13 +12,7 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         
     var cellControllers = [NowPlayingItemController]() {
         didSet {
-            if Thread.isMainThread {
-                collectionView.reloadData()
-            } else {
-                DispatchQueue.main.async { [weak self] in
-                    self?.collectionView.reloadData()
-                }
-            }
+            collectionView.reloadData()
         }
     }
     

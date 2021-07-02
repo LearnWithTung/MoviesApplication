@@ -11,10 +11,11 @@ import TheMovieDB
 public class NowPlayingFeedComposer {
     
     public static func viewControllerComposedWith(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) -> NowPlayingFeedViewController {
-        let refreshController = NowPlayingRefreshController(loader: feedLoader)
+        let refreshController = NowPlayingRefreshController(loader: MainQueueDispatchDecorator(decoratee: feedLoader))
         let viewController = NowPlayingFeedViewController(refreshController: refreshController)
         
-        refreshController.onRefresh = adaptCellControllers(from: viewController, and: imageLoader)
+        refreshController.onRefresh = adaptCellControllers(from: viewController,
+                                                           and: imageLoader)
         
         return viewController
     }
@@ -58,6 +59,16 @@ extension MainQueueDispatchDecorator: MovieImageDataLoader where T == MovieImage
             }
         }
     }
+}
+
+
+extension MainQueueDispatchDecorator: NowPlayingLoader where T == NowPlayingLoader {
     
-    
+    public func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
+        decoratee.load(query: query) { [weak self] result in
+            self?.dispatch {
+                completion(result)
+            }
+        }
+    }
 }
