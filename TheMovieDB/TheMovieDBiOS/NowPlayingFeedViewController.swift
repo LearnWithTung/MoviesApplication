@@ -16,14 +16,7 @@ public protocol MovieImageDataLoader {
     func load(from url: URL, completion: @escaping (Swift.Result<Data, Error>) -> Void) -> MovieImageDataTask
 }
 
-public class NowPlayingCardFeedCell: UICollectionViewCell {
-
-  public let imageView = UIImageView()
-  
-}
-
-
-public class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
+public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var loader: NowPlayingLoader?
     private var imageLoader: MovieImageDataLoader?
     
