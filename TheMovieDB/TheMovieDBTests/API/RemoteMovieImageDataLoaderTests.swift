@@ -13,6 +13,7 @@ class RemoteMovieImageDataLoader {
     
     enum Error: Swift.Error {
         case connectivity
+        case invalidData
     }
     
     typealias Result = MovieImageDataLoader.Result
@@ -23,8 +24,13 @@ class RemoteMovieImageDataLoader {
     
     func load(from url: URL, completion: @escaping (Result) -> Void) {
         let request = URLRequest(url: url)
-        _ = client.dispatch(request: request) { _ in
-            completion(.failure(Error.connectivity))
+        _ = client.dispatch(request: request) { result in
+            switch result {
+            case .failure:
+                completion(.failure(Error.connectivity))
+            case .success:
+                completion(.failure(Error.invalidData))
+            }
         }
     }
 }
@@ -64,6 +70,18 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         }
     }
     
+    func test_loadCompletion_deliversErrorOnNon200HTTPResponse() {
+        let (sut, client) = makeSUT()
+        
+        let samples = [199, 201, 300, 400, 500]
+        
+        samples.enumerated().forEach { index, code in
+            expect(sut, toCompleteWithError: .invalidData) {
+                client.completeWith(statusCode: code, data: anyData(), at: index)
+            }
+        }
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteMovieImageDataLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -72,6 +90,10 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         checkForMemoryLeaks(client, file: file, line: line)
         
         return (sut, client)
+    }
+    
+    private func anyData() -> Data {
+        Data("any".utf8)
     }
     
     private func expect(_ sut: RemoteMovieImageDataLoader, toCompleteWithError error: RemoteMovieImageDataLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
