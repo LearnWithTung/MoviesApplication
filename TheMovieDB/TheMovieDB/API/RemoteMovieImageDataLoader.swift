@@ -12,7 +12,7 @@ public final class RemoteMovieImageDataLoader {
     
     public enum Error: Swift.Error {
         case connectivity
-        case invalidData
+        case invalidResponse
     }
     
     public typealias Result = MovieImageDataLoader.Result
@@ -29,7 +29,7 @@ public final class RemoteMovieImageDataLoader {
                             .mapError {_ in Error.connectivity}
                             .flatMap { data, response in
                 guard response.statusCode == 200 else {
-                    return .failure(Error.invalidData)
+                    return .failure(Error.invalidResponse)
                 }
                 return .success(data)
             })

@@ -49,7 +49,7 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let samples = [199, 201, 300, 400, 500]
         
         samples.enumerated().forEach { index, code in
-            expect(sut, toCompleteWithError: .invalidData) {
+            expect(sut, toCompleteWithError: .invalidResponse) {
                 client.completeWith(statusCode: code, data: anyData(), at: index)
             }
         }
