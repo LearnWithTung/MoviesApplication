@@ -91,16 +91,18 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         enum Request: Equatable {
             case load(page: Int)
         }
-        var requests = [Request]()
-        var completions = [(NowPlayingLoader.Result) -> Void]()
+        private var messages = [(request: Request, completion: (NowPlayingLoader.Result) -> Void)]()
+        
+        var requests: [Request] {
+            return messages.map {$0.request}
+        }
         
         func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
-            requests.append(.load(page: query.page))
-            completions.append(completion)
+            messages.append((.load(page: query.page), completion))
         }
         
         func completeWithError(_ error: NSError, at index: Int = 0) {
-            completions[index](.failure(error))
+            messages[index].completion(.failure(error))
         }
     }
     
