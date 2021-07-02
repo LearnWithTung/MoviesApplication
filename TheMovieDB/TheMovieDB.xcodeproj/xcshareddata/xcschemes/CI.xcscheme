@@ -37,6 +37,13 @@
             BlueprintName = "TheMovieDB"
             ReferencedContainer = "container:TheMovieDB.xcodeproj">
          </BuildableReference>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DFEBD8D7268ECF9F0012E31A"
+            BuildableName = "TheMovieDBiOS.framework"
+            BlueprintName = "TheMovieDBiOS"
+            ReferencedContainer = "container:TheMovieDB.xcodeproj">
+         </BuildableReference>
       </CodeCoverageTargets>
       <Testables>
          <TestableReference
@@ -58,6 +65,17 @@
                BlueprintIdentifier = "DFEBD8BA268E668F0012E31A"
                BuildableName = "IntegrationEndToEndNowPlayingAPITests.xctest"
                BlueprintName = "IntegrationEndToEndNowPlayingAPITests"
+               ReferencedContainer = "container:TheMovieDB.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DFEBD8DE268ECF9F0012E31A"
+               BuildableName = "TheMovieDBiOSTests.xctest"
+               BlueprintName = "TheMovieDBiOSTests"
                ReferencedContainer = "container:TheMovieDB.xcodeproj">
             </BuildableReference>
          </TestableReference>
