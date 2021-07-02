@@ -26,10 +26,13 @@ class RemoteMovieImageDataLoader {
         let request = URLRequest(url: url)
         _ = client.dispatch(request: request) { result in
             switch result {
+            case let .success((imageData, response)):
+                guard response.statusCode == 200 else {
+                    return completion(.failure(Error.invalidData))
+                }
+                completion(.success(imageData))
             case .failure:
                 completion(.failure(Error.connectivity))
-            case .success:
-                completion(.failure(Error.invalidData))
             }
         }
     }
@@ -80,6 +83,20 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
                 client.completeWith(statusCode: code, data: anyData(), at: index)
             }
         }
+    }
+    
+    func test_loadCompletion_succeedsOn200HTTPResponse() {
+        let data = anyData()
+        let (sut, client) = makeSUT()
+        
+        var capturedData: Data?
+        sut.load(from: anyURL()) { result in
+            capturedData = try? result.get()
+        }
+        
+        client.completeWith(statusCode: 200, data: data)
+        
+        XCTAssertEqual(capturedData, data)
     }
     
     // MARK: - Helpers
