@@ -22,12 +22,12 @@ class NowPlayingFeedViewController: UICollectionViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
         collectionView.refreshControl = refreshControl
-        refreshControl.beginRefreshing()
         
         load()
     }
     
     @objc private func load() {
+        collectionView.refreshControl?.beginRefreshing()
         loader?.load(query: .init(page: 1)) {[weak self] _ in
             self?.collectionView.refreshControl?.endRefreshing()
         }
@@ -36,62 +36,34 @@ class NowPlayingFeedViewController: UICollectionViewController {
 
 class NowPlayingFeedViewControllerTests: XCTestCase {
     
-    func test_init_doesNotRequestLoadFeed() {
-        let (_, loader) = makeSUT()
-        
-        XCTAssertTrue(loader.requests.isEmpty)
-    }
-    
-    func test_viewDidLoad_requestsLoadFeed() {
+    func test_loadFeed_requestsLoadFirstPage() {
         let (sut, loader) = makeSUT()
-        sut.loadViewIfNeeded()
+        XCTAssertTrue(loader.requests.isEmpty, "Expected no feed request on initialization")
         
-        XCTAssertEqual(loader.requests, [.load(page: 1)])
-    }
-    
-    func test_userRefresh_requestsLoadFeed() {
-        let (sut, loader) = makeSUT()
         sut.loadViewIfNeeded()
-
+        XCTAssertEqual(loader.requests, [.load(page: 1)], "Expected first feed request when view did load")
+        
         sut.simulateUserRefresh()
-
-        XCTAssertEqual(loader.requests, [.load(page: 1), .load(page: 1)])
+        XCTAssertEqual(loader.requests, [.load(page: 1), .load(page: 1)], "Expected second feed request when view did load")
     }
     
     func test_viewDidLoad_displaysLoadingIndicatorOnLoad() {
-        let (sut, _) = makeSUT()
-        sut.loadViewIfNeeded()
-
-        XCTAssertEqual(sut.isLoadingIndicatorVisible, true)
-    }
-    
-    func test_viewDidLoad_hidesLoadingIndicatorOnCompleteLoad() {
         let (sut, loader) = makeSUT()
+        
         sut.loadViewIfNeeded()
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, true, "Expected loading indicator visible when view did load")
         
         loader.completeWithError(anyNSError())
-
-        XCTAssertEqual(sut.isLoadingIndicatorVisible, false)
-    }
-    
-    func test_userRefresh_displaysLoadingIndicatorOnLoad() {
-        let (sut, _) = makeSUT()
-        sut.loadViewIfNeeded()
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, false, "Expected loading indicator invisible when complete load with error")
         
         sut.simulateUserRefresh()
-
-        XCTAssertEqual(sut.isLoadingIndicatorVisible, true)
-    }
-    
-    func test_userRefresh_hidesLoadingIndicatorOnCompleteLoad() {
-        let (sut, loader) = makeSUT()
-        sut.loadViewIfNeeded()
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, true, "Expected loading indicator again visible when user request refresh")
         
         let cards = (1...5).map {uniqueNowPlayingCard(id: $0)}
         let feed = NowPlayingFeed(items: cards, page: 1, totalPages: 1)
+        
         loader.completeSuccessWith(feed)
-
-        XCTAssertEqual(sut.isLoadingIndicatorVisible, false)
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, false, "Expected loading indicator invisible when complete load success")
     }
     
     // MARK: - Helpers
