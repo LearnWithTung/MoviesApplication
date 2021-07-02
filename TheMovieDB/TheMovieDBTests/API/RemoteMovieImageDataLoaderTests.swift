@@ -40,6 +40,17 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [URLRequest(url: url)])
     }
     
+    func test_loadTwice_requestsImageDataFromURLTwice() {
+        let client = HTTPClientSpy()
+        let sut = RemoteMovieImageDataLoader(client: client)
+        
+        let url = anyURL()
+        sut.load(from: anyURL())
+        sut.load(from: anyURL())
+        
+        XCTAssertEqual(client.requestedURLs, [URLRequest(url: url), URLRequest(url: url)])
+    }
+    
     // MARK: - Helpers
     
     private class HTTPClientSpy: HTTPClient {
