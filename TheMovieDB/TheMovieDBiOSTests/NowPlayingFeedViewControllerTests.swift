@@ -19,6 +19,14 @@ class NowPlayingFeedViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+        
+        load()
+    }
+    
+    @objc private func load() {
         loader?.load(query: .init(page: 1)) { _ in }
     }
 }
@@ -36,6 +44,15 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         
         XCTAssertEqual(loader.queries, [.init(page: 1)])
+    }
+    
+    func test_userRefresh_requestsLoadFeed() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        sut.simulateUserRefresh()
+
+        XCTAssertEqual(loader.queries, [.init(page: 1), .init(page: 1)])
     }
     
     // MARK: - Helpers
@@ -56,4 +73,20 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         }
     }
     
+}
+
+private extension NowPlayingFeedViewController {
+    func simulateUserRefresh() {
+        collectionView.refreshControl?.simulateRefresh()
+    }
+}
+
+private extension UIRefreshControl {
+    func simulateRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach {
+                (target as NSObject).perform(Selector($0))
+            }
+        }
+    }
 }
