@@ -106,11 +106,11 @@ class URLSessionHTTPClientTests: XCTestCase {
     }
     
     private func nonHTTPURLResponse() -> URLResponse {
-        URLResponse(url: URL(string: "http://any-url.com")!, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
+        URLResponse(url: anyURL(), mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
     }
     
     private func anyHTTPResponse() -> HTTPURLResponse {
-        HTTPURLResponse(url: URL(string: "http://any-url.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+        HTTPURLResponse(url: anyURL(), statusCode: 200, httpVersion: nil, headerFields: nil)!
     }
     
     private func anyNSError() -> NSError {

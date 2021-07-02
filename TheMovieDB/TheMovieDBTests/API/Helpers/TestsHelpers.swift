@@ -26,3 +26,7 @@ func anyNSError() -> NSError {
     NSError(domain: "any", code: 0, userInfo: nil)
 }
 
+func anyURL() -> URL {
+    return URL(string: "https://any-url.com")!
+}
+

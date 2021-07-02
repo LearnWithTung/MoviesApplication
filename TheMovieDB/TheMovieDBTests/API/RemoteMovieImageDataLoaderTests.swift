@@ -41,9 +41,6 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func anyURL() -> URL {
-        return URL(string: "https://any-url.com")!
-    }
     
     private class HTTPClientSpy: HTTPClient {
         
