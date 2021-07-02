@@ -37,11 +37,11 @@
 		DFEBD901268F19BB0012E31A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */; };
 		DFEBD903268F1A270012E31A /* UIRefreshControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */; };
 		DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */; };
-		DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */; };
 		DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */; };
 		DFEBD90B268F2C230012E31A /* NowPlayingItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */; };
 		DFEBD90D268F2C4D0012E31A /* NowPlayingFeedComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */; };
 		DFEBD915268F344B0012E31A /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */; };
+		DFEBD95A268F3E110012E31A /* MovieImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -212,6 +212,7 @@
 		DFAA5F33268DBD28008E034E /* Now Playing Feature */ = {
 			isa = PBXGroup;
 			children = (
+				DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */,
 				DFAA5F2F268DBC8D008E034E /* Credential.swift */,
 				DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */,
 				DFAA5F25268D9FE4008E034E /* NowPlayingFeed.swift */,
@@ -264,7 +265,6 @@
 			children = (
 				DFEBD912268F2F6A0012E31A /* Helpers */,
 				DFEBD911268F2F640012E31A /* Composers */,
-				DFEBD910268F2F560012E31A /* ImageDataLoader */,
 				DFEBD90F268F2F4B0012E31A /* Views */,
 				DFEBD90E268F2F400012E31A /* Controllers */,
 			);
@@ -314,14 +314,6 @@
 				DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		DFEBD910268F2F560012E31A /* ImageDataLoader */ = {
-			isa = PBXGroup;
-			children = (
-				DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */,
-			);
-			path = ImageDataLoader;
 			sourceTree = "<group>";
 		};
 		DFEBD911268F2F640012E31A /* Composers */ = {
@@ -562,6 +554,7 @@
 				DFAA5F2E268DBC79008E034E /* HTTPClient.swift in Sources */,
 				DFEBD8A6268E62AF0012E31A /* URLSessionHTTPClient.swift in Sources */,
 				DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */,
+				DFEBD95A268F3E110012E31A /* MovieImageDataLoader.swift in Sources */,
 				DFAA5F26268D9FE4008E034E /* NowPlayingFeed.swift in Sources */,
 				DFAA5F30268DBC8D008E034E /* Credential.swift in Sources */,
 				DFAA5F28268DA022008E034E /* NowPlayingLoader.swift in Sources */,
@@ -596,7 +589,6 @@
 				DFEBD915268F344B0012E31A /* MainQueueDispatchDecorator.swift in Sources */,
 				DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */,
 				DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */,
-				DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */,
 				DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */,
 				DFEBD90B268F2C230012E31A /* NowPlayingItemController.swift in Sources */,
 				DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */,
