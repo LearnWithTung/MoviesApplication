@@ -118,13 +118,17 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         
         let card0 = uniqueNowPlayingCard(id: 0)
         let card1 = uniqueNowPlayingCard(id: 1)
-        let feed = NowPlayingFeed(items: [card0, card1], page: 1, totalPages: 1)
+        let card2 = uniqueNowPlayingCard(id: 2)
+        let feed = NowPlayingFeed(items: [card0, card1, card2], page: 1, totalPages: 1)
         loader.completeSuccessWith(feed)
         
         let item0 = sut.simulateItemVisible(at: 0)!
         XCTAssertEqual(item0.imageLoadingIndicatorVisible, true)
         let item1 = sut.simulateItemVisible(at: 1)!
         XCTAssertEqual(item1.imageLoadingIndicatorVisible, true)
+        let item2 = sut.simulateItemVisible(at: 2)!
+        XCTAssertEqual(item2.imageLoadingIndicatorVisible, true)
+
         
         let imageData = UIImage.make(withColor: .red).pngData()!
         loader.completeLoadImageWith(imageData, at: 0)
@@ -132,6 +136,10 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         
         loader.completeLoadImageWithError(anyNSError(), at: 1)
         XCTAssertEqual(item1.imageLoadingIndicatorVisible, true)
+        
+        let invalidData = Data("invalid data".utf8)
+        loader.completeLoadImageWith(invalidData, at: 2)
+        XCTAssertEqual(item2.imageLoadingIndicatorVisible, true)
     }
     
     

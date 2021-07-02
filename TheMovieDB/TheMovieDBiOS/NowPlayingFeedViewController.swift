@@ -68,9 +68,9 @@ public class NowPlayingFeedViewController: UICollectionViewController {
         cell.imageView.image = nil
         let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
         tasks[indexPath] = imageLoader?.load(from: makeURL) {[weak cell] result in
-            let data = try? result.get()
-            cell?.imageView.isShimmering = data == nil
-            cell?.imageView.image = data.map(UIImage.init) ?? nil
+            let image = (try? result.get()).flatMap(UIImage.init)
+            cell?.imageView.isShimmering = image == nil
+            cell?.imageView.image = image
         }
         
         return cell
