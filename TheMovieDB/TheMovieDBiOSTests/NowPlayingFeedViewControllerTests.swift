@@ -48,6 +48,19 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: feed)
     }
     
+    func test_loadCompletion_doesNotAlterCurrentStateOnLoadFails() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        let feed = anyFeed()
+        loader.completeSuccessWith(feed)
+        
+        sut.simulateUserRefresh()
+        loader.completeWithError(anyNSError())
+        
+        assertThat(sut, isRendering: feed)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()

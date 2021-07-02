@@ -30,7 +30,9 @@ public class NowPlayingFeedViewController: UICollectionViewController {
     @objc private func load() {
         collectionView.refreshControl?.beginRefreshing()
         loader?.load(query: .init(page: 1)) {[weak self] result in
-            self?.feed = try? result.get()
+            if let feed = try? result.get() {
+                self?.feed = feed
+            }
             self?.collectionView.reloadData()
             self?.collectionView.refreshControl?.endRefreshing()
         }
