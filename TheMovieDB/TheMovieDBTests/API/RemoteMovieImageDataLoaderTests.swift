@@ -22,9 +22,10 @@ class RemoteMovieImageDataLoader {
         self.client = client
     }
     
-    func load(from url: URL, completion: @escaping (Result) -> Void) {
+    func load(from url: URL, completion: @escaping (Result) -> Void) -> MovieImageDataTask {
         let request = URLRequest(url: url)
-        _ = client.dispatch(request: request) { result in
+        let wrapper = HTTPClientTaskWrapper()
+        wrapper.task = client.dispatch(request: request) { result in
             switch result {
             case let .success((imageData, response)):
                 guard response.statusCode == 200 else {
@@ -35,6 +36,16 @@ class RemoteMovieImageDataLoader {
                 completion(.failure(Error.connectivity))
             }
         }
+        
+        return wrapper
+    }
+}
+
+public final class HTTPClientTaskWrapper: MovieImageDataTask {
+    var task: HTTPClientTask?
+    
+    public func cancel() {
+        task?.cancel()
     }
 }
 
@@ -50,7 +61,7 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         let url = anyURL()
-        sut.load(from: anyURL()) {_ in}
+        _ = sut.load(from: anyURL()) {_ in}
         
         XCTAssertEqual(client.requestedURLs, [URLRequest(url: url)])
     }
@@ -59,8 +70,8 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         let url = anyURL()
-        sut.load(from: anyURL()) {_ in}
-        sut.load(from: anyURL()) {_ in}
+        _ = sut.load(from: anyURL()) {_ in}
+        _ = sut.load(from: anyURL()) {_ in}
         
         XCTAssertEqual(client.requestedURLs, [URLRequest(url: url), URLRequest(url: url)])
     }
@@ -90,13 +101,24 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         let (sut, client) = makeSUT()
         
         var capturedData: Data?
-        sut.load(from: anyURL()) { result in
+        _ = sut.load(from: anyURL()) { result in
             capturedData = try? result.get()
         }
         
         client.completeWith(statusCode: 200, data: data)
         
         XCTAssertEqual(capturedData, data)
+    }
+    
+    func test_load_cancelsRequestOnCancel() {
+        let (sut, client) = makeSUT()
+
+        let url = anyURL()
+        let task = sut.load(from: url) { _ in}
+        
+        task.cancel()
+        
+        XCTAssertEqual(client.cancelledURLs, [url])
     }
     
     // MARK: - Helpers
@@ -116,7 +138,7 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
     private func expect(_ sut: RemoteMovieImageDataLoader, toCompleteWithResult expectedResult: RemoteMovieImageDataLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "wait for completion")
         
-        sut.load(from: anyURL()) { receivedResult in
+        _ = sut.load(from: anyURL()) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.failure(receivedError as RemoteMovieImageDataLoader.Error), .failure(expectedError as RemoteMovieImageDataLoader.Error)):
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)

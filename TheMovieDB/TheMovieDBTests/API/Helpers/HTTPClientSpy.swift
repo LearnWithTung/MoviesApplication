@@ -16,14 +16,28 @@ class HTTPClientSpy: HTTPClient {
         return messages.map { $0.request }
     }
     
+    var cancelledURLs = [URL]()
+    
     private struct Task: HTTPClientTask {
-        func cancel() {}
+        var action: (() -> Void)?
+        
+        init(action: @escaping () -> Void) {
+            self.action = action
+        }
+        
+        func cancel() {
+            action?()
+        }
     }
     
     func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void)  -> HTTPClientTask {
         messages.append((request, completion))
         
-        return Task()
+        return Task {[weak self] in self?.cancelTask(url: request.url!)}
+    }
+    
+    private func cancelTask(url: URL) {
+        cancelledURLs.append(url)
     }
     
     func completeWithError(_ error: Error, at index: Int = 0) {
