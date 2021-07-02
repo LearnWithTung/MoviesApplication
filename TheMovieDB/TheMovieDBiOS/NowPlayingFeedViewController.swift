@@ -9,15 +9,15 @@ import UIKit
 import TheMovieDB
 
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
-    private var loader: NowPlayingLoader?
+    private var feedLoader: NowPlayingLoader?
     private var imageLoader: MovieImageDataLoader?
     
     private var feed: NowPlayingFeed?
     private var tasks = [IndexPath: MovieImageDataTask]()
     
-    public convenience init(loader: NowPlayingLoader, imageLoader: MovieImageDataLoader) {
+    public convenience init(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.loader = loader
+        self.feedLoader = feedLoader
         self.imageLoader = imageLoader
     }
     
@@ -34,7 +34,7 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
     
     @objc private func load() {
         collectionView.refreshControl?.beginRefreshing()
-        loader?.load(query: .init(page: 1)) {[weak self] result in
+        feedLoader?.load(query: .init(page: 1)) {[weak self] result in
             if let feed = try? result.get() {
                 self?.feed = feed
             }
