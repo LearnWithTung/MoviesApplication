@@ -67,8 +67,7 @@ public class NowPlayingFeedViewController: UICollectionViewController, UICollect
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
         cell.imageView.isShimmering = true
         cell.imageView.image = nil
-        let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
-        tasks[indexPath] = imageLoader?.load(from: makeURL) {[weak cell] result in
+        tasks[indexPath] = imageLoader?.load(from: makeURL(from: model.imagePath)) {[weak cell] result in
             let image = (try? result.get()).flatMap(UIImage.init)
             cell?.imageView.isShimmering = image == nil
             cell?.imageView.image = image
@@ -84,8 +83,7 @@ public class NowPlayingFeedViewController: UICollectionViewController, UICollect
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
             let model = feed!.items[indexPath.item]
-            let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
-            tasks[indexPath] = imageLoader?.load(from: makeURL) {_ in}
+            tasks[indexPath] = imageLoader?.load(from: makeURL(from: model.imagePath)) {_ in}
         }
     }
     
@@ -96,5 +94,9 @@ public class NowPlayingFeedViewController: UICollectionViewController, UICollect
     private func removeTask(at indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
         tasks[indexPath] = nil
+    }
+    
+    private func makeURL(from path: String) -> URL {
+        return URL(string: "https://image.tmdb.org/t/p/w500/\(path)")!
     }
 }
