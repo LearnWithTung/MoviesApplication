@@ -89,4 +89,11 @@ public class NowPlayingFeedViewController: UICollectionViewController, UICollect
             tasks[indexPath] = imageLoader?.load(from: makeURL) {_ in}
         }
     }
+    
+    public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            tasks[indexPath]?.cancel()
+            tasks[indexPath] = nil
+        }
+    }
 }
