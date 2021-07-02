@@ -8,8 +8,12 @@
 import UIKit
 import TheMovieDB
 
+public protocol MovieImageDataTask {
+    func cancel()
+}
+
 public protocol MovieImageDataLoader {
-    func load(from url: URL)
+    func load(from url: URL) -> MovieImageDataTask
 }
 
 public class NowPlayingFeedViewController: UICollectionViewController {
@@ -17,6 +21,7 @@ public class NowPlayingFeedViewController: UICollectionViewController {
     private var imageLoader: MovieImageDataLoader?
     
     private var feed: NowPlayingFeed?
+    private var tasks = [IndexPath: MovieImageDataTask]()
     
     public convenience init(loader: NowPlayingLoader, imageLoader: MovieImageDataLoader) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -54,8 +59,12 @@ public class NowPlayingFeedViewController: UICollectionViewController {
         let cell = UICollectionViewCell()
         
         let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
-        imageLoader?.load(from: makeURL)
+        tasks[indexPath] = imageLoader?.load(from: makeURL)
         
         return cell
+    }
+    
+    public override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        tasks[indexPath]?.cancel()
     }
 }

@@ -93,6 +93,24 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.imageLoadedURLs, [imageURL0, imageURL1])
     }
     
+    func test_loadImage_cancelsLoadImageOnCellIsNotVisible() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let card0 = uniqueNowPlayingCard(id: 0)
+        let card1 = uniqueNowPlayingCard(id: 1)
+        let feed = NowPlayingFeed(items: [card0, card1], page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+        
+        let imageURL0 = makeURL(from: card0.imagePath)
+        sut.simulateItemNotVisible(at: 0)
+        XCTAssertEqual(loader.cancelledURLs, [imageURL0])
+        
+        let imageURL1 = makeURL(from: card1.imagePath)
+        sut.simulateItemNotVisible(at: 1)
+        XCTAssertEqual(loader.cancelledURLs, [imageURL0, imageURL1])
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -150,9 +168,27 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         // MARK: - Image Loader
         
         var imageLoadedURLs = [URL]()
+        var cancelledURLs = [URL]()
         
-        func load(from url: URL) {
+        private struct Task: MovieImageDataTask {
+            let action: () -> Void
+            
+            init(action: @escaping () -> Void) {
+                self.action = action
+            }
+            
+            func cancel() {
+                action()
+            }
+        }
+        
+        func load(from url: URL) -> MovieImageDataTask {
             imageLoadedURLs.append(url)
+            return Task {[weak self] in self?.cancelLoadImage(url)}
+        }
+        
+        private func cancelLoadImage(_ url: URL) {
+            cancelledURLs.append(url)
         }
     }
     
@@ -171,13 +207,21 @@ private extension NowPlayingFeedViewController {
         collectionView.numberOfSections > section ? collectionView.numberOfItems(inSection: section) : 0
     }
     
-    func simulateItemVisible(at item: Int = 0) {
+    @discardableResult
+    func simulateItemVisible(at item: Int = 0) -> UICollectionViewCell? {
         guard numberOfItemsRendered(in: 0) > item else {
-            return
+            return nil
         }
         let ds = collectionView.dataSource
         let indexPath = IndexPath(item: item, section: 0)
-        ds?.collectionView(collectionView, cellForItemAt: indexPath)
+        return ds?.collectionView(collectionView, cellForItemAt: indexPath)
+    }
+    
+    func simulateItemNotVisible(at item: Int = 0) {
+        let cell = simulateItemVisible(at: item)
+        let dl = collectionView.delegate
+        let indexPath = IndexPath(item: item, section: 0)
+        dl?.collectionView?(collectionView, didEndDisplaying: cell!, forItemAt: indexPath)
     }
 }
 
