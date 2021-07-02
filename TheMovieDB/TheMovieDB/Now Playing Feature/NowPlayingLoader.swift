@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct NowPlayingQuery {
+public struct NowPlayingQuery: Equatable {
     public let page: Int
 
     public init(page: Int) {

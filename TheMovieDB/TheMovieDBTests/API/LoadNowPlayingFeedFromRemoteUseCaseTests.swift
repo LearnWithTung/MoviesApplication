@@ -118,10 +118,6 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
         return (sut, client)
     }
     
-    private func uniqueNowPlayingCard(id: Int = 0) -> NowPlayingCard {
-        return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path")
-    }
-    
     private func makeNowPlayingFeed(cards: [NowPlayingCard], page: Int = 1, totalPages: Int = 1) -> (model: NowPlayingFeed, json: [String: Any]){
         let model = NowPlayingFeed(items: cards, page: page, totalPages: totalPages)
         

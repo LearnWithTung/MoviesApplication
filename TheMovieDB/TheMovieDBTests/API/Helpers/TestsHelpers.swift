@@ -17,3 +17,12 @@ func makeRequestFrom(credential: Credential = .init(apiKey: "any"), url: URL = U
     
     return URLRequest(url: components.url!)
 }
+
+func uniqueNowPlayingCard(id: Int = 0) -> NowPlayingCard {
+    return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path.jpg")
+}
+    
+func anyNSError() -> NSError {
+    NSError(domain: "any", code: 0, userInfo: nil)
+}
+
