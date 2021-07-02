@@ -294,16 +294,6 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     
 }
 
-private extension NowPlayingCardFeedCell {
-    var imageLoadingIndicatorVisible: Bool {
-        return imageView.isShimmering
-    }
-    
-    var loadedImageData: Data? {
-        return imageView.image?.pngData()
-    }
-}
-
 private extension UIImage {
   static func make(withColor color: UIColor) -> UIImage {
     let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
@@ -316,3 +306,4 @@ private extension UIImage {
     return img!
   }
 }
+
