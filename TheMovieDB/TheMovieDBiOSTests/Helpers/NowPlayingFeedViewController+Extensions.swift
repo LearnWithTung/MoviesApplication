@@ -31,11 +31,13 @@ extension NowPlayingFeedViewController {
         return ds?.collectionView(collectionView, cellForItemAt: indexPath) as? NowPlayingCardFeedCell
     }
     
-    func simulateItemNotVisible(at item: Int = 0) {
+    @discardableResult
+    func simulateItemNotVisible(at item: Int = 0) -> NowPlayingCardFeedCell? {
         let cell = simulateItemVisible(at: item)
         let dl = collectionView.delegate
         let indexPath = IndexPath(item: item, section: 0)
         dl?.collectionView?(collectionView, didEndDisplaying: cell!, forItemAt: indexPath)
+        return cell
     }
     
     func simulateItemNearVisible(at item: Int = 0) {

@@ -52,7 +52,11 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
         cell.imageView.isShimmering = true
         cell.imageView.image = nil
-        tasks[indexPath] = imageLoader?.load(from: makeURL(from: model.imagePath)) {[weak cell] result in
+        tasks[indexPath] = imageLoader?.load(from: makeURL(from: model.imagePath)) {[weak self, weak cell] result in
+            guard self?.tasks[indexPath] != nil else {
+                cell = nil
+                return
+            }
             let image = (try? result.get()).flatMap(UIImage.init)
             cell?.imageView.isShimmering = image == nil
             cell?.imageView.image = image

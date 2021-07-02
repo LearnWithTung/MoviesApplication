@@ -201,6 +201,18 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.cancelledURLs, [imageURL0, imageURL1])
     }
     
+    func test_loadImage_doesNotDeliverResultAfterCellIsNotVisible() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        let feed = NowPlayingFeed(items: [uniqueNowPlayingCard(id: 0)], page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+                
+        let item = sut.simulateItemNotVisible()
+        loader.completeLoadImageWith(UIImage.make(withColor: .red).pngData()!)
+        XCTAssertNil(item?.loadedImageData)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
