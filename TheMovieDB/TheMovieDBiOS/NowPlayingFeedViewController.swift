@@ -8,38 +8,62 @@
 import UIKit
 import TheMovieDB
 
+public final class NowPlayingRefreshController: NSObject {
+    private let loader: NowPlayingLoader
+    
+    init(loader: NowPlayingLoader) {
+        self.loader = loader
+    }
+    
+    lazy var view: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+
+        return refreshControl
+    }()
+    
+    var onRefresh: ((NowPlayingFeed) -> Void)?
+    
+    @objc func refresh() {
+        view.beginRefreshing()
+        loader.load(query: .init(page: 1)) {[weak self] result in
+            self?.view.endRefreshing()
+            if let feed = try? result.get() {
+                self?.onRefresh?(feed)
+            }
+        }
+    }
+    
+}
+
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
-    private var feedLoader: NowPlayingLoader?
+    private var refreshController: NowPlayingRefreshController?
     private var imageLoader: MovieImageDataLoader?
     
-    private var feed: NowPlayingFeed?
+    private var feed: NowPlayingFeed? {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
     private var tasks = [IndexPath: MovieImageDataTask]()
     
     public convenience init(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.feedLoader = feedLoader
+        self.refreshController = NowPlayingRefreshController(loader: feedLoader)
         self.imageLoader = imageLoader
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
-        collectionView.refreshControl = refreshControl
+        collectionView.refreshControl = refreshController?.view
         collectionView.register(NowPlayingCardFeedCell.self, forCellWithReuseIdentifier: "NowPlayingCardFeedCell")
         collectionView.prefetchDataSource = self
-        load()
-    }
-    
-    @objc private func load() {
-        collectionView.refreshControl?.beginRefreshing()
-        feedLoader?.load(query: .init(page: 1)) {[weak self] result in
-            if let feed = try? result.get() {
-                self?.feed = feed
-            }
-            self?.collectionView.reloadData()
-            self?.collectionView.refreshControl?.endRefreshing()
+        refreshController?.refresh()
+        
+        refreshController?.onRefresh = {[weak self] feed in
+            self?.feed = feed
         }
     }
     
