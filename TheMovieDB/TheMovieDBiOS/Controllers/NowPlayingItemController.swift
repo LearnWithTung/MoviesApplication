@@ -28,15 +28,8 @@ public final class NowPlayingItemController {
                 return
             }
             let image = (try? result.get()).flatMap(UIImage.init)
-            if Thread.isMainThread {
-                cell?.imageView.isShimmering = image == nil
-                cell?.imageView.image = image
-            } else {
-                DispatchQueue.main.async {
-                    cell?.imageView.isShimmering = image == nil
-                    cell?.imageView.image = image
-                }
-            }
+            cell?.imageView.isShimmering = image == nil
+            cell?.imageView.image = image
         }
         
         return cell
