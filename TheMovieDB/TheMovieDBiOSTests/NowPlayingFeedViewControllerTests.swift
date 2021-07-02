@@ -83,6 +83,17 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.isLoadingIndicatorVisible, true)
     }
     
+    func test_userRefresh_hidesLoadingIndicatorOnCompleteLoad() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let cards = (1...5).map {uniqueNowPlayingCard(id: $0)}
+        let feed = NowPlayingFeed(items: cards, page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, false)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -92,6 +103,10 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         return (sut, loader)
     }
     
+    private func uniqueNowPlayingCard(id: Int = 0) -> NowPlayingCard {
+        return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path")
+    }
+        
     private func anyNSError() -> NSError {
         NSError(domain: "any", code: 0, userInfo: nil)
     }
@@ -112,6 +127,10 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         
         func completeWithError(_ error: NSError, at index: Int = 0) {
             messages[index].completion(.failure(error))
+        }
+        
+        func completeSuccessWith(_ feed: NowPlayingFeed, at index: Int = 0) {
+            messages[index].completion(.success(feed))
         }
     }
     
