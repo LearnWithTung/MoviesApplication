@@ -273,7 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				DFEBD8FB268F19010012E31A /* Helpers */,
-				DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */,
+				DFEBD913268F2FD70012E31A /* Controllers */,
 			);
 			path = TheMovieDBiOSTests;
 			sourceTree = "<group>";
@@ -336,6 +336,14 @@
 				DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		DFEBD913268F2FD70012E31A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

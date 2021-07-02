@@ -213,6 +213,20 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertNil(item?.loadedImageData)
     }
     
+    func test_loadFeed_dispatchFromBackgrounToMainQueue() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let feed = anyFeed()
+        let exp = expectation(description: "wait for completion")
+        DispatchQueue.global().async {
+            loader.completeSuccessWith(feed)
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 0.1)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
