@@ -19,7 +19,7 @@ func makeRequestFrom(credential: Credential = .init(apiKey: "any"), url: URL = U
 }
 
 func uniqueNowPlayingCard(id: Int = 0) -> NowPlayingCard {
-    return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path")
+    return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path.jpg")
 }
     
 func anyNSError() -> NSError {

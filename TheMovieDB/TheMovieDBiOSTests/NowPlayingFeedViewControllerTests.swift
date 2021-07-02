@@ -42,12 +42,12 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
-        let emptyFeed = NowPlayingFeed(items: [], page: 1, totalPages: 1)
+        let emptyFeed = makeFeedFrom(cards: [])
         loader.completeSuccessWith(emptyFeed)
         assertThat(sut, isRendering: emptyFeed)
         
         sut.simulateUserRefresh()
-        let oneCardFeed = NowPlayingFeed(items: [uniqueNowPlayingCard()], page: 1, totalPages: 1)
+        let oneCardFeed = makeFeedFrom(cards: [uniqueNowPlayingCard()])
         loader.completeSuccessWith(oneCardFeed)
         assertThat(sut, isRendering: oneCardFeed)
 
@@ -71,10 +71,32 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: feed)
     }
     
+    func test_loadImage_requestsLoadImageOnCellIsVisible() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        loader.completeSuccessWith(makeFeedFrom(cards: []))
+        XCTAssertTrue(loader.imageLoadedURLs.isEmpty)
+        
+        sut.simulateUserRefresh()
+        let card0 = uniqueNowPlayingCard(id: 0)
+        let card1 = uniqueNowPlayingCard(id: 1)
+        let feed = NowPlayingFeed(items: [card0, card1], page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+        
+        let imageURL0 = makeURL(from: card0.imagePath)
+        sut.simulateItemVisible(at: 0)
+        XCTAssertEqual(loader.imageLoadedURLs, [imageURL0])
+        
+        let imageURL1 = makeURL(from: card1.imagePath)
+        sut.simulateItemVisible(at: 1)
+        XCTAssertEqual(loader.imageLoadedURLs, [imageURL0, imageURL1])
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
-        let sut = NowPlayingFeedViewController(loader: loader)
+        let sut = NowPlayingFeedViewController(loader: loader, imageLoader: loader)
         checkForMemoryLeaks(sut, file: file, line: line)
         checkForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
@@ -86,12 +108,24 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         }
     }
     
-    private func anyFeed() -> NowPlayingFeed {
-        let cards = (1...5).map {uniqueNowPlayingCard(id: $0)}
-        return NowPlayingFeed(items: cards, page: 1, totalPages: 1)
+    private func makeURL(from path: String, file: StaticString = #file, line: UInt = #line) -> URL {
+        let urlString = "https://image.tmdb.org/t/p/w500/\(path)"
+        guard let url = URL(string: urlString) else {
+          preconditionFailure("Could not create URL for \(urlString)", file: file, line: line)
+        }
+        return url
     }
     
-    private class NowPlayingLoaderSpy: NowPlayingLoader {
+    private func makeFeedFrom(cards: [NowPlayingCard], page: Int = 1, totalPages: Int = 1) -> NowPlayingFeed {
+        return NowPlayingFeed(items: cards, page: page, totalPages: totalPages)
+    }
+    
+    private func anyFeed() -> NowPlayingFeed {
+        let cards = (1...5).map {uniqueNowPlayingCard(id: $0)}
+        return makeFeedFrom(cards: cards)
+    }
+    
+    private class NowPlayingLoaderSpy: NowPlayingLoader, MovieImageDataLoader {
         enum Request: Equatable {
             case load(page: Int)
         }
@@ -112,6 +146,14 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         func completeSuccessWith(_ feed: NowPlayingFeed, at index: Int = 0) {
             messages[index].completion(.success(feed))
         }
+        
+        // MARK: - Image Loader
+        
+        var imageLoadedURLs = [URL]()
+        
+        func load(from url: URL) {
+            imageLoadedURLs.append(url)
+        }
     }
     
 }
@@ -127,6 +169,15 @@ private extension NowPlayingFeedViewController {
     
     func numberOfItemsRendered(in section: Int = 0) -> Int {
         collectionView.numberOfSections > section ? collectionView.numberOfItems(inSection: section) : 0
+    }
+    
+    func simulateItemVisible(at item: Int = 0) {
+        guard numberOfItemsRendered(in: 0) > item else {
+            return
+        }
+        let ds = collectionView.dataSource
+        let indexPath = IndexPath(item: item, section: 0)
+        ds?.collectionView(collectionView, cellForItemAt: indexPath)
     }
 }
 
