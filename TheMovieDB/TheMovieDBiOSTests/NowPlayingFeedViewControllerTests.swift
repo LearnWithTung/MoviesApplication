@@ -134,6 +134,29 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(item1.imageLoadingIndicatorVisible, true)
     }
     
+    
+    func test_imageLoadingCompletion_displaysLoadedImage() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let card0 = uniqueNowPlayingCard(id: 0)
+        let card1 = uniqueNowPlayingCard(id: 1)
+        let feed = NowPlayingFeed(items: [card0, card1], page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+        
+        let item0 = sut.simulateItemVisible(at: 0)!
+        let item1 = sut.simulateItemVisible(at: 1)!
+        XCTAssertEqual(item0.loadedImageData, .none)
+        XCTAssertEqual(item1.loadedImageData, .none)
+
+        let imageData = UIImage.make(withColor: .red).pngData()!
+        loader.completeLoadImageWith(imageData, at: 0)
+        XCTAssertEqual(item0.loadedImageData, imageData)
+
+        loader.completeLoadImageWithError(anyNSError(), at: 1)
+        XCTAssertEqual(item1.loadedImageData, .none)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -271,6 +294,10 @@ private extension UIRefreshControl {
 private extension NowPlayingCardFeedCell {
     var imageLoadingIndicatorVisible: Bool {
         return imageView.isShimmering
+    }
+    
+    var loadedImageData: Data? {
+        return imageView.image?.pngData()
     }
 }
 

@@ -65,11 +65,12 @@ public class NowPlayingFeedViewController: UICollectionViewController {
         let model = feed!.items[indexPath.item]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
         cell.imageView.isShimmering = true
-        
+        cell.imageView.image = nil
         let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
         tasks[indexPath] = imageLoader?.load(from: makeURL) {[weak cell] result in
             let data = try? result.get()
             cell?.imageView.isShimmering = data == nil
+            cell?.imageView.image = data.map(UIImage.init) ?? nil
         }
         
         return cell
