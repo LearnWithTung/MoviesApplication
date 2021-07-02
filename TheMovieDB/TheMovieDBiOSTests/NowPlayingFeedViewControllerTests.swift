@@ -8,11 +8,18 @@
 import XCTest
 import TheMovieDB
 
-class NowPlayingFeedViewController {
-    private let loader: NowPlayingLoader
+class NowPlayingFeedViewController: UICollectionViewController {
+    private var loader: NowPlayingLoader?
     
-    init(loader: NowPlayingLoader) {
+    convenience init(loader: NowPlayingLoader) {
+        self.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.loader = loader
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        loader?.load(query: .init(page: 0)) { _ in }
     }
 }
 
@@ -22,6 +29,13 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         let (_, loader) = makeSUT()
         
         XCTAssertEqual(loader.requestCallCount, 0)
+    }
+    
+    func test_viewDidLoad_requestsLoadFeed() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(loader.requestCallCount, 1)
     }
     
     // MARK: - Helpers
@@ -38,7 +52,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         var requestCallCount = 0
         
         func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
-            
+            requestCallCount += 1
         }
     }
     
