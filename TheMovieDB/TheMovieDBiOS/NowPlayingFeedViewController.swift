@@ -13,8 +13,15 @@ public protocol MovieImageDataTask {
 }
 
 public protocol MovieImageDataLoader {
-    func load(from url: URL) -> MovieImageDataTask
+    func load(from url: URL, completion: @escaping (Swift.Result<Data, Error>) -> Void) -> MovieImageDataTask
 }
+
+public class NowPlayingCardFeedCell: UICollectionViewCell {
+
+  public let imageView = UIImageView()
+  
+}
+
 
 public class NowPlayingFeedViewController: UICollectionViewController {
     private var loader: NowPlayingLoader?
@@ -35,7 +42,7 @@ public class NowPlayingFeedViewController: UICollectionViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
         collectionView.refreshControl = refreshControl
-        
+        collectionView.register(NowPlayingCardFeedCell.self, forCellWithReuseIdentifier: "NowPlayingCardFeedCell")
         load()
     }
     
@@ -56,10 +63,14 @@ public class NowPlayingFeedViewController: UICollectionViewController {
     
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let model = feed!.items[indexPath.item]
-        let cell = UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
+        cell.imageView.isShimmering = true
         
         let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
-        tasks[indexPath] = imageLoader?.load(from: makeURL)
+        tasks[indexPath] = imageLoader?.load(from: makeURL) {[weak cell] result in
+            let data = try? result.get()
+            cell?.imageView.isShimmering = data == nil
+        }
         
         return cell
     }

@@ -111,6 +111,29 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.cancelledURLs, [imageURL0, imageURL1])
     }
     
+    
+    func test_imageLoadingIndicator_visibleWhileLoading() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let card0 = uniqueNowPlayingCard(id: 0)
+        let card1 = uniqueNowPlayingCard(id: 1)
+        let feed = NowPlayingFeed(items: [card0, card1], page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+        
+        let item0 = sut.simulateItemVisible(at: 0)!
+        XCTAssertEqual(item0.imageLoadingIndicatorVisible, true)
+        let item1 = sut.simulateItemVisible(at: 1)!
+        XCTAssertEqual(item1.imageLoadingIndicatorVisible, true)
+        
+        let imageData = UIImage.make(withColor: .red).pngData()!
+        loader.completeLoadImageWith(imageData, at: 0)
+        XCTAssertEqual(item0.imageLoadingIndicatorVisible, false)
+        
+        loader.completeLoadImageWithError(anyNSError(), at: 1)
+        XCTAssertEqual(item1.imageLoadingIndicatorVisible, true)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -169,6 +192,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         
         var imageLoadedURLs = [URL]()
         var cancelledURLs = [URL]()
+        var imageLoadingCompletions = [(Swift.Result<Data, Error>) -> Void]()
         
         private struct Task: MovieImageDataTask {
             let action: () -> Void
@@ -182,13 +206,22 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
             }
         }
         
-        func load(from url: URL) -> MovieImageDataTask {
+        func load(from url: URL, completion: @escaping (Swift.Result<Data, Error>) -> Void) -> MovieImageDataTask {
             imageLoadedURLs.append(url)
+            imageLoadingCompletions.append(completion)
             return Task {[weak self] in self?.cancelLoadImage(url)}
         }
         
         private func cancelLoadImage(_ url: URL) {
             cancelledURLs.append(url)
+        }
+        
+        func completeLoadImageWithError(_ error: NSError, at index: Int = 0) {
+            imageLoadingCompletions[index](.failure(error))
+        }
+        
+        func completeLoadImageWith(_ data: Data, at index: Int = 0) {
+            imageLoadingCompletions[index](.success(data))
         }
     }
     
@@ -208,13 +241,13 @@ private extension NowPlayingFeedViewController {
     }
     
     @discardableResult
-    func simulateItemVisible(at item: Int = 0) -> UICollectionViewCell? {
+    func simulateItemVisible(at item: Int = 0) -> NowPlayingCardFeedCell? {
         guard numberOfItemsRendered(in: 0) > item else {
             return nil
         }
         let ds = collectionView.dataSource
         let indexPath = IndexPath(item: item, section: 0)
-        return ds?.collectionView(collectionView, cellForItemAt: indexPath)
+        return ds?.collectionView(collectionView, cellForItemAt: indexPath) as? NowPlayingCardFeedCell
     }
     
     func simulateItemNotVisible(at item: Int = 0) {
@@ -233,4 +266,23 @@ private extension UIRefreshControl {
             }
         }
     }
+}
+
+private extension NowPlayingCardFeedCell {
+    var imageLoadingIndicatorVisible: Bool {
+        return imageView.isShimmering
+    }
+}
+
+private extension UIImage {
+  static func make(withColor color: UIColor) -> UIImage {
+    let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+    UIGraphicsBeginImageContext(rect.size)
+    let context = UIGraphicsGetCurrentContext()!
+    context.setFillColor(color.cgColor)
+    context.fill(rect)
+    let img = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return img!
+  }
 }
