@@ -34,6 +34,7 @@
 		DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */; };
 		DFEBD8FD268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */; };
 		DFEBD8FF268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */; };
+		DFEBD901268F19BB0012E31A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+ShimmeringAnimation.swift"; sourceTree = "<group>"; };
 		DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NowPlayingFeedViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NowPlayingCardFeedCell+Extensions.swift"; sourceTree = "<group>"; };
+		DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,6 +275,7 @@
 			children = (
 				DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */,
 				DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */,
+				DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */,
 				DFEBD8FF268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift in Sources */,
 				DFEBD8F6268EDB600012E31A /* TestsHelpers.swift in Sources */,
+				DFEBD901268F19BB0012E31A /* UIImage+Extensions.swift in Sources */,
 				DFEBD8FD268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift in Sources */,
 				DFEBD8F5268ED3300012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */,
 			);
