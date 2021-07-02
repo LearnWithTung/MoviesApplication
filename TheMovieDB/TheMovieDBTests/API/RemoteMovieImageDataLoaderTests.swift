@@ -15,7 +15,7 @@ class RemoteMovieImageDataLoader {
         case connectivity
     }
     
-    typealias Result = Swift.Result<Data, Swift.Error>
+    typealias Result = MovieImageDataLoader.Result
 
     init(client: HTTPClient) {
         self.client = client

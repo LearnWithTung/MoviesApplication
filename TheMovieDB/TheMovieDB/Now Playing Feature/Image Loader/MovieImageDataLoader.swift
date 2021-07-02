@@ -12,5 +12,6 @@ public protocol MovieImageDataTask {
 }
 
 public protocol MovieImageDataLoader {
-    func load(from url: URL, completion: @escaping (Swift.Result<Data, Error>) -> Void) -> MovieImageDataTask
+    typealias Result = Swift.Result<Data, Error>
+    func load(from url: URL, completion: @escaping (Result) -> Void) -> MovieImageDataTask
 }
