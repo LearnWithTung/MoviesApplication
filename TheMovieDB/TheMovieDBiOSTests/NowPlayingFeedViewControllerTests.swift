@@ -59,10 +59,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         sut.simulateUserRefresh()
         XCTAssertEqual(sut.isLoadingIndicatorVisible, true, "Expected loading indicator again visible when user request refresh")
         
-        let cards = (1...5).map {uniqueNowPlayingCard(id: $0)}
-        let feed = NowPlayingFeed(items: cards, page: 1, totalPages: 1)
-        
-        loader.completeSuccessWith(feed)
+        loader.completeSuccessWith(anyFeed())
         XCTAssertEqual(sut.isLoadingIndicatorVisible, false, "Expected loading indicator invisible when complete load success")
     }
     
@@ -73,6 +70,11 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         checkForMemoryLeaks(sut, file: file, line: line)
         checkForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)
+    }
+    
+    private func anyFeed() -> NowPlayingFeed {
+        let cards = (1...5).map {uniqueNowPlayingCard(id: $0)}
+        return NowPlayingFeed(items: cards, page: 1, totalPages: 1)
     }
     
     private class NowPlayingLoaderSpy: NowPlayingLoader {
