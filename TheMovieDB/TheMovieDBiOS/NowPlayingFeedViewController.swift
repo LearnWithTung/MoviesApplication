@@ -78,8 +78,7 @@ public class NowPlayingFeedViewController: UICollectionViewController, UICollect
     }
     
     public override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        tasks[indexPath]?.cancel()
-        tasks[indexPath] = nil
+        removeTask(at: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
@@ -91,9 +90,11 @@ public class NowPlayingFeedViewController: UICollectionViewController, UICollect
     }
     
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        for indexPath in indexPaths {
-            tasks[indexPath]?.cancel()
-            tasks[indexPath] = nil
-        }
+        indexPaths.forEach(removeTask)
+    }
+    
+    private func removeTask(at indexPath: IndexPath) {
+        tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
     }
 }
