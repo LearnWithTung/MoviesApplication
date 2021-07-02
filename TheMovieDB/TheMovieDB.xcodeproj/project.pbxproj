@@ -25,6 +25,8 @@
 		DFEBD8C6268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8C5268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift */; };
 		DFEBD8C7268E6F920012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8C5268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift */; };
 		DFEBD8E0268ECF9F0012E31A /* TheMovieDBiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEBD8D8268ECF9F0012E31A /* TheMovieDBiOS.framework */; };
+		DFEBD8EE268ED11E0012E31A /* TheMovieDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; platformFilter = ios; };
+		DFEBD8EF268ED11E0012E31A /* TheMovieDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,7 +51,28 @@
 			remoteGlobalIDString = DFEBD8D7268ECF9F0012E31A;
 			remoteInfo = TheMovieDBiOS;
 		};
+		DFEBD8F0268ED11E0012E31A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFAA5F02268D9E85008E034E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DFAA5F0A268D9E85008E034E;
+			remoteInfo = TheMovieDB;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DFEBD8F2268ED11E0012E31A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DFEBD8EF268ED11E0012E31A /* TheMovieDB.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TheMovieDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEBD8EE268ED11E0012E31A /* TheMovieDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -124,6 +148,7 @@
 				DFEBD8D9268ECF9F0012E31A /* TheMovieDBiOS */,
 				DFEBD8E3268ECF9F0012E31A /* TheMovieDBiOSTests */,
 				DFAA5F0C268D9E85008E034E /* Products */,
+				DFEBD8ED268ED11E0012E31A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -220,6 +245,13 @@
 			path = TheMovieDBiOSTests;
 			sourceTree = "<group>";
 		};
+		DFEBD8ED268ED11E0012E31A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -302,10 +334,12 @@
 				DFEBD8D4268ECF9F0012E31A /* Sources */,
 				DFEBD8D5268ECF9F0012E31A /* Frameworks */,
 				DFEBD8D6268ECF9F0012E31A /* Resources */,
+				DFEBD8F2268ED11E0012E31A /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				DFEBD8F1268ED11E0012E31A /* PBXTargetDependency */,
 			);
 			name = TheMovieDBiOS;
 			productName = TheMovieDBiOS;
@@ -487,6 +521,12 @@
 			isa = PBXTargetDependency;
 			target = DFEBD8D7268ECF9F0012E31A /* TheMovieDBiOS */;
 			targetProxy = DFEBD8E1268ECF9F0012E31A /* PBXContainerItemProxy */;
+		};
+		DFEBD8F1268ED11E0012E31A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			platformFilter = ios;
+			target = DFAA5F0A268D9E85008E034E /* TheMovieDB */;
+			targetProxy = DFEBD8F0268ED11E0012E31A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
