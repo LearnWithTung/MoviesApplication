@@ -165,6 +165,24 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(item1.loadedImageData, .none)
     }
     
+    func test_loadImage_requestsLoadImageOnViewNearVisible() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let card0 = uniqueNowPlayingCard(id: 0)
+        let card1 = uniqueNowPlayingCard(id: 1)
+        let feed = NowPlayingFeed(items: [card0, card1], page: 1, totalPages: 1)
+        loader.completeSuccessWith(feed)
+        
+        let imageURL0 = makeURL(from: card0.imagePath)
+        let imageURL1 = makeURL(from: card1.imagePath)
+        
+        sut.simulateItemNearVisible(at: 0)
+        XCTAssertEqual(loader.imageLoadedURLs, [imageURL0])
+        sut.simulateItemNearVisible(at: 1)
+        XCTAssertEqual(loader.imageLoadedURLs, [imageURL0, imageURL1])
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -286,6 +304,12 @@ private extension NowPlayingFeedViewController {
         let dl = collectionView.delegate
         let indexPath = IndexPath(item: item, section: 0)
         dl?.collectionView?(collectionView, didEndDisplaying: cell!, forItemAt: indexPath)
+    }
+    
+    func simulateItemNearVisible(at item: Int = 0) {
+        let pf = collectionView.prefetchDataSource
+        let indexPath = IndexPath(item: item, section: 0)
+        pf?.collectionView(collectionView, prefetchItemsAt: [indexPath])
     }
 }
 

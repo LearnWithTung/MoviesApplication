@@ -23,7 +23,7 @@ public class NowPlayingCardFeedCell: UICollectionViewCell {
 }
 
 
-public class NowPlayingFeedViewController: UICollectionViewController {
+public class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var loader: NowPlayingLoader?
     private var imageLoader: MovieImageDataLoader?
     
@@ -43,6 +43,7 @@ public class NowPlayingFeedViewController: UICollectionViewController {
         refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
         collectionView.refreshControl = refreshControl
         collectionView.register(NowPlayingCardFeedCell.self, forCellWithReuseIdentifier: "NowPlayingCardFeedCell")
+        collectionView.prefetchDataSource = self
         load()
     }
     
@@ -78,5 +79,14 @@ public class NowPlayingFeedViewController: UICollectionViewController {
     
     public override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         tasks[indexPath]?.cancel()
+        tasks[indexPath] = nil
+    }
+    
+    public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            let model = feed!.items[indexPath.item]
+            let makeURL = URL(string: "https://image.tmdb.org/t/p/w500/\(model.imagePath)")!
+            tasks[indexPath] = imageLoader?.load(from: makeURL) {_ in}
+        }
     }
 }
