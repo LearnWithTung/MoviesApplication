@@ -103,14 +103,6 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         return (sut, loader)
     }
     
-    private func uniqueNowPlayingCard(id: Int = 0) -> NowPlayingCard {
-        return NowPlayingCard(id: id, title: "\(UUID().uuidString) title", imagePath: "/\(UUID().uuidString)_image_path")
-    }
-        
-    private func anyNSError() -> NSError {
-        NSError(domain: "any", code: 0, userInfo: nil)
-    }
-    
     private class NowPlayingLoaderSpy: NowPlayingLoader {
         enum Request: Equatable {
             case load(page: Int)
