@@ -8,14 +8,6 @@
 import UIKit
 import TheMovieDB
 
-public protocol MovieImageDataTask {
-    func cancel()
-}
-
-public protocol MovieImageDataLoader {
-    func load(from url: URL, completion: @escaping (Swift.Result<Data, Error>) -> Void) -> MovieImageDataTask
-}
-
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var loader: NowPlayingLoader?
     private var imageLoader: MovieImageDataLoader?

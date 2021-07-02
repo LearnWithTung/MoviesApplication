@@ -37,6 +37,7 @@
 		DFEBD901268F19BB0012E31A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */; };
 		DFEBD903268F1A270012E31A /* UIRefreshControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */; };
 		DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */; };
+		DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,7 @@
 		DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+Extension.swift"; sourceTree = "<group>"; };
 		DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingCardFeedCell.swift; sourceTree = "<group>"; };
+		DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieImageDataLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -255,6 +257,7 @@
 				DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */,
 				DFEBD8F9268F11760012E31A /* UIView+ShimmeringAnimation.swift */,
 				DFEBD904268F1AB20012E31A /* NowPlayingCardFeedCell.swift */,
+				DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */,
 			);
 			path = TheMovieDBiOS;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */,
+				DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */,
 				DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */,
 				DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */,
 			);
