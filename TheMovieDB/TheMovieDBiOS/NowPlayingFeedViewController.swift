@@ -8,17 +8,58 @@
 import UIKit
 import TheMovieDB
 
+public final class NowPlayingItemController {
+    private let model: NowPlayingCard
+    private let imageLoader: MovieImageDataLoader
+    private var task: MovieImageDataTask?
+    
+    init(model: NowPlayingCard, imageLoader: MovieImageDataLoader) {
+        self.model = model
+        self.imageLoader = imageLoader
+    }
+    
+    public func view(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
+        cell.imageView.isShimmering = true
+        cell.imageView.image = nil
+        task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak self, weak cell] result in
+            guard self?.task != nil else {
+                cell = nil
+                return
+            }
+            let image = (try? result.get()).flatMap(UIImage.init)
+            cell?.imageView.isShimmering = image == nil
+            cell?.imageView.image = image
+        }
+        
+        return cell
+    }
+    
+    private func makeURL(from path: String) -> URL {
+        return URL(string: "https://image.tmdb.org/t/p/w500/\(path)")!
+    }
+    
+    func preload() {
+        task = imageLoader.load(from: makeURL(from: model.imagePath)) { _ in }
+    }
+    
+    func cancelTask() {
+        task?.cancel()
+        task = nil
+    }
+}
+
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var refreshController: NowPlayingRefreshController?
     private var imageLoader: MovieImageDataLoader?
     
-    private var feed: NowPlayingFeed? {
+    private var feed: NowPlayingFeed?
+    
+    private var cellControllers = [NowPlayingItemController]() {
         didSet {
             collectionView.reloadData()
         }
     }
-    
-    private var tasks = [IndexPath: MovieImageDataTask]()
     
     public convenience init(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -35,7 +76,9 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         refreshController?.refresh()
         
         refreshController?.onRefresh = {[weak self] feed in
-            self?.feed = feed
+            guard let self = self else {return}
+            self.feed = feed
+            self.cellControllers = feed.items.map {NowPlayingItemController(model: $0, imageLoader: self.imageLoader!)}
         }
     }
     
@@ -44,44 +87,29 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
     }
     
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let model = feed!.items[indexPath.item]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
-        cell.imageView.isShimmering = true
-        cell.imageView.image = nil
-        tasks[indexPath] = imageLoader?.load(from: makeURL(from: model.imagePath)) {[weak self, weak cell] result in
-            guard self?.tasks[indexPath] != nil else {
-                cell = nil
-                return
-            }
-            let image = (try? result.get()).flatMap(UIImage.init)
-            cell?.imageView.isShimmering = image == nil
-            cell?.imageView.image = image
-        }
+        let cellController = cellControllers[indexPath.item]
         
-        return cell
+        return cellController.view(collectionView, cellForItemAt: indexPath)
     }
     
     public override func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        removeTask(at: indexPath)
+        cancelImageLoad(at: indexPath)
     }
     
     public func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         for indexPath in indexPaths {
-            let model = feed!.items[indexPath.item]
-            tasks[indexPath] = imageLoader?.load(from: makeURL(from: model.imagePath)) {_ in}
+            let cellController = cellControllers[indexPath.item]
+            cellController.preload()
         }
     }
     
     public func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
-        indexPaths.forEach(removeTask)
+        indexPaths.forEach(cancelImageLoad)
     }
     
-    private func removeTask(at indexPath: IndexPath) {
-        tasks[indexPath]?.cancel()
-        tasks[indexPath] = nil
+    private func cancelImageLoad(at indexPath: IndexPath) {
+        let cellController = cellControllers[indexPath.item]
+        cellController.cancelTask()
     }
-    
-    private func makeURL(from path: String) -> URL {
-        return URL(string: "https://image.tmdb.org/t/p/w500/\(path)")!
-    }
+
 }
