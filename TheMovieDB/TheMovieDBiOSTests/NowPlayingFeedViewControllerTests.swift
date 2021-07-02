@@ -28,7 +28,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     func test_init_doesNotRequestLoadFeed() {
         let (_, loader) = makeSUT()
         
-        XCTAssertEqual(loader.requestCallCount, 0)
+        XCTAssertTrue(loader.queries.isEmpty)
     }
     
     func test_viewDidLoad_requestsLoadFeed() {
@@ -49,11 +49,9 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     
     
     private class NowPlayingLoaderSpy: NowPlayingLoader {
-        var requestCallCount = 0
         var queries = [NowPlayingQuery]()
         
         func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
-            requestCallCount += 1
             queries.append(query)
         }
     }
