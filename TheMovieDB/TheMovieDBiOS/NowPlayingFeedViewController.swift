@@ -41,4 +41,5 @@ public class NowPlayingFeedViewController: UICollectionViewController {
     public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return feed?.items.count ?? 0
     }
+    
 }

@@ -40,11 +40,21 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     
     func test_loadCompletion_rendersCellOnCompleteLoadSuccessfully() {
         let (sut, loader) = makeSUT()
+        
         sut.loadViewIfNeeded()
+        let emptyFeed = NowPlayingFeed(items: [], page: 1, totalPages: 1)
+        loader.completeSuccessWith(emptyFeed)
+        assertThat(sut, isRendering: emptyFeed)
+        
+        sut.simulateUserRefresh()
+        let oneCardFeed = NowPlayingFeed(items: [uniqueNowPlayingCard()], page: 1, totalPages: 1)
+        loader.completeSuccessWith(oneCardFeed)
+        assertThat(sut, isRendering: oneCardFeed)
 
+        
+        sut.simulateUserRefresh()
         let feed = anyFeed()
         loader.completeSuccessWith(feed)
-        
         assertThat(sut, isRendering: feed)
     }
     
