@@ -8,60 +8,6 @@
 import XCTest
 import TheMovieDB
 
-class RemoteMovieImageDataLoader {
-    private let client: HTTPClient
-    
-    enum Error: Swift.Error {
-        case connectivity
-        case invalidData
-    }
-    
-    typealias Result = MovieImageDataLoader.Result
-
-    init(client: HTTPClient) {
-        self.client = client
-    }
-    
-    func load(from url: URL, completion: @escaping (Result) -> Void) -> MovieImageDataTask {
-        let request = URLRequest(url: url)
-        let wrapper = HTTPClientTaskWrapper(completion)
-        wrapper.task = client.dispatch(request: request) { result in
-            wrapper.completeWith(result
-                            .mapError {_ in Error.connectivity}
-                            .flatMap { data, response in
-                guard response.statusCode == 200 else {
-                    return .failure(Error.invalidData)
-                }
-                return .success(data)
-            })
-        }
-        
-        return wrapper
-    }
-}
-
-public final class HTTPClientTaskWrapper: MovieImageDataTask {
-    var task: HTTPClientTask?
-    private var completion: ((RemoteMovieImageDataLoader.Result) -> Void)?
-    
-    init(_ completion: @escaping (RemoteMovieImageDataLoader.Result) -> Void) {
-        self.completion = completion
-    }
-    
-    func completeWith(_ result: RemoteMovieImageDataLoader.Result) {
-        completion?(result)
-    }
-    
-    public func cancel() {
-        task?.cancel()
-        preventFurtherCompletion()
-    }
-    
-    private func preventFurtherCompletion() {
-        completion = nil
-    }
-}
-
 class RemoteMovieImageDataLoaderTests: XCTestCase {
     
     func test_init_doesNotLoadImageData() {
