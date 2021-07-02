@@ -14,10 +14,14 @@ public class NowPlayingFeedComposer {
         let refreshController = NowPlayingRefreshController(loader: feedLoader)
         let viewController = NowPlayingFeedViewController(refreshController: refreshController)
         
-        refreshController.onRefresh = {[weak viewController] feed in
-            viewController?.cellControllers = feed.items.map {NowPlayingItemController(model: $0, imageLoader: imageLoader)}
-        }
+        refreshController.onRefresh = adaptCellControllers(from: viewController, and: imageLoader)
         
         return viewController
+    }
+    
+    private static func adaptCellControllers(from viewController: NowPlayingFeedViewController, and loader: MovieImageDataLoader) -> (NowPlayingFeed) -> Void{
+        {[weak viewController] feed in
+            viewController?.cellControllers = feed.items.map {NowPlayingItemController(model: $0, imageLoader: loader)}
+        }
     }
 }
