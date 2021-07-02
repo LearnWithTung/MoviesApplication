@@ -91,11 +91,7 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         
         return (sut, client)
     }
-    
-    private func anyData() -> Data {
-        Data("any".utf8)
-    }
-    
+
     private func expect(_ sut: RemoteMovieImageDataLoader, toCompleteWithError error: RemoteMovieImageDataLoader.Error, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         expect(sut, toCompleteWithResult: .failure(error), when: action, file: file, line: line)
     }
