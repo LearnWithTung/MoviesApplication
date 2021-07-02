@@ -43,6 +43,7 @@
 		DFEBD915268F344B0012E31A /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */; };
 		DFEBD95A268F3E110012E31A /* MovieImageDataLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD906268F1AE40012E31A /* MovieImageDataLoader.swift */; };
 		DFEBD95E268F3F230012E31A /* RemoteMovieImageDataLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD95D268F3F230012E31A /* RemoteMovieImageDataLoaderTests.swift */; };
+		DFEBD961268F5A990012E31A /* HTTPClientSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD960268F5A990012E31A /* HTTPClientSpy.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +125,7 @@
 		DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedComposer.swift; sourceTree = "<group>"; };
 		DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 		DFEBD95D268F3F230012E31A /* RemoteMovieImageDataLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteMovieImageDataLoaderTests.swift; sourceTree = "<group>"; };
+		DFEBD960268F5A990012E31A /* HTTPClientSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClientSpy.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +250,7 @@
 			children = (
 				DFAA5F39268DC491008E034E /* TestsHelpers.swift */,
 				DFEBD8C5268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift */,
+				DFEBD960268F5A990012E31A /* HTTPClientSpy.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -589,6 +592,7 @@
 				DFAA5F3A268DC491008E034E /* TestsHelpers.swift in Sources */,
 				DFAA5F37268DBF26008E034E /* URLSessionHTTPClientTests.swift in Sources */,
 				DFEBD8A8268E62E40012E31A /* URLProtocolStub.swift in Sources */,
+				DFEBD961268F5A990012E31A /* HTTPClientSpy.swift in Sources */,
 				DFEBD95E268F3F230012E31A /* RemoteMovieImageDataLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
