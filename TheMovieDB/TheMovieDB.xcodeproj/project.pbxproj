@@ -35,6 +35,7 @@
 		DFEBD8FD268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */; };
 		DFEBD8FF268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */; };
 		DFEBD901268F19BB0012E31A /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */; };
+		DFEBD903268F1A270012E31A /* UIRefreshControl+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,6 +109,7 @@
 		DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NowPlayingFeedViewController+Extensions.swift"; sourceTree = "<group>"; };
 		DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NowPlayingCardFeedCell+Extensions.swift"; sourceTree = "<group>"; };
 		DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIRefreshControl+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -276,6 +278,7 @@
 				DFEBD8FC268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift */,
 				DFEBD8FE268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift */,
 				DFEBD900268F19BB0012E31A /* UIImage+Extensions.swift */,
+				DFEBD902268F1A270012E31A /* UIRefreshControl+Extension.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -537,6 +540,7 @@
 				DFEBD8FF268F19570012E31A /* NowPlayingCardFeedCell+Extensions.swift in Sources */,
 				DFEBD8F6268EDB600012E31A /* TestsHelpers.swift in Sources */,
 				DFEBD901268F19BB0012E31A /* UIImage+Extensions.swift in Sources */,
+				DFEBD903268F1A270012E31A /* UIRefreshControl+Extension.swift in Sources */,
 				DFEBD8FD268F19080012E31A /* NowPlayingFeedViewController+Extensions.swift in Sources */,
 				DFEBD8F5268ED3300012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */,
 			);

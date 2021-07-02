@@ -51,13 +51,3 @@ extension NowPlayingFeedViewController {
         pf?.collectionView?(collectionView, cancelPrefetchingForItemsAt: [indexPath])
     }
 }
-
-private extension UIRefreshControl {
-    func simulateRefresh() {
-        allTargets.forEach { target in
-            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach {
-                (target as NSObject).perform(Selector($0))
-            }
-        }
-    }
-}
