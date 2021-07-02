@@ -7,32 +7,7 @@
 
 import XCTest
 import TheMovieDB
-
-class NowPlayingFeedViewController: UICollectionViewController {
-    private var loader: NowPlayingLoader?
-    
-    convenience init(loader: NowPlayingLoader) {
-        self.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.loader = loader
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
-        collectionView.refreshControl = refreshControl
-        
-        load()
-    }
-    
-    @objc private func load() {
-        collectionView.refreshControl?.beginRefreshing()
-        loader?.load(query: .init(page: 1)) {[weak self] _ in
-            self?.collectionView.refreshControl?.endRefreshing()
-        }
-    }
-}
+import TheMovieDBiOS
 
 class NowPlayingFeedViewControllerTests: XCTestCase {
     

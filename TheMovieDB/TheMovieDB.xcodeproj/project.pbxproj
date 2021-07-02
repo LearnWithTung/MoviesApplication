@@ -30,6 +30,7 @@
 		DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */; };
 		DFEBD8F5268ED3300012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8C5268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift */; };
 		DFEBD8F6268EDB600012E31A /* TestsHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F39268DC491008E034E /* TestsHelpers.swift */; };
+		DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +99,7 @@
 		DFEBD8D8268ECF9F0012E31A /* TheMovieDBiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TheMovieDBiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFEBD8DF268ECF9F0012E31A /* TheMovieDBiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheMovieDBiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedViewControllerTests.swift; sourceTree = "<group>"; };
+		DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +240,7 @@
 		DFEBD8D9268ECF9F0012E31A /* TheMovieDBiOS */ = {
 			isa = PBXGroup;
 			children = (
+				DFEBD8F7268EDD520012E31A /* NowPlayingFeedViewController.swift */,
 			);
 			path = TheMovieDBiOS;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 					};
 					DFEBD8D7268ECF9F0012E31A = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 					};
 					DFEBD8DE268ECF9F0012E31A = {
 						CreatedOnToolsVersion = 13.0;
@@ -500,6 +504,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -822,6 +827,7 @@
 		DFEBD8E7268ECF9F0012E31A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -844,6 +850,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -852,6 +859,7 @@
 		DFEBD8E8268ECF9F0012E31A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -883,6 +891,7 @@
 		DFEBD8E9268ECF9F0012E31A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -907,6 +916,7 @@
 		DFEBD8EA268ECF9F0012E31A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
