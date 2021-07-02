@@ -28,7 +28,9 @@ class NowPlayingFeedViewController: UICollectionViewController {
     }
     
     @objc private func load() {
-        loader?.load(query: .init(page: 1)) { _ in }
+        loader?.load(query: .init(page: 1)) {[weak self] _ in
+            self?.collectionView.refreshControl?.endRefreshing()
+        }
     }
 }
 
@@ -63,6 +65,15 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.isLoadingIndicatorVisible, true)
     }
     
+    func test_viewDidLoad_hidesLoadingIndicatorOnCompleteLoad() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        loader.completeWithError(anyNSError())
+
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, false)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -72,15 +83,24 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         return (sut, loader)
     }
     
+    private func anyNSError() -> NSError {
+        NSError(domain: "any", code: 0, userInfo: nil)
+    }
     
     private class NowPlayingLoaderSpy: NowPlayingLoader {
         enum Request: Equatable {
             case load(page: Int)
         }
         var requests = [Request]()
+        var completions = [(NowPlayingLoader.Result) -> Void]()
         
         func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
             requests.append(.load(page: query.page))
+            completions.append(completion)
+        }
+        
+        func completeWithError(_ error: NSError, at index: Int = 0) {
+            completions[index](.failure(error))
         }
     }
     
