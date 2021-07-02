@@ -227,6 +227,23 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         wait(for: [exp], timeout: 0.1)
     }
     
+    func test_loadImage_dispatchFromBackgrounToMainQueue() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let feed = anyFeed()
+        loader.completeSuccessWith(feed)
+
+        sut.simulateItemVisible()
+        let exp = expectation(description: "wait for completion")
+        DispatchQueue.global().async {
+            loader.completeLoadImageWith(UIImage.make(withColor: .red).pngData()!)
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 0.1)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
