@@ -74,6 +74,15 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.isLoadingIndicatorVisible, false)
     }
     
+    func test_userRefresh_displaysLoadingIndicatorOnLoad() {
+        let (sut, _) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        sut.simulateUserRefresh()
+
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, true)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
