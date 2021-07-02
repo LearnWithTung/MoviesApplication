@@ -302,7 +302,7 @@ class NowPlayingFeedIntegrationUITests: XCTestCase {
         
         var imageLoadedURLs = [URL]()
         var cancelledURLs = [URL]()
-        var imageLoadingCompletions = [(Swift.Result<Data, Error>) -> Void]()
+        var imageLoadingCompletions = [(MovieImageDataLoader.Result) -> Void]()
         
         private struct Task: MovieImageDataTask {
             let action: () -> Void
