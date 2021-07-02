@@ -216,7 +216,7 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
-        let sut = NowPlayingFeedViewController(feedLoader: loader, imageLoader: loader)
+        let sut = NowPlayingFeedComposer.viewControllerComposedWith(feedLoader: loader, imageLoader: loader)
         checkForMemoryLeaks(sut, file: file, line: line)
         checkForMemoryLeaks(loader, file: file, line: line)
         return (sut, loader)

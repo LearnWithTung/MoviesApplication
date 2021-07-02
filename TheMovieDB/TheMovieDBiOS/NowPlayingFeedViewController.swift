@@ -18,9 +18,9 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         }
     }
     
-    public convenience init(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) {
+    public convenience init(refreshController: NowPlayingRefreshController, imageLoader: MovieImageDataLoader) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.refreshController = NowPlayingRefreshController(loader: feedLoader)
+        self.refreshController = refreshController
         self.imageLoader = imageLoader
     }
     
