@@ -19,14 +19,21 @@ class NowPlayingFeedViewController {
 class NowPlayingFeedViewControllerTests: XCTestCase {
     
     func test_init_doesNotRequestLoadFeed() {
-        let loader = NowPlayingLoaderSpy()
-        _ = NowPlayingFeedViewController(loader: loader)
-        
+        let (_, loader) = makeSUT()
         
         XCTAssertEqual(loader.requestCallCount, 0)
     }
     
     // MARK: - Helpers
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
+        let loader = NowPlayingLoaderSpy()
+        let sut = NowPlayingFeedViewController(loader: loader)
+        checkForMemoryLeaks(sut, file: file, line: line)
+        checkForMemoryLeaks(loader, file: file, line: line)
+        return (sut, loader)
+    }
+    
+    
     private class NowPlayingLoaderSpy: NowPlayingLoader {
         var requestCallCount = 0
         

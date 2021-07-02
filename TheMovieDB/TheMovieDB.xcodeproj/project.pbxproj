@@ -28,6 +28,7 @@
 		DFEBD8EE268ED11E0012E31A /* TheMovieDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; platformFilter = ios; };
 		DFEBD8EF268ED11E0012E31A /* TheMovieDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */; };
+		DFEBD8F5268ED3300012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8C5268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -506,6 +507,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */,
+				DFEBD8F5268ED3300012E31A /* XCTestCase+memoryLeaksTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
