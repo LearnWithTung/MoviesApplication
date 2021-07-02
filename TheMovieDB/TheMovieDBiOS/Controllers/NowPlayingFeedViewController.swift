@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import TheMovieDB
 
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var refreshController: NowPlayingRefreshController?
@@ -17,7 +16,7 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         }
     }
     
-    public convenience init(refreshController: NowPlayingRefreshController) {
+    convenience init(refreshController: NowPlayingRefreshController) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.refreshController = refreshController
     }
