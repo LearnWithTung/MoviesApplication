@@ -9,7 +9,6 @@ import Foundation
 import TheMovieDB
 
 public class NowPlayingFeedComposer {
-    
     public static func viewControllerComposedWith(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) -> NowPlayingFeedViewController {
         let refreshController = NowPlayingRefreshController(loader: MainQueueDispatchDecorator(decoratee: feedLoader))
         let viewController = NowPlayingFeedViewController(refreshController: refreshController)
@@ -31,27 +30,7 @@ public class NowPlayingFeedComposer {
     }
 }
 
-public final class MainQueueDispatchDecorator<T> {
-
-  private(set) public var decoratee: T
-
-  public init(decoratee: T) {
-    self.decoratee = decoratee
-  }
-
-  public func dispatch(completion: @escaping () -> Void) {
-    guard Thread.isMainThread else {
-      return DispatchQueue.main.async(execute: completion)
-    }
-
-    completion()
-  }
-}
-
-
-
 extension MainQueueDispatchDecorator: MovieImageDataLoader where T == MovieImageDataLoader {
-    
     public func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> MovieImageDataTask {
         decoratee.load(from: url) { [weak self] result in
             self?.dispatch {
@@ -63,7 +42,6 @@ extension MainQueueDispatchDecorator: MovieImageDataLoader where T == MovieImage
 
 
 extension MainQueueDispatchDecorator: NowPlayingLoader where T == NowPlayingLoader {
-    
     public func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
         decoratee.load(query: query) { [weak self] result in
             self?.dispatch {

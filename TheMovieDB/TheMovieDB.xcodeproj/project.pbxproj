@@ -41,6 +41,7 @@
 		DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */; };
 		DFEBD90B268F2C230012E31A /* NowPlayingItemController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */; };
 		DFEBD90D268F2C4D0012E31A /* NowPlayingFeedComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */; };
+		DFEBD915268F344B0012E31A /* MainQueueDispatchDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +121,7 @@
 		DFEBD908268F28960012E31A /* NowPlayingRefreshController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingRefreshController.swift; sourceTree = "<group>"; };
 		DFEBD90A268F2C230012E31A /* NowPlayingItemController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingItemController.swift; sourceTree = "<group>"; };
 		DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedComposer.swift; sourceTree = "<group>"; };
+		DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainQueueDispatchDecorator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +328,7 @@
 			isa = PBXGroup;
 			children = (
 				DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */,
+				DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */,
 			);
 			path = Composers;
 			sourceTree = "<group>";
@@ -590,6 +593,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEBD915268F344B0012E31A /* MainQueueDispatchDecorator.swift in Sources */,
 				DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */,
 				DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */,
 				DFEBD907268F1AE40012E31A /* MovieImageDataLoader.swift in Sources */,
