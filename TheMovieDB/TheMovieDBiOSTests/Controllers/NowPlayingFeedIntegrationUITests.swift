@@ -9,7 +9,7 @@ import XCTest
 import TheMovieDB
 import TheMovieDBiOS
 
-class NowPlayingFeedViewControllerTests: XCTestCase {
+class NowPlayingFeedIntegrationUITests: XCTestCase {
     
     func test_loadFeed_requestsLoadFirstPage() {
         let (sut, loader) = makeSUT()
