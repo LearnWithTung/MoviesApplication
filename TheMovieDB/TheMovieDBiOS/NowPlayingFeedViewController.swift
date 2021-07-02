@@ -10,18 +10,16 @@ import TheMovieDB
 
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var refreshController: NowPlayingRefreshController?
-    private var imageLoader: MovieImageDataLoader?
         
-    private var cellControllers = [NowPlayingItemController]() {
+    var cellControllers = [NowPlayingItemController]() {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    public convenience init(refreshController: NowPlayingRefreshController, imageLoader: MovieImageDataLoader) {
+    public convenience init(refreshController: NowPlayingRefreshController) {
         self.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.refreshController = refreshController
-        self.imageLoader = imageLoader
     }
     
     public override func viewDidLoad() {
@@ -31,11 +29,6 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         collectionView.register(NowPlayingCardFeedCell.self, forCellWithReuseIdentifier: "NowPlayingCardFeedCell")
         collectionView.prefetchDataSource = self
         refreshController?.refresh()
-        
-        refreshController?.onRefresh = {[weak self] feed in
-            guard let self = self else {return}
-            self.cellControllers = feed.items.map {NowPlayingItemController(model: $0, imageLoader: self.imageLoader!)}
-        }
     }
     
     public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
