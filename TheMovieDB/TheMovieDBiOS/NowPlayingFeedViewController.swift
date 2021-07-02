@@ -52,9 +52,7 @@ public final class NowPlayingItemController {
 public final class NowPlayingFeedViewController: UICollectionViewController, UICollectionViewDataSourcePrefetching {
     private var refreshController: NowPlayingRefreshController?
     private var imageLoader: MovieImageDataLoader?
-    
-    private var feed: NowPlayingFeed?
-    
+        
     private var cellControllers = [NowPlayingItemController]() {
         didSet {
             collectionView.reloadData()
@@ -77,13 +75,12 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
         
         refreshController?.onRefresh = {[weak self] feed in
             guard let self = self else {return}
-            self.feed = feed
             self.cellControllers = feed.items.map {NowPlayingItemController(model: $0, imageLoader: self.imageLoader!)}
         }
     }
     
     public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return feed!.items.count
+        return cellControllers.count
     }
     
     public override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
