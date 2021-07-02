@@ -27,6 +27,7 @@
 		DFEBD8E0268ECF9F0012E31A /* TheMovieDBiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEBD8D8268ECF9F0012E31A /* TheMovieDBiOS.framework */; };
 		DFEBD8EE268ED11E0012E31A /* TheMovieDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; platformFilter = ios; };
 		DFEBD8EF268ED11E0012E31A /* TheMovieDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,6 +95,7 @@
 		DFEBD8C5268E6F290012E31A /* XCTestCase+memoryLeaksTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+memoryLeaksTracking.swift"; sourceTree = "<group>"; };
 		DFEBD8D8268ECF9F0012E31A /* TheMovieDBiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TheMovieDBiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFEBD8DF268ECF9F0012E31A /* TheMovieDBiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheMovieDBiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingFeedViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,7 @@
 		DFEBD8E3268ECF9F0012E31A /* TheMovieDBiOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				DFEBD8F3268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift */,
 			);
 			path = TheMovieDBiOSTests;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 					};
 					DFEBD8DE268ECF9F0012E31A = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 					};
 				};
 			};
@@ -501,6 +505,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEBD8F4268ED1880012E31A /* NowPlayingFeedViewControllerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -874,6 +879,7 @@
 		DFEBD8E9268ECF9F0012E31A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -888,6 +894,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -896,6 +903,7 @@
 		DFEBD8EA268ECF9F0012E31A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
