@@ -22,6 +22,7 @@ class NowPlayingFeedViewController: UICollectionViewController {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(load), for: .valueChanged)
         collectionView.refreshControl = refreshControl
+        refreshControl.beginRefreshing()
         
         load()
     }
@@ -55,6 +56,13 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.requests, [.load(page: 1), .load(page: 1)])
     }
     
+    func test_viewDidLoad_displaysLoadingIndicatorOnLoad() {
+        let (sut, _) = makeSUT()
+        sut.loadViewIfNeeded()
+
+        XCTAssertEqual(sut.isLoadingIndicatorVisible, true)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: NowPlayingFeedViewController, loader: NowPlayingLoaderSpy) {
         let loader = NowPlayingLoaderSpy()
@@ -81,6 +89,10 @@ class NowPlayingFeedViewControllerTests: XCTestCase {
 private extension NowPlayingFeedViewController {
     func simulateUserRefresh() {
         collectionView.refreshControl?.simulateRefresh()
+    }
+    
+    var isLoadingIndicatorVisible: Bool {
+        return collectionView.refreshControl?.isRefreshing == true
     }
 }
 
