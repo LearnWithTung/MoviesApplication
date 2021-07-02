@@ -14,6 +14,11 @@ class RemoteMovieImageDataLoader {
     init(client: HTTPClient) {
         self.client = client
     }
+    
+    func load(from url: URL) {
+        let request = URLRequest(url: url)
+        _ = client.dispatch(request: request) { _ in}
+    }
 }
 
 class RemoteMovieImageDataLoaderTests: XCTestCase {
@@ -25,7 +30,21 @@ class RemoteMovieImageDataLoaderTests: XCTestCase {
         XCTAssertTrue(client.requestedURLs.isEmpty)
     }
     
+    func test_load_requestsImageDataFromURL() {
+        let client = HTTPClientSpy()
+        let sut = RemoteMovieImageDataLoader(client: client)
+        
+        let url = anyURL()
+        sut.load(from: anyURL())
+        
+        XCTAssertEqual(client.requestedURLs, [URLRequest(url: url)])
+    }
+    
     // MARK: - Helpers
+    private func anyURL() -> URL {
+        return URL(string: "https://any-url.com")!
+    }
+    
     private class HTTPClientSpy: HTTPClient {
         
         private var messages = [(request: URLRequest, completion: (HTTPClient.HTTPClientResult) -> Void)]()
