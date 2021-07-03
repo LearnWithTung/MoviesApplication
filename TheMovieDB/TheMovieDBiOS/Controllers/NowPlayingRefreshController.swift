@@ -11,8 +11,8 @@ import TheMovieDB
 public final class NowPlayingRefreshController: NSObject {
     private let viewModel: NowPlayingRefreshViewModel
     
-    init(loader: NowPlayingLoader) {
-        self.viewModel = NowPlayingRefreshViewModel(loader: loader)
+    init(viewModel: NowPlayingRefreshViewModel) {
+        self.viewModel = viewModel
     }
     
     lazy var view = binded()

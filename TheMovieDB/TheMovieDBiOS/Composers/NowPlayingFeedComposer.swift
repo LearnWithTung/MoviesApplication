@@ -10,7 +10,8 @@ import TheMovieDB
 
 public class NowPlayingFeedComposer {
     public static func viewControllerComposedWith(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) -> NowPlayingFeedViewController {
-        let refreshController = NowPlayingRefreshController(loader: MainQueueDispatchDecorator(decoratee: feedLoader))
+        let viewModel = NowPlayingRefreshViewModel(loader: MainQueueDispatchDecorator(decoratee: feedLoader))
+        let refreshController = NowPlayingRefreshController(viewModel: viewModel)
         let viewController = NowPlayingFeedViewController(refreshController: refreshController)
         
         refreshController.onRefresh = adaptCellControllers(from: viewController,
