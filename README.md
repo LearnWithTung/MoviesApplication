@@ -6,6 +6,12 @@
 
 #
 
+## Feed UI
+![](Feed.png)
+
+## Architecture (MVC Implementation)
+![](Architecture_MVC.png)
+
 ### Use Case Specs
 
 #### Load Now Playing Feed From Remote

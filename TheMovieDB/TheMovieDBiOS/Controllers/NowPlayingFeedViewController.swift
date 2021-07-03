@@ -24,11 +24,16 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
     public override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureCollectionView()
+        refreshController?.refresh()
+    }
+    
+    private func configureCollectionView() {
         collectionView.collectionViewLayout = createLayout(size: view.bounds.size)
         collectionView.refreshControl = refreshController?.view
         collectionView.register(NowPlayingCardFeedCell.self, forCellWithReuseIdentifier: "NowPlayingCardFeedCell")
         collectionView.prefetchDataSource = self
-        refreshController?.refresh()
+        collectionView.showsVerticalScrollIndicator = false
     }
     
     public override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

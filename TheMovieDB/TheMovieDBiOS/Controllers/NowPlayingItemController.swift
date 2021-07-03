@@ -12,6 +12,7 @@ public final class NowPlayingItemController {
     private let model: NowPlayingCard
     private let imageLoader: MovieImageDataLoader
     private var task: MovieImageDataTask?
+    private var cell: NowPlayingCardFeedCell!
     
     init(model: NowPlayingCard, imageLoader: MovieImageDataLoader) {
         self.model = model
@@ -19,17 +20,14 @@ public final class NowPlayingItemController {
     }
     
     public func view(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as! NowPlayingCardFeedCell
-        cell.imageView.isShimmering = true
+        cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as? NowPlayingCardFeedCell
         cell.imageView.image = nil
-        task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak self, weak cell] result in
-            guard self?.task != nil else {
-                cell = nil
-                return
-            }
+        cell.isShimmering = true
+        task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak cell] result in
+            guard let cell = cell else {return}
             let image = (try? result.get()).flatMap(UIImage.init)
-            cell?.imageView.isShimmering = image == nil
-            cell?.imageView.image = image
+            cell.isShimmering = image == nil
+            cell.imageView.image = image
         }
         
         return cell
@@ -46,5 +44,10 @@ public final class NowPlayingItemController {
     func cancelTask() {
         task?.cancel()
         task = nil
+        releaseCellForReuse()
+    }
+    
+    private func releaseCellForReuse() {
+        cell = nil
     }
 }
