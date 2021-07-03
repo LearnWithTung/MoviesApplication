@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import TheMovieDB
 
 public final class NowPlayingRefreshController: NSObject {
     private let viewModel: NowPlayingRefreshViewModel
