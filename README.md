@@ -4,6 +4,8 @@
 
 ⚠️ This project uses APIs from: https://www.themoviedb.org/ 
 
+⚠️ travis ci is not working anymore due to out of credits :( . I'll try to use another CI server soon.
+
 #
 
 ## Feed UI
