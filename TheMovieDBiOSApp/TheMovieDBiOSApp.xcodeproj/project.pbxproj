@@ -17,6 +17,7 @@
 		DFEBD959268F3DA80012E31A /* TheMovieDBiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFEBD957268F3DA80012E31A /* TheMovieDBiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DFEBD965269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */; };
 		DFEBD96726902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD96626902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift */; };
+		DFEBD969269030CD0012E31A /* Credential.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD968269030CD0012E31A /* Credential.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		DFEBD957268F3DA80012E31A /* TheMovieDBiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TheMovieDBiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedHTTPClientDecoratorTests.swift; sourceTree = "<group>"; };
 		DFEBD96626902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedHTTPClientDecorator.swift; sourceTree = "<group>"; };
+		DFEBD968269030CD0012E31A /* Credential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credential.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				DFEBD922268F34C50012E31A /* AppDelegate.swift */,
 				DFEBD924268F34C50012E31A /* SceneDelegate.swift */,
 				DFEBD96626902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift */,
+				DFEBD968269030CD0012E31A /* Credential.swift */,
 				DFEBD92B268F34C70012E31A /* Assets.xcassets */,
 				DFEBD92D268F34C70012E31A /* LaunchScreen.storyboard */,
 				DFEBD930268F34C70012E31A /* Info.plist */,
@@ -231,6 +234,7 @@
 			files = (
 				DFEBD923268F34C50012E31A /* AppDelegate.swift in Sources */,
 				DFEBD96726902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift in Sources */,
+				DFEBD969269030CD0012E31A /* Credential.swift in Sources */,
 				DFEBD925268F34C50012E31A /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
