@@ -7,6 +7,7 @@
 
 import Foundation
 import TheMovieDB
+import UIKit
 
 public class NowPlayingFeedComposer {
     public static func viewControllerComposedWith(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) -> NowPlayingFeedViewController {
@@ -23,9 +24,8 @@ public class NowPlayingFeedComposer {
     private static func adaptCellControllers(from viewController: NowPlayingFeedViewController, and loader: MovieImageDataLoader) -> (NowPlayingFeed) -> Void{
         {[weak viewController] feed in
             viewController?.cellControllers = feed.items.map {
-                NowPlayingItemController(model: $0,
-                                         imageLoader: MainQueueDispatchDecorator(decoratee: loader))
-                
+                let viewModel = NowPlayingItemViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: loader), transformer: UIImage.init)
+                return NowPlayingItemController(viewModel: viewModel)
             }
         }
     }

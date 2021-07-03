@@ -6,14 +6,13 @@
 //
 
 import UIKit
-import TheMovieDB
 
 public final class NowPlayingItemController {
     private let viewModel: NowPlayingItemViewModel<UIImage>
     private var cell: NowPlayingCardFeedCell!
     
-    init(model: NowPlayingCard, imageLoader: MovieImageDataLoader) {
-        self.viewModel = NowPlayingItemViewModel(model: model, imageLoader: imageLoader, transformer: UIImage.init)
+    init(viewModel: NowPlayingItemViewModel<UIImage>) {
+        self.viewModel = viewModel
     }
     
     public func view(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
