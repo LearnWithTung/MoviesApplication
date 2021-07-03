@@ -18,10 +18,9 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     func test_load_requestsDataFromRemote() {
         let url = URL(string: "http://a-url.com")!
-        let credential = Credential(apiKey: "a key")
         let page = 1
-        let expectedRequest = makeRequestFrom(credential: credential, url: url, page: page)
-        let (sut, client) = makeSUT(url: url, credential: credential)
+        let expectedRequest = makeRequestFrom(url: url, page: page)
+        let (sut, client) = makeSUT(url: url)
         
         sut.load(query: .init(page: page)) {_ in}
         
@@ -30,10 +29,9 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     
     func test_loadTwice_requestsDataFromRemoteTwice() {
         let url = URL(string: "http://a-url.com")!
-        let credential = Credential(apiKey: "a key")
         let page = 1
-        let expectedRequest = makeRequestFrom(credential: credential, url: url, page: page)
-        let (sut, client) = makeSUT(url: url, credential: credential)
+        let expectedRequest = makeRequestFrom(url: url, page: page)
+        let (sut, client) = makeSUT(url: url)
         
         sut.load(query: .init(page: page)) {_ in}
         sut.load(query: .init(page: page)) {_ in}
@@ -97,7 +95,6 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     func test_loadCompletion_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
         let client = HTTPClientSpy()
         var sut: RemoteNowPlayingFeedLoader? = RemoteNowPlayingFeedLoader(url: URL(string: "http://any-url.com")!,
-                                                                          credential: .init(apiKey: "any"),
                                                                           client: client)
         
         var capturedResult: RemoteNowPlayingFeedLoader.Result?
@@ -110,9 +107,9 @@ class LoadNowPlayingFeedFromRemoteUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT(url: URL = URL(string: "http://a-url.com")!, credential: Credential = .init(apiKey: "any"), file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "http://a-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteNowPlayingFeedLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
-        let sut = RemoteNowPlayingFeedLoader(url: url, credential: credential, client: client)
+        let sut = RemoteNowPlayingFeedLoader(url: url, client: client)
         checkForMemoryLeaks(sut, file: file, line: line)
         checkForMemoryLeaks(client, file: file, line: line)
         return (sut, client)

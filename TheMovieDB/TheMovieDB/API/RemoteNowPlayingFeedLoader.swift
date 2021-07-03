@@ -9,12 +9,10 @@ import Foundation
 
 public class RemoteNowPlayingFeedLoader: NowPlayingLoader {
     private let url: URL
-    private let credential: Credential
     private let client: HTTPClient
     
-    public init(url: URL, credential: Credential, client: HTTPClient) {
+    public init(url: URL, client: HTTPClient) {
         self.url = url
-        self.credential = credential
         self.client = client
     }
     
@@ -41,7 +39,6 @@ public class RemoteNowPlayingFeedLoader: NowPlayingLoader {
     private func makeRequestWith(query: NowPlayingQuery) -> URLRequest {
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.queryItems = [
-            URLQueryItem(name: "api_key", value: credential.apiKey),
             URLQueryItem(name: "page", value: "\(query.page)")
         ]
         
