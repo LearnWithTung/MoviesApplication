@@ -13,7 +13,7 @@
 
 ✅ **MVVM** implementation : `master`
 
-❌ **MVP** implementation : **comming soon**
+❌ **MVP** implementation : **coming soon**
 
 ## Feed UI
 ![](Feed.png)
