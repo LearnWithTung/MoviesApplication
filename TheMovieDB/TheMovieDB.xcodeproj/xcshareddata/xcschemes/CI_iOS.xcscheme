@@ -62,9 +62,9 @@
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DFEBD8BA268E668F0012E31A"
-               BuildableName = "IntegrationEndToEndNowPlayingAPITests.xctest"
-               BlueprintName = "IntegrationEndToEndNowPlayingAPITests"
+               BlueprintIdentifier = "DFEBD8DE268ECF9F0012E31A"
+               BuildableName = "TheMovieDBiOSTests.xctest"
+               BlueprintName = "TheMovieDBiOSTests"
                ReferencedContainer = "container:TheMovieDB.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -73,10 +73,21 @@
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DFEBD8DE268ECF9F0012E31A"
-               BuildableName = "TheMovieDBiOSTests.xctest"
-               BlueprintName = "TheMovieDBiOSTests"
-               ReferencedContainer = "container:TheMovieDB.xcodeproj">
+               BlueprintIdentifier = "DFEBD934268F34C70012E31A"
+               BuildableName = "TheMovieDBiOSAppTests.xctest"
+               BlueprintName = "TheMovieDBiOSAppTests"
+               ReferencedContainer = "container:../TheMovieDBiOSApp/TheMovieDBiOSApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DF7BEF6226907EE8009591B4"
+               BuildableName = "NowPlayingFeedAPIEndToEndTests.xctest"
+               BlueprintName = "NowPlayingFeedAPIEndToEndTests"
+               ReferencedContainer = "container:../TheMovieDBiOSApp/TheMovieDBiOSApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

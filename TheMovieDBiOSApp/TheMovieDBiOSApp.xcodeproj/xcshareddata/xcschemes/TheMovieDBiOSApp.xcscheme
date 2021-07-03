@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DFAA5F0A268D9E85008E034E"
-               BuildableName = "TheMovieDB.framework"
-               BlueprintName = "TheMovieDB"
-               ReferencedContainer = "container:TheMovieDB.xcodeproj">
+               BlueprintIdentifier = "DFEBD91E268F34C50012E31A"
+               BuildableName = "TheMovieDBiOSApp.app"
+               BlueprintName = "TheMovieDBiOSApp"
+               ReferencedContainer = "container:TheMovieDBiOSApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,28 +26,26 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES"
-      codeCoverageEnabled = "YES"
-      onlyGenerateCoverageForSpecifiedTargets = "YES">
-      <CodeCoverageTargets>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DFAA5F0A268D9E85008E034E"
-            BuildableName = "TheMovieDB.framework"
-            BlueprintName = "TheMovieDB"
-            ReferencedContainer = "container:TheMovieDB.xcodeproj">
-         </BuildableReference>
-      </CodeCoverageTargets>
+      shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
-            skipped = "NO"
-            testExecutionOrdering = "random">
+            skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DFAA5F12268D9E85008E034E"
-               BuildableName = "TheMovieDBTests.xctest"
-               BlueprintName = "TheMovieDBTests"
-               ReferencedContainer = "container:TheMovieDB.xcodeproj">
+               BlueprintIdentifier = "DFEBD934268F34C70012E31A"
+               BuildableName = "TheMovieDBiOSAppTests.xctest"
+               BlueprintName = "TheMovieDBiOSAppTests"
+               ReferencedContainer = "container:TheMovieDBiOSApp.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DF7BEF6226907EE8009591B4"
+               BuildableName = "NowPlayingFeedAPIEndToEndTests.xctest"
+               BlueprintName = "NowPlayingFeedAPIEndToEndTests"
+               ReferencedContainer = "container:TheMovieDBiOSApp.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -62,6 +60,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "DFEBD91E268F34C50012E31A"
+            BuildableName = "TheMovieDBiOSApp.app"
+            BlueprintName = "TheMovieDBiOSApp"
+            ReferencedContainer = "container:TheMovieDBiOSApp.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -69,15 +77,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "DFAA5F0A268D9E85008E034E"
-            BuildableName = "TheMovieDB.framework"
-            BlueprintName = "TheMovieDB"
-            ReferencedContainer = "container:TheMovieDB.xcodeproj">
+            BlueprintIdentifier = "DFEBD91E268F34C50012E31A"
+            BuildableName = "TheMovieDBiOSApp.app"
+            BlueprintName = "TheMovieDBiOSApp"
+            ReferencedContainer = "container:TheMovieDBiOSApp.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

@@ -1,15 +1,16 @@
 //
-//  IntegrationEndToEndNowPlayingAPITests.swift
-//  IntegrationEndToEndNowPlayingAPITests
+//  NowPlayingFeedAPIEndToEndTests.swift
+//  NowPlayingFeedAPIEndToEndTests
 //
-//  Created by Tung Vu on 02/07/2021.
+//  Created by Tung Vu on 03/07/2021.
 //
 
 import XCTest
 import TheMovieDB
+import TheMovieDBiOSApp
 
-class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
-    
+class NowPlayingFeedAPIEndToEndTests: XCTestCase {
+
     private let api_key = "494d9fe55bdb97bc7ee0b57dfa123t"
 
     func test_loadNowPlayingFeed_matchesAPIResult() {
@@ -39,10 +40,17 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
         let url = URL(string: "https://learnwithtung.free.beeceptor.com/api/v1/movie/now_playing")!
         let session = URLSession(configuration: .ephemeral)
         let client = URLSessionHTTPClient(session: session)
-        let remoteLoader = RemoteNowPlayingFeedLoader(url: url, credential: .init(apiKey: api_key), client: client)
+        let decoratorClient = AuthenticatedHTTPClientDecorator(decoratee: client, credential: .init(apiKey: api_key))
+        let remoteLoader = RemoteNowPlayingFeedLoader(url: url, client: decoratorClient)
         checkForMemoryLeaks(client, file: file, line: line)
         checkForMemoryLeaks(remoteLoader, file: file, line: line)
         return remoteLoader
+    }
+    
+    private func checkForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
+        }
     }
     
     private func card(at index: Int = 0) -> NowPlayingCard {
@@ -83,5 +91,4 @@ class IntegrationEndToEndNowPlayingAPITests: XCTestCase {
         
         return paths[index]
     }
-
 }
