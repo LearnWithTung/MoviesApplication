@@ -16,13 +16,21 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
         self.decoratee = decoratee
         self.credential = credential
     }
-    private struct Task: HTTPClientTask {
-        func cancel() {}
+    private struct DecoratedTask: HTTPClientTask {
+        private let decorateeTask: HTTPClientTask
+        
+        init(decorateeTask: HTTPClientTask) {
+            self.decorateeTask = decorateeTask
+        }
+        
+        func cancel() {
+            decorateeTask.cancel()
+        }
     }
     
     func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) -> HTTPClientTask {
-        _ = decoratee.dispatch(request: makeRequest(from: request, credential: credential)) { _ in }
-        return Task()
+        let decorateeTask = decoratee.dispatch(request: makeRequest(from: request, credential: credential)) { _ in }
+        return DecoratedTask(decorateeTask: decorateeTask)
     }
     
     private func makeRequest(from original: URLRequest, credential: Credential) -> URLRequest {
@@ -32,7 +40,11 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
         
         components.queryItems = queriesItem + [decoratedQuery]
         
-        return components.url == nil ? original : URLRequest(url: components.url!)
+        guard let authenticatedRequestURL = components.url else { return original }
+
+        var signedRequest = original
+        signedRequest.url = authenticatedRequestURL
+        return signedRequest
     }
 
 }
@@ -59,6 +71,20 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
         XCTAssertEqual(client.requestedURLs, [expectedRequest])
     }
     
+    func test_cancel_decorateeCancelLoadingTask() {
+        let client = HTTPClientSpy()
+        let credential = Credential(apiKey: "any_key")
+        let sut = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
+        
+        let request = URLRequest(url: URL(string: "https://a-url.com")!)
+        let expectedRequest = URLRequest(url: URL(string: "https://a-url.com?api_key=any_key")!)
+        let task = sut.dispatch(request: request) { _ in }
+        
+        task.cancel()
+        
+        XCTAssertEqual(client.cancelledURLs, [expectedRequest])
+    }
+    
     // MARK - Helpers
     private class HTTPClientSpy: HTTPClient {
         
@@ -68,7 +94,7 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
             return messages.map { $0.request }
         }
         
-        var cancelledURLs = [URL]()
+        var cancelledURLs = [URLRequest]()
         
         private struct Task: HTTPClientTask {
             var action: (() -> Void)?
@@ -85,10 +111,10 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
         func dispatch(request: URLRequest, completion: @escaping (HTTPClient.HTTPClientResult) -> Void)  -> HTTPClientTask {
             messages.append((request, completion))
             
-            return Task {[weak self] in self?.cancelTask(url: request.url!)}
+            return Task {[weak self] in self?.cancelTask(url: request)}
         }
         
-        private func cancelTask(url: URL) {
+        private func cancelTask(url: URLRequest) {
             cancelledURLs.append(url)
         }
         
