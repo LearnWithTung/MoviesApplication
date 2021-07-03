@@ -8,30 +8,56 @@
 import UIKit
 import TheMovieDB
 
-public final class NowPlayingRefreshController: NSObject {
+public final class NowPlayingRefreshViewModel {
     private let loader: NowPlayingLoader
     
     init(loader: NowPlayingLoader) {
         self.loader = loader
     }
     
-    lazy var view: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    var onRefreshStateChange: ((Bool) -> Void)?
+    var onLoadFeed: ((NowPlayingFeed) -> Void)?
+    
+    func loadFeed() {
+        onRefreshStateChange?(true)
+        loader.load(query: .init(page: 1)) {[weak self] result in
+            self?.onRefreshStateChange?(false)
+            if let feed = try? result.get() {
+                self?.onLoadFeed?(feed)
+            }
+        }
+    }
 
-        return refreshControl
-    }()
+}
+
+public final class NowPlayingRefreshController: NSObject {
+    private let viewModel: NowPlayingRefreshViewModel
+    
+    init(loader: NowPlayingLoader) {
+        self.viewModel = NowPlayingRefreshViewModel(loader: loader)
+    }
+    
+    lazy var view = binded()
     
     var onRefresh: ((NowPlayingFeed) -> Void)?
     
     @objc func refresh() {
-        view.beginRefreshing()
-        loader.load(query: .init(page: 1)) {[weak self] result in
-            self?.view.endRefreshing()
-            if let feed = try? result.get() {
-                self?.onRefresh?(feed)
-            }
+        viewModel.loadFeed()
+    }
+    
+    private func binded() -> UIRefreshControl {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        viewModel.onRefreshStateChange = {[weak self] isLoading in
+            isLoading ? self?.view.beginRefreshing() : self?.view.endRefreshing()
         }
+        
+        viewModel.onLoadFeed = { [weak self] feed in
+            self?.onRefresh?(feed)
+        }
+
+        return refreshControl
     }
     
 }
