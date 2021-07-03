@@ -7,7 +7,7 @@
 
 import Foundation
 
-public final class RemoteMovieImageDataLoader {
+public final class RemoteMovieImageDataLoader: MovieImageDataLoader {
     private let client: HTTPClient
     
     public enum Error: Swift.Error {
