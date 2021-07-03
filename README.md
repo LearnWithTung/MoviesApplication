@@ -1,7 +1,5 @@
 # Movies iOS Application
 
-[![Build Status](https://travis-ci.com/LearnWithTung/MoviesApplication.svg?branch=master)](https://travis-ci.com/LearnWithTung/MoviesApplication)
-
 ⚠️ This pet project is still under development. I create this project mainly to practice TDD and testing skills. You can also clone the project to see how I use TDD to build features.
 
 ⚠️ This project uses APIs from: https://www.themoviedb.org/ 
