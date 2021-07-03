@@ -14,7 +14,7 @@ public class NowPlayingFeedComposer {
         let refreshController = NowPlayingRefreshController(viewModel: viewModel)
         let viewController = NowPlayingFeedViewController(refreshController: refreshController)
         
-        refreshController.onRefresh = adaptCellControllers(from: viewController,
+        viewModel.onLoadFeed = adaptCellControllers(from: viewController,
                                                            and: imageLoader)
         
         return viewController

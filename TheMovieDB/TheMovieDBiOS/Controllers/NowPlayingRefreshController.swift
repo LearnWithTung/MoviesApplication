@@ -16,9 +16,7 @@ public final class NowPlayingRefreshController: NSObject {
     }
     
     lazy var view = binded()
-    
-    var onRefresh: ((NowPlayingFeed) -> Void)?
-    
+        
     @objc func refresh() {
         viewModel.loadFeed()
     }
@@ -29,10 +27,6 @@ public final class NowPlayingRefreshController: NSObject {
         
         viewModel.onRefreshStateChange = {[weak self] isLoading in
             isLoading ? self?.view.beginRefreshing() : self?.view.endRefreshing()
-        }
-        
-        viewModel.onLoadFeed = { [weak self] feed in
-            self?.onRefresh?(feed)
         }
 
         return refreshControl
