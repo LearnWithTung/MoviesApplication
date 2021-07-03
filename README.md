@@ -28,3 +28,23 @@ Client error - error course (sad path):
 
 Invalid data error - error course (sad path):
 1. System delivers invalid data error.
+
+
+#### Load Now Playing Item Data From Remote
+Data:
+- URL
+
+Primary course (happy path):
+1. Execute `load now playing item image data` command with above data.
+2. System downloads data from remote.
+3. System validates the downloaded data.
+5. System delivers feed image data.
+
+#### Cancel course:
+1. System does not deliver image data nor error.
+
+#### Invalid data – error course (sad path):
+1. System delivers invalid data error.
+
+#### Client error - error course (sad path):
+1. System delivers connectivity error.

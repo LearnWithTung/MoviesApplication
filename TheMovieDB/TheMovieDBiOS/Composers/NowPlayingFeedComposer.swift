@@ -31,7 +31,7 @@ public class NowPlayingFeedComposer {
 }
 
 extension MainQueueDispatchDecorator: MovieImageDataLoader where T == MovieImageDataLoader {
-    public func load(from url: URL, completion: @escaping (Result<Data, Error>) -> Void) -> MovieImageDataTask {
+    public func load(from url: URL, completion: @escaping (MovieImageDataLoader.Result) -> Void) -> MovieImageDataTask {
         decoratee.load(from: url) { [weak self] result in
             self?.dispatch {
                 completion(result)
