@@ -15,6 +15,7 @@
 		DFEBD955268F3DA60012E31A /* TheMovieDB.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFEBD953268F3DA60012E31A /* TheMovieDB.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		DFEBD958268F3DA80012E31A /* TheMovieDBiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFEBD957268F3DA80012E31A /* TheMovieDBiOS.framework */; };
 		DFEBD959268F3DA80012E31A /* TheMovieDBiOS.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = DFEBD957268F3DA80012E31A /* TheMovieDBiOS.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		DFEBD965269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		DFEBD935268F34C70012E31A /* TheMovieDBiOSAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheMovieDBiOSAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFEBD953268F3DA60012E31A /* TheMovieDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TheMovieDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFEBD957268F3DA80012E31A /* TheMovieDBiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = TheMovieDBiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedHTTPClientDecoratorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +110,7 @@
 		DFEBD938268F34C70012E31A /* TheMovieDBiOSAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */,
 			);
 			path = TheMovieDBiOSAppTests;
 			sourceTree = "<group>";
@@ -175,6 +178,7 @@
 					};
 					DFEBD934268F34C70012E31A = {
 						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 						TestTargetID = DFEBD91E268F34C50012E31A;
 					};
 				};
@@ -231,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DFEBD965269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +442,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -450,6 +456,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vn.learnwithtung.TheMovieDBiOSAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TheMovieDBiOSApp.app/TheMovieDBiOSApp";
@@ -461,6 +468,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

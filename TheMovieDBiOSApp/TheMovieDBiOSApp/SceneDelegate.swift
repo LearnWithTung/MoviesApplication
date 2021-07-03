@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import TheMovieDB
+import TheMovieDBiOS
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
