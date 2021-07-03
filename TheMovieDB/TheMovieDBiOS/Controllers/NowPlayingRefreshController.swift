@@ -27,13 +27,7 @@ public final class NowPlayingRefreshController: NSObject {
     @objc func refresh() {
         view.beginRefreshing()
         loader.load(query: .init(page: 1)) {[weak self] result in
-            if Thread.isMainThread {
-                self?.view.endRefreshing()
-            } else {
-                DispatchQueue.main.async {
-                    self?.view.endRefreshing()
-                }
-            }
+            self?.view.endRefreshing()
             if let feed = try? result.get() {
                 self?.onRefresh?(feed)
             }
