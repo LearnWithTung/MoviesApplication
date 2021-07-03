@@ -6,44 +6,43 @@
 //
 
 import UIKit
-import TheMovieDB
 
 public final class NowPlayingItemController {
-    private let model: NowPlayingCard
-    private let imageLoader: MovieImageDataLoader
-    private var task: MovieImageDataTask?
+    private let viewModel: NowPlayingItemViewModel<UIImage>
     private var cell: NowPlayingCardFeedCell!
     
-    init(model: NowPlayingCard, imageLoader: MovieImageDataLoader) {
-        self.model = model
-        self.imageLoader = imageLoader
+    init(viewModel: NowPlayingItemViewModel<UIImage>) {
+        self.viewModel = viewModel
     }
     
     public func view(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return binded(collectionView: collectionView, cellForItemAt: indexPath)
+    }
+    
+    private func binded(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> NowPlayingCardFeedCell {
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as? NowPlayingCardFeedCell
-        cell.imageView.image = nil
-        cell.isShimmering = true
-        task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak cell] result in
-            guard let cell = cell else {return}
-            let image = (try? result.get()).flatMap(UIImage.init)
-            cell.isShimmering = image == nil
-            cell.imageView.image = image
+        
+        viewModel.onLoadingImageDataStateChange = {[weak self] isLoading in
+            guard let cell = self?.cell else { return}
+            cell.isShimmering = isLoading
         }
+        
+        viewModel.onLoadImageData = {[weak self] loadedImage in
+            guard let cell = self?.cell else { return}
+            cell.imageView.image = loadedImage
+        }
+        
+        viewModel.load()
         
         return cell
     }
     
-    private func makeURL(from path: String) -> URL {
-        return URL(string: "https://image.tmdb.org/t/p/w500/\(path)")!
-    }
-    
     func preload() {
-        task = imageLoader.load(from: makeURL(from: model.imagePath)) { _ in }
+        viewModel.preload()
     }
     
-    func cancelTask() {
-        task?.cancel()
-        task = nil
+    func cancelLoadImageData() {
+        viewModel.cancelTask()
         releaseCellForReuse()
     }
     

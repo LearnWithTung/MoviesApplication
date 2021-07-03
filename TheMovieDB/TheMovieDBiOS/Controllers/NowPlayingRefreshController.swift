@@ -6,32 +6,29 @@
 //
 
 import UIKit
-import TheMovieDB
 
 public final class NowPlayingRefreshController: NSObject {
-    private let loader: NowPlayingLoader
+    private let viewModel: NowPlayingRefreshViewModel
     
-    init(loader: NowPlayingLoader) {
-        self.loader = loader
+    init(viewModel: NowPlayingRefreshViewModel) {
+        self.viewModel = viewModel
     }
     
-    lazy var view: UIRefreshControl = {
+    lazy var view = binded()
+        
+    @objc func refresh() {
+        viewModel.loadFeed()
+    }
+    
+    private func binded() -> UIRefreshControl {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        
+        viewModel.onRefreshStateChange = {[weak self] isLoading in
+            isLoading ? self?.view.beginRefreshing() : self?.view.endRefreshing()
+        }
 
         return refreshControl
-    }()
-    
-    var onRefresh: ((NowPlayingFeed) -> Void)?
-    
-    @objc func refresh() {
-        view.beginRefreshing()
-        loader.load(query: .init(page: 1)) {[weak self] result in
-            self?.view.endRefreshing()
-            if let feed = try? result.get() {
-                self?.onRefresh?(feed)
-            }
-        }
     }
     
 }

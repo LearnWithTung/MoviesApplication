@@ -10,7 +10,7 @@ import TheMovieDBiOS
 
 extension NowPlayingCardFeedCell {
     var imageLoadingIndicatorVisible: Bool {
-        return imageView.isShimmering
+        return isShimmering
     }
     
     var loadedImageData: Data? {
