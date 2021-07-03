@@ -10,7 +10,9 @@
 
 ## Versions
 ✅ MVC implementation : `feature/mvc_implementation`
+
 ✅ MVVM implementation : `master`
+
 ✅ MVP implementation : **comming soon**
 
 ## Feed UI
