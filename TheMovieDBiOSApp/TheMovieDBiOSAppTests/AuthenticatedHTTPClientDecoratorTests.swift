@@ -29,7 +29,15 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
     }
     
     func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) -> HTTPClientTask {
-        let decorateeTask = decoratee.dispatch(request: makeRequest(from: request, credential: credential), completion: completion)
+        let decorateeTask = decoratee.dispatch(request: makeRequest(from: request, credential: credential)) { [weak self] result in
+            guard self != nil else {return}
+            switch result {
+            case let .success((data, response)):
+                completion(.success((data, response)))
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
         return DecoratedTask(decorateeTask: decorateeTask)
     }
     
@@ -122,6 +130,22 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
         client.completeWithError(anyNSError())
         
         XCTAssertNotNil(capturedError)
+    }
+    
+    func test_dispatch_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
+        let client = HTTPClientSpy()
+        var sut: AuthenticatedHTTPClientDecorator? = AuthenticatedHTTPClientDecorator(decoratee: client, credential: .init(apiKey: "any"))
+        let request = URLRequest(url: URL(string: "https://a-url.com")!)
+        
+        var capturedResult: HTTPClient.HTTPClientResult?
+        _ = sut?.dispatch(request: request) {
+            capturedResult = $0
+        }
+        
+        sut = nil
+        client.completeWithError(anyNSError())
+        
+        XCTAssertNil(capturedResult)
     }
     
     // MARK - Helpers
