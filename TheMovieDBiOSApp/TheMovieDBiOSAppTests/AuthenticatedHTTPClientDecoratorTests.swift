@@ -21,8 +21,20 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
     }
     
     func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) -> HTTPClientTask {
+        _ = decoratee.dispatch(request: makeRequest(from: request, credential: credential)) { _ in }
         return Task()
     }
+    
+    private func makeRequest(from original: URLRequest, credential: Credential) -> URLRequest {
+        guard let requestURL = original.url, var components = URLComponents(url: requestURL, resolvingAgainstBaseURL: false) else {return original}
+        let queriesItem = components.queryItems ?? []
+        let decoratedQuery = URLQueryItem(name: "api_key", value: credential.apiKey)
+        
+        components.queryItems = queriesItem + [decoratedQuery]
+        
+        return components.url == nil ? original : URLRequest(url: components.url!)
+    }
+
 }
 
 class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
@@ -33,6 +45,18 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
         _ = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
         
         XCTAssertEqual(client.requestedURLs, [])
+    }
+    
+    func test_dispatch_signsRequestWithAPIKey() {
+        let client = HTTPClientSpy()
+        let credential = Credential(apiKey: "any_key")
+        let sut = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
+        
+        let request = URLRequest(url: URL(string: "https://a-url.com")!)
+        let expectedRequest = URLRequest(url: URL(string: "https://a-url.com?api_key=any_key")!)
+        _ = sut.dispatch(request: request) { _ in }
+        
+        XCTAssertEqual(client.requestedURLs, [expectedRequest])
     }
     
     // MARK - Helpers
