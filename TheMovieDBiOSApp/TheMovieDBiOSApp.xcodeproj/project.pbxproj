@@ -80,6 +80,41 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DF7BEF5B26903197009591B4 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD922268F34C50012E31A /* AppDelegate.swift */,
+				DFEBD924268F34C50012E31A /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		DF7BEF5C269031A1009591B4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD92B268F34C70012E31A /* Assets.xcassets */,
+				DFEBD92D268F34C70012E31A /* LaunchScreen.storyboard */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DF7BEF5D269031AC009591B4 /* HTTPClientDecorator */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD96626902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift */,
+				DFEBD968269030CD0012E31A /* Credential.swift */,
+			);
+			path = HTTPClientDecorator;
+			sourceTree = "<group>";
+		};
+		DF7BEF5E269031C7009591B4 /* HTTPClientDecorator */ = {
+			isa = PBXGroup;
+			children = (
+				DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */,
+			);
+			path = HTTPClientDecorator;
+			sourceTree = "<group>";
+		};
 		DFEBD916268F34C50012E31A = {
 			isa = PBXGroup;
 			children = (
@@ -102,12 +137,9 @@
 		DFEBD921268F34C50012E31A /* TheMovieDBiOSApp */ = {
 			isa = PBXGroup;
 			children = (
-				DFEBD922268F34C50012E31A /* AppDelegate.swift */,
-				DFEBD924268F34C50012E31A /* SceneDelegate.swift */,
-				DFEBD96626902FCE0012E31A /* AuthenticatedHTTPClientDecorator.swift */,
-				DFEBD968269030CD0012E31A /* Credential.swift */,
-				DFEBD92B268F34C70012E31A /* Assets.xcassets */,
-				DFEBD92D268F34C70012E31A /* LaunchScreen.storyboard */,
+				DF7BEF5B26903197009591B4 /* Application */,
+				DF7BEF5D269031AC009591B4 /* HTTPClientDecorator */,
+				DF7BEF5C269031A1009591B4 /* Resources */,
 				DFEBD930268F34C70012E31A /* Info.plist */,
 			);
 			path = TheMovieDBiOSApp;
@@ -116,7 +148,7 @@
 		DFEBD938268F34C70012E31A /* TheMovieDBiOSAppTests */ = {
 			isa = PBXGroup;
 			children = (
-				DFEBD964269012C30012E31A /* AuthenticatedHTTPClientDecoratorTests.swift */,
+				DF7BEF5E269031C7009591B4 /* HTTPClientDecorator */,
 			);
 			path = TheMovieDBiOSAppTests;
 			sourceTree = "<group>";
