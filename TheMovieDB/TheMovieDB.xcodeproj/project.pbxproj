@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF7BEF6E2690B7D9009591B4 /* NowPlayingRefreshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7BEF6D2690B7D9009591B4 /* NowPlayingRefreshViewModel.swift */; };
 		DFAA5F14268D9E85008E034E /* TheMovieDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; };
 		DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */; };
 		DFAA5F26268D9FE4008E034E /* NowPlayingFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F25268D9FE4008E034E /* NowPlayingFeed.swift */; };
@@ -82,6 +83,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DF7BEF6D2690B7D9009591B4 /* NowPlayingRefreshViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingRefreshViewModel.swift; sourceTree = "<group>"; };
 		DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TheMovieDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFAA5F13268D9E85008E034E /* TheMovieDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheMovieDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingCard.swift; sourceTree = "<group>"; };
@@ -151,6 +153,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DF7BEF6C2690B7CF009591B4 /* View Models */ = {
+			isa = PBXGroup;
+			children = (
+				DF7BEF6D2690B7D9009591B4 /* NowPlayingRefreshViewModel.swift */,
+			);
+			path = "View Models";
+			sourceTree = "<group>";
+		};
 		DFAA5F01268D9E85008E034E = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +249,7 @@
 			children = (
 				DFEBD912268F2F6A0012E31A /* Helpers */,
 				DFEBD911268F2F640012E31A /* Composers */,
+				DF7BEF6C2690B7CF009591B4 /* View Models */,
 				DFEBD90F268F2F4B0012E31A /* Views */,
 				DFEBD90E268F2F400012E31A /* Controllers */,
 			);
@@ -546,6 +557,7 @@
 				DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */,
 				DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */,
 				DFEBD905268F1AB20012E31A /* NowPlayingCardFeedCell.swift in Sources */,
+				DF7BEF6E2690B7D9009591B4 /* NowPlayingRefreshViewModel.swift in Sources */,
 				DFEBD90B268F2C230012E31A /* NowPlayingItemController.swift in Sources */,
 				DFEBD8F8268EDD520012E31A /* NowPlayingFeedViewController.swift in Sources */,
 				DFEBD90D268F2C4D0012E31A /* NowPlayingFeedComposer.swift in Sources */,
