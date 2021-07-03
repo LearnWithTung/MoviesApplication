@@ -63,7 +63,7 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
     
     private func cancelImageLoad(at indexPath: IndexPath) {
         let cellController = cellControllers[indexPath.item]
-        cellController.cancelTask()
+        cellController.cancelLoadImageData()
     }
 
 }
