@@ -12,7 +12,7 @@
 ![](Feed.png)
 
 ## Architecture (MVC Implementation)
-![](Architecture_MVC.png)
+![](Architecture.png)
 
 ### Use Case Specs
 
