@@ -29,7 +29,7 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
     }
     
     func dispatch(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) -> HTTPClientTask {
-        let decorateeTask = decoratee.dispatch(request: makeRequest(from: request, credential: credential)) { _ in }
+        let decorateeTask = decoratee.dispatch(request: makeRequest(from: request, credential: credential), completion: completion)
         return DecoratedTask(decorateeTask: decorateeTask)
     }
     
@@ -82,6 +82,48 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
         XCTAssertEqual(client.cancelledURLs, [expectedRequest])
     }
     
+    func test_loadCompletion_deliversSuccessOnDecorateeSuccess() {
+        let credential = Credential(apiKey: "any_key")
+        let data = anyData()
+        let request = URLRequest(url: URL(string: "https://a-url.com")!)
+        let (sut, client) = makeSUT(credential: credential)
+        
+        var capturedValues: (Data, HTTPURLResponse)?
+        _ = sut.dispatch(request: request) { result in
+            switch result {
+            case let .success((data, response)):
+                capturedValues = (data, response)
+            default:
+                break
+            }
+        }
+        
+        client.completeWith(statusCode: 200, data: data)
+        
+        XCTAssertEqual(capturedValues?.0, data)
+        XCTAssertEqual(capturedValues?.1.statusCode, 200)
+    }
+    
+    func test_loadCompletion_deliversSuccessOnDecorateeFailure() {
+        let credential = Credential(apiKey: "any_key")
+        let request = URLRequest(url: URL(string: "https://a-url.com")!)
+        let (sut, client) = makeSUT(credential: credential)
+        
+        var capturedError: Error?
+        _ = sut.dispatch(request: request) { result in
+            switch result {
+            case let .failure(error):
+                capturedError = error
+            default:
+                break
+            }
+        }
+        
+        client.completeWithError(anyNSError())
+        
+        XCTAssertNotNil(capturedError)
+    }
+    
     // MARK - Helpers
     private func makeSUT(credential: Credential = .init(apiKey: "any"), file: StaticString = #file, line: UInt = #line) -> (sut: AuthenticatedHTTPClientDecorator, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
@@ -91,6 +133,15 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
         
         return (sut, client)
     }
+    
+    private func anyData() -> Data {
+        Data("any".utf8)
+    }
+    
+    func anyNSError() -> NSError {
+        NSError(domain: "any", code: 0, userInfo: nil)
+    }
+
     
     private func checkForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
         addTeardownBlock { [weak instance] in
