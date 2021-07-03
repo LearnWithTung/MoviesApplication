@@ -52,32 +52,29 @@ class AuthenticatedHTTPClientDecorator: HTTPClient {
 class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
     
     func test_init_doesNotDispatchRequest() {
-        let client = HTTPClientSpy()
         let credential = Credential(apiKey: "any key")
-        _ = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
+        let (_, client) = makeSUT(credential: credential)
         
         XCTAssertEqual(client.requestedURLs, [])
     }
     
     func test_dispatch_signsRequestWithAPIKey() {
-        let client = HTTPClientSpy()
         let credential = Credential(apiKey: "any_key")
-        let sut = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
-        
+        let (sut, client) = makeSUT(credential: credential)
+
         let request = URLRequest(url: URL(string: "https://a-url.com")!)
-        let expectedRequest = URLRequest(url: URL(string: "https://a-url.com?api_key=any_key")!)
+        let expectedRequest = URLRequest(url: URL(string: "https://a-url.com?api_key=\(credential.apiKey)")!)
         _ = sut.dispatch(request: request) { _ in }
         
         XCTAssertEqual(client.requestedURLs, [expectedRequest])
     }
     
     func test_cancel_decorateeCancelLoadingTask() {
-        let client = HTTPClientSpy()
         let credential = Credential(apiKey: "any_key")
-        let sut = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
-        
+        let (sut, client) = makeSUT(credential: credential)
+
         let request = URLRequest(url: URL(string: "https://a-url.com")!)
-        let expectedRequest = URLRequest(url: URL(string: "https://a-url.com?api_key=any_key")!)
+        let expectedRequest = URLRequest(url: URL(string: "https://a-url.com?api_key=\(credential.apiKey)")!)
         let task = sut.dispatch(request: request) { _ in }
         
         task.cancel()
@@ -86,6 +83,21 @@ class AuthenticatedHTTPClientDecoratorTests: XCTestCase {
     }
     
     // MARK - Helpers
+    private func makeSUT(credential: Credential = .init(apiKey: "any"), file: StaticString = #file, line: UInt = #line) -> (sut: AuthenticatedHTTPClientDecorator, client: HTTPClientSpy) {
+        let client = HTTPClientSpy()
+        let sut = AuthenticatedHTTPClientDecorator(decoratee: client, credential: credential)
+        checkForMemoryLeaks(sut, file: file, line: line)
+        checkForMemoryLeaks(client, file: file)
+        
+        return (sut, client)
+    }
+    
+    private func checkForMemoryLeaks(_ instance: AnyObject, file: StaticString = #file, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
+        }
+    }
+    
     private class HTTPClientSpy: HTTPClient {
         
         private var messages = [(request: URLRequest, completion: (HTTPClient.HTTPClientResult) -> Void)]()
