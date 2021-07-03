@@ -22,11 +22,11 @@ public final class NowPlayingItemController {
     public func view(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as? NowPlayingCardFeedCell
         cell.imageView.image = nil
-        cell.imageView.isShimmering = true
+        cell.isShimmering = true
         task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak cell] result in
             guard let cell = cell else {return}
             let image = (try? result.get()).flatMap(UIImage.init)
-            cell.imageView.isShimmering = image == nil
+            cell.isShimmering = image == nil
             cell.imageView.image = image
         }
         
