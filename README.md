@@ -8,11 +8,18 @@
 
 #
 
+## Versions
+✅ **MVC** implementation : `feature/mvc_implementation`
+
+✅ **MVVM** implementation : `master`
+
+❌ **MVP** implementation : **coming soon**
+
 ## Feed UI
 ![](Feed.png)
 
-## Architecture (MVC Implementation)
-![](Architecture_MVC.png)
+## Architecture (MVVM Implementation)
+![](Architecture_MVVM.png)
 
 ### Use Case Specs
 

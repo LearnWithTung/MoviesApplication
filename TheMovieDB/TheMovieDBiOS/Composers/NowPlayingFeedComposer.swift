@@ -24,7 +24,7 @@ public class NowPlayingFeedComposer {
     private static func adaptCellControllers(from viewController: NowPlayingFeedViewController, and loader: MovieImageDataLoader) -> (NowPlayingFeed) -> Void{
         {[weak viewController] feed in
             viewController?.cellControllers = feed.items.map {
-                let viewModel = NowPlayingItemViewModel(model: $0, imageLoader: loader, transformer: UIImage.init)
+                let viewModel = NowPlayingItemViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: loader), transformer: UIImage.init)
                 return NowPlayingItemController(viewModel: viewModel)
             }
         }
