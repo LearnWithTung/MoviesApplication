@@ -6,7 +6,15 @@
 
 ⚠️ This project uses APIs from: https://www.themoviedb.org/ 
 
+⚠️ travis ci is not working anymore due to out of credits :( . I'll try to use another CI server soon.
+
 #
+
+## Feed UI
+![](Feed.png)
+
+## Architecture (MVC Implementation)
+![](Architecture_MVC.png)
 
 ### Use Case Specs
 
