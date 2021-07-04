@@ -18,8 +18,8 @@
 ## Feed UI
 ![](Feed.png)
 
-## Architecture (MVVM Implementation)
-![](Architecture_MVP.png)
+## Architecture (MVP Implementation)
+![](Architecture-MVP.png)
 
 
 ### Use Case Specs
