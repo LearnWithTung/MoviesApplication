@@ -7,28 +7,36 @@
 
 import UIKit
 
-public final class NowPlayingRefreshController: NSObject {
-    private let viewModel: NowPlayingRefreshViewModel
+protocol NowPlayingRefreshDelegate {
+    func didRequestRefreshFeed()
+}
+
+public final class NowPlayingRefreshController: NSObject, FeedLoadingStateView {
+    private let delegate: NowPlayingRefreshDelegate
     
-    init(viewModel: NowPlayingRefreshViewModel) {
-        self.viewModel = viewModel
+    init(delegate: NowPlayingRefreshDelegate) {
+        self.delegate = delegate
     }
     
-    lazy var view = binded()
+    lazy var view = loadView()
         
     @objc func refresh() {
-        viewModel.loadFeed()
+        delegate.didRequestRefreshFeed()
     }
     
-    private func binded() -> UIRefreshControl {
+    private func loadView() -> UIRefreshControl {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
         
-        viewModel.onRefreshStateChange = {[weak self] isLoading in
-            isLoading ? self?.view.beginRefreshing() : self?.view.endRefreshing()
-        }
-
         return refreshControl
+    }
+    
+    func display(_ viewModel: FeedLoadingStateViewModel) {
+        if viewModel.isLoading {
+            view.beginRefreshing()
+        } else {
+            view.endRefreshing()
+        }
     }
     
 }

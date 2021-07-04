@@ -7,46 +7,48 @@
 
 import UIKit
 
+public protocol NowPlayingItemDelegate {
+    func didRequestLoadImageData()
+    func didCancelLoadImageData()
+}
+
 public final class NowPlayingItemController {
-    private let viewModel: NowPlayingItemViewModel<UIImage>
-    private var cell: NowPlayingCardFeedCell!
+    private let delegate: NowPlayingItemDelegate
+    private var cell: NowPlayingCardFeedCell?
     
-    init(viewModel: NowPlayingItemViewModel<UIImage>) {
-        self.viewModel = viewModel
+    init(delegate: NowPlayingItemDelegate) {
+        self.delegate = delegate
     }
     
     public func view(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return binded(collectionView: collectionView, cellForItemAt: indexPath)
-    }
-    
-    private func binded(collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> NowPlayingCardFeedCell {
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as? NowPlayingCardFeedCell
-        
-        viewModel.onLoadingImageDataStateChange = {[weak self] isLoading in
-            guard let cell = self?.cell else { return}
-            cell.isShimmering = isLoading
-        }
-        
-        viewModel.onLoadImageData = {[weak self] loadedImage in
-            guard let cell = self?.cell else { return}
-            cell.imageView.image = loadedImage
-        }
-        
-        viewModel.load()
-        
-        return cell
+        delegate.didRequestLoadImageData()
+        return cell!
     }
     
     func preload() {
-        viewModel.preload()
+        delegate.didRequestLoadImageData()
     }
     
     func cancelLoadImageData() {
-        viewModel.cancelTask()
+        delegate.didCancelLoadImageData()
         releaseCellForReuse()
     }
     
     private func releaseCellForReuse() {
         cell = nil
+    }
+}
+
+extension NowPlayingItemController: ImageDataView {
+    func display(_ viewModel: ImageDataViewModel<UIImage>) {
+        cell?.imageView.image = viewModel.image
+    }
+}
+
+
+extension NowPlayingItemController: ImageDataLoadingStateView {
+    func display(_ viewModel: ImageDataLoadingViewModel) {
+        cell?.isShimmering = viewModel.isLoading
     }
 }

@@ -68,6 +68,12 @@ public final class NowPlayingFeedViewController: UICollectionViewController, UIC
 
 }
 
+extension NowPlayingFeedViewController: ErrorView {
+    func display(_ viewModel: ErrorViewModel) {
+        
+    }
+}
+
 private extension NowPlayingFeedViewController {
     private func createLayout(isLandscape: Bool = false, size: CGSize) -> UICollectionViewLayout {
       return UICollectionViewCompositionalLayout { (sectionIndex, layoutEnv) -> NSCollectionLayoutSection? in
