@@ -6,13 +6,21 @@
 
 ⚠️ travis ci is not working anymore due to out of credits :( . I'll try to use another CI server soon.
 
+⚠️ travis ci is not working anymore due to out of credits 😞 . I'll try to use another CI server soon.
 #
+
+## Versions
+✅ **MVC** implementation : `feature/mvc_implementation`
+
+✅ **MVVM** implementation : `feature/mvvm_implementation`
+
+✅ **MVP** implementation : `master`
 
 ## Feed UI
 ![](Feed.png)
 
 ## Architecture (MVC Implementation)
-![](Architecture_MVC.png)
+![](Architecture-MVC.png)
 
 ### Use Case Specs
 
