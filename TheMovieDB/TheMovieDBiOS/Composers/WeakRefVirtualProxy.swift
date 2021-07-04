@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class WeakRefVirtualProxy<T: AnyObject> {
     private weak var object: T?
@@ -23,6 +24,18 @@ extension WeakRefVirtualProxy: FeedLoadingStateView where T: FeedLoadingStateVie
 
 extension WeakRefVirtualProxy: ErrorView where T: ErrorView {
     func display(_ viewModel: ErrorViewModel) {
+        object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: ImageDataLoadingStateView where T: ImageDataLoadingStateView {
+    func display(_ viewModel: ImageDataLoadingViewModel) {
+        object?.display(viewModel)
+    }
+}
+
+extension WeakRefVirtualProxy: ImageDataView where T: ImageDataView, T.Image == UIImage {
+    func display(_ viewModel: ImageDataViewModel<UIImage>) {
         object?.display(viewModel)
     }
 }
