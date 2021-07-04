@@ -18,7 +18,7 @@
 ## Feed UI
 ![](Feed.png)
 
-## Architecture (MVVM Implementation)
+## Architecture (MVP Implementation)
 ![](Architecture_MVP.png)
 
 
