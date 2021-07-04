@@ -16,10 +16,6 @@ protocol ImageDataLoadingStateView {
     func display(_ viewModel: ImageDataLoadingViewModel)
 }
 
-struct ImageDataViewModel<Image> {
-    let image: Image?
-}
-
 protocol ImageDataView {
     associatedtype Image
     func display(_ viewModel: ImageDataViewModel<Image>)
