@@ -19,7 +19,7 @@
 ![](Feed.png)
 
 ## Architecture (MVVM Implementation)
-![](Architecture_MVVM.png)
+![](Architecture-MVVM.png)
 
 ### Use Case Specs
 
