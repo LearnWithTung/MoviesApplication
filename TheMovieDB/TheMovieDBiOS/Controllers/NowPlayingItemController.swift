@@ -23,8 +23,8 @@ public final class NowPlayingItemController {
         cell = collectionView.dequeueReusableCell(withReuseIdentifier: "NowPlayingCardFeedCell", for: indexPath) as? NowPlayingCardFeedCell
         cell.imageView.image = nil
         cell.isShimmering = true
-        task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak cell] result in
-            guard let cell = cell else {return}
+        task = imageLoader.load(from: makeURL(from: model.imagePath)) {[weak self] result in
+            guard let cell = self?.cell else {return}
             let image = (try? result.get()).flatMap(UIImage.init)
             cell.isShimmering = image == nil
             cell.imageView.image = image
