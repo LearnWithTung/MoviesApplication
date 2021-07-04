@@ -7,7 +7,6 @@
 
 import Foundation
 import TheMovieDB
-import UIKit
 
 public class NowPlayingFeedComposer {
     public static func viewControllerComposedWith(feedLoader: NowPlayingLoader, imageLoader: MovieImageDataLoader) -> NowPlayingFeedViewController {
@@ -20,26 +19,5 @@ public class NowPlayingFeedComposer {
                                                        errorView: WeakRefVirtualProxy(viewController))
         
         return viewController
-    }
-}
-
-extension MainQueueDispatchDecorator: MovieImageDataLoader where T == MovieImageDataLoader {
-    public func load(from url: URL, completion: @escaping (MovieImageDataLoader.Result) -> Void) -> MovieImageDataTask {
-        decoratee.load(from: url) { [weak self] result in
-            self?.dispatch {
-                completion(result)
-            }
-        }
-    }
-}
-
-
-extension MainQueueDispatchDecorator: NowPlayingLoader where T == NowPlayingLoader {
-    public func load(query: NowPlayingQuery, completion: @escaping (NowPlayingLoader.Result) -> Void) {
-        decoratee.load(query: query) { [weak self] result in
-            self?.dispatch {
-                completion(result)
-            }
-        }
     }
 }
