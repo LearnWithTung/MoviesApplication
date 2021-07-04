@@ -8,24 +8,12 @@
 import Foundation
 import TheMovieDB
 
-struct FeedLoadingStateViewModel {
-    let isLoading: Bool
-}
-
 protocol FeedLoadingStateView: AnyObject {
     func display(_ viewModel: FeedLoadingStateViewModel)
 }
 
-struct FeedViewModel {
-    let feed: NowPlayingFeed
-}
-
 protocol FeedView {
     func display(_ viewModel: FeedViewModel)
-}
-
-struct ErrorViewModel {
-    let description: String
 }
 
 protocol ErrorView: AnyObject {
