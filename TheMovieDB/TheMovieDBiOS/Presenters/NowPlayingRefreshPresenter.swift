@@ -21,9 +21,9 @@ protocol ErrorView: AnyObject {
 }
 
 public final class NowPlayingRefreshPresenter {
-    private weak var loadingView: FeedLoadingStateView?
+    private let loadingView: FeedLoadingStateView
     private let feedView: FeedView
-    private weak var errorView: ErrorView?
+    private let errorView: ErrorView
     
     init(loadingView: FeedLoadingStateView, feedView: FeedView, errorView: ErrorView) {
         self.loadingView = loadingView
@@ -32,16 +32,16 @@ public final class NowPlayingRefreshPresenter {
     }
 
     func didStartLoadingFeed() {
-        loadingView?.display(.init(isLoading: true))
+        loadingView.display(.init(isLoading: true))
     }
     
     func didFinishLoadingFeedSuccessfully(_ feed: NowPlayingFeed) {
-        loadingView?.display(.init(isLoading: false))
+        loadingView.display(.init(isLoading: false))
         feedView.display(.init(feed: feed))
     }
     
     func didFinishLoadingFeedWithError(_ error: Error) {
-        loadingView?.display(.init(isLoading: false))
-        errorView?.display(.init(description: error.localizedDescription))
+        loadingView.display(.init(isLoading: false))
+        errorView.display(.init(description: error.localizedDescription))
     }
 }
