@@ -13,6 +13,7 @@
 		DF7BEF75269191FB009591B4 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7BEF74269191FB009591B4 /* FeedViewModel.swift */; };
 		DF7BEF7726919218009591B4 /* FeedLoadingStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7BEF7626919218009591B4 /* FeedLoadingStateViewModel.swift */; };
 		DF7BEF792691933C009591B4 /* WeakRefVirtualProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7BEF782691933C009591B4 /* WeakRefVirtualProxy.swift */; };
+		DF7BEF7B26919358009591B4 /* FeedViewAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7BEF7A26919358009591B4 /* FeedViewAdapter.swift */; };
 		DFAA5F14268D9E85008E034E /* TheMovieDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */; };
 		DFAA5F24268D9F4B008E034E /* NowPlayingCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */; };
 		DFAA5F26268D9FE4008E034E /* NowPlayingFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA5F25268D9FE4008E034E /* NowPlayingFeed.swift */; };
@@ -94,6 +95,7 @@
 		DF7BEF74269191FB009591B4 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		DF7BEF7626919218009591B4 /* FeedLoadingStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedLoadingStateViewModel.swift; sourceTree = "<group>"; };
 		DF7BEF782691933C009591B4 /* WeakRefVirtualProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakRefVirtualProxy.swift; sourceTree = "<group>"; };
+		DF7BEF7A26919358009591B4 /* FeedViewAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewAdapter.swift; sourceTree = "<group>"; };
 		DFAA5F0B268D9E85008E034E /* TheMovieDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TheMovieDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFAA5F13268D9E85008E034E /* TheMovieDBTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TheMovieDBTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFAA5F23268D9F4B008E034E /* NowPlayingCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingCard.swift; sourceTree = "<group>"; };
@@ -329,6 +331,7 @@
 				DFEBD90C268F2C4D0012E31A /* NowPlayingFeedComposer.swift */,
 				DFEBD914268F344B0012E31A /* MainQueueDispatchDecorator.swift */,
 				DF7BEF782691933C009591B4 /* WeakRefVirtualProxy.swift */,
+				DF7BEF7A26919358009591B4 /* FeedViewAdapter.swift */,
 			);
 			path = Composers;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DF7BEF7B26919358009591B4 /* FeedViewAdapter.swift in Sources */,
 				DFEBD915268F344B0012E31A /* MainQueueDispatchDecorator.swift in Sources */,
 				DFEBD909268F28960012E31A /* NowPlayingRefreshController.swift in Sources */,
 				DFEBD8FA268F11760012E31A /* UIView+ShimmeringAnimation.swift in Sources */,

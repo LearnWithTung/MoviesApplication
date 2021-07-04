@@ -44,23 +44,6 @@ extension MainQueueDispatchDecorator: NowPlayingLoader where T == NowPlayingLoad
     }
 }
 
-private class FeedViewAdapter: FeedView {
-    private weak var viewController: NowPlayingFeedViewController?
-    private let imageLoader: MovieImageDataLoader
-    
-    init(viewController: NowPlayingFeedViewController, imageLoader: MovieImageDataLoader) {
-        self.viewController = viewController
-        self.imageLoader = imageLoader
-    }
-    
-    func display(_ viewModel: FeedViewModel) {
-        viewController?.cellControllers = viewModel.feed.items.map {
-            let viewModel = NowPlayingItemViewModel(model: $0, imageLoader: MainQueueDispatchDecorator(decoratee: imageLoader), transformer: UIImage.init)
-            return NowPlayingItemController(viewModel: viewModel)
-        }
-    }
-}
-
 private class NowPlayingRefreshRepresentationAdapter: NowPlayingRefreshDelegate {
     private let loader: NowPlayingLoader
     var presenter: NowPlayingRefreshPresenter?
@@ -82,16 +65,4 @@ private class NowPlayingRefreshRepresentationAdapter: NowPlayingRefreshDelegate 
         }
     }
     
-}
-
-extension WeakRefVirtualProxy: FeedLoadingStateView where T: FeedLoadingStateView {
-    func display(_ viewModel: FeedLoadingStateViewModel) {
-        object?.display(viewModel)
-    }
-}
-
-extension WeakRefVirtualProxy: ErrorView where T: ErrorView {
-    func display(_ viewModel: ErrorViewModel) {
-        object?.display(viewModel)
-    }
 }
