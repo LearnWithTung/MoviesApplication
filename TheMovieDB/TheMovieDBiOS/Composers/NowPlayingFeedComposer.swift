@@ -84,14 +84,6 @@ private class NowPlayingRefreshRepresentationAdapter: NowPlayingRefreshDelegate 
     
 }
 
-final class WeakRefVirtualProxy<T: AnyObject> {
-    private weak var object: T?
-    
-    init(_ object: T) {
-        self.object = object
-    }
-}
-
 extension WeakRefVirtualProxy: FeedLoadingStateView where T: FeedLoadingStateView {
     func display(_ viewModel: FeedLoadingStateViewModel) {
         object?.display(viewModel)
