@@ -8,7 +8,7 @@
 import UIKit
 import TheMovieDB
 
-class FeedViewAdapter: FeedView {
+final class FeedViewAdapter: FeedView {
     private weak var viewController: NowPlayingFeedViewController?
     private let imageLoader: MovieImageDataLoader
     
