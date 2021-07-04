@@ -19,7 +19,7 @@
 ![](Feed.png)
 
 ## Architecture (MVP Implementation)
-![](Architecture_MVP.png)
+![](Architecture-MVP.png)
 
 
 ### Use Case Specs
