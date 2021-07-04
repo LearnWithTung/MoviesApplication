@@ -8,10 +8,6 @@
 import Foundation
 import TheMovieDB
 
-struct ImageDataLoadingViewModel {
-    let isLoading: Bool
-}
-
 protocol ImageDataLoadingStateView {
     func display(_ viewModel: ImageDataLoadingViewModel)
 }
