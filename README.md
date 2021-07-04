@@ -21,6 +21,7 @@
 ## Architecture (MVVM Implementation)
 ![](Architecture_MVP.png)
 
+
 ### Use Case Specs
 
 #### Load Now Playing Feed From Remote
