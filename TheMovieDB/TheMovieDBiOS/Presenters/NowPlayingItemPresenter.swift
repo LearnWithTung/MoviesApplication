@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import TheMovieDB
 
 protocol ImageDataLoadingStateView {
     func display(_ viewModel: ImageDataLoadingViewModel)
