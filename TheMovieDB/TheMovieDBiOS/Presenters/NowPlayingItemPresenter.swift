@@ -1,5 +1,5 @@
 //
-//  NowPlayingItemViewModel.swift
+//  NowPlayingItemPresenter.swift
 //  TheMovieDBiOS
 //
 //  Created by Tung Vu on 03/07/2021.
