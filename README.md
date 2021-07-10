@@ -1,6 +1,6 @@
 # Movies iOS Application
 
-⚠️ This pet project is still under development. I create this project mainly to practice TDD and testing skills. You can also clone the project to see how I use TDD to build features.
+⚠️ The 1st version is done. I create this project mainly to practice TDD and testing skills.
 
 ⚠️ This project uses APIs from: https://www.themoviedb.org/ 
 
